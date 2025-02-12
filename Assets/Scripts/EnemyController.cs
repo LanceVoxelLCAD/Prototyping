@@ -21,4 +21,11 @@ public class EnemyController : MonoBehaviour
     {
         agent.SetDestination(goal.transform.position);
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        //Debug.Log("collided with cone of light");
+        //Debug.Log("seen cone of light w/ raycast");
+        //if both are true:
+        goal = GameObject.Find("Player");
+    }
 }
