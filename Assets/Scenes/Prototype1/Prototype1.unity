@@ -169,7 +169,7 @@ MonoBehaviour:
   controller: {fileID: 12334976}
   walkSpeed: 3
   runSpeed: 6
-  turnSpeedSensitivity: 2500
+  turnSpeedSensitivity: 1000
   grounded: 0
   groundMask:
     serializedVersion: 2
@@ -180,7 +180,7 @@ MonoBehaviour:
   torch: {fileID: 679961440}
   torchLightCone: {fileID: 1520138773}
   playerEyesCam: {fileID: 1918529174}
-  verticalLookSpeed: 2500
+  verticalLookSpeed: 1000
   torchRot: {x: 0, y: 0, z: 0}
   eyesRot: {x: 0, y: 0, z: 0}
   torchRayMask:
@@ -986,7 +986,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &210928130
 Transform:
   m_ObjectHideFlags: 0
@@ -15808,7 +15808,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1968714677}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
