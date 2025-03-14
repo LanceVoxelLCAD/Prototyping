@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     public float walkSpeed = 3f;
     public float runSpeed = 6f;
     public float turnSpeedSensitivity = 2500f;
+    public float health = 100f;
 
     private float playerScale = 1.1f;
 

@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -13,13 +14,24 @@ public class EnemyController : MonoBehaviour
     public LayerMask mask;
     public Transform eyeline;
 
+    public TMP_Text healthNumDEBUG;
+    public TMP_Text aggroNumDEBUG;
+    public Material startMaterial;
+    public Color startMaterialColor;
+    private Renderer enemyRenderer;
+
+    public float health = 30f;
     public float aggression;
+    public float lastAggression;
     public float aggroSpeed = 15f;
     public float aggroDecay = 3f;
     public float aggroMax = 100f;
     public float bufferBeforeCalmingBegins = 20f;
     public bool isLit = false;
     public bool hasAggrod = false;
+
+    public float stoppingDistance;
+    public float distanceToPlayer;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -30,16 +42,41 @@ public class EnemyController : MonoBehaviour
         player = GameObject.Find("Player");
         agent = GetComponent<NavMeshAgent>();
         aggression = Random.Range(0, aggroMax-1);
+        enemyRenderer = GetComponent<Renderer>();
+        startMaterialColor = startMaterial.color;
     }
 
     // Update is called once per frame
     void Update()
     {
+        IsLitTest();
+        EnemyDebugingText();
+        lastAggression = aggression;
+
+        distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+
+        if (isLit)
+        {
+            enemyRenderer.material.color = Color.yellow;
+        }
+        else
+        {
+            enemyRenderer.material.color = startMaterialColor;
+        }
+
         agent.SetDestination(goal.transform.position);
 
         if (aggression > aggroMax)
         {
-            goal = player;
+            if (distanceToPlayer > stoppingDistance)
+            {
+                goal = player;
+            }
+            else
+            {
+                transform.LookAt(player.transform); //this should only apply to the head, but this is fine for now
+                agent.ResetPath(); //stop walking bro
+            }
             hasAggrod = true;
         }
         else if (aggression < aggroMax - bufferBeforeCalmingBegins)
@@ -87,9 +124,10 @@ public class EnemyController : MonoBehaviour
 
             if (hit.transform.tag == "LightProducer")
             {
+                //isLit = true;
                 aggression += aggroSpeed * Time.deltaTime; //increase one each second.. if it is hit by the light producer
                 Debug.Log("We hit: " + hit.transform.gameObject.name + " at aggression level: " + aggression);
-            }
+            } 
         }
 
         if (other.gameObject.name == "DeathCube")
@@ -97,6 +135,49 @@ public class EnemyController : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    private void IsLitTest()
+    {
+        if (lastAggression < aggression) //if aggression is rising
+        {
+            //isLit = true;
+            if (isLit)
+            {
+                return; //don't run a million coroutines
+            }
+            else
+            {
+                StartCoroutine(SetIsLitTrueForAMoment()); //stops the flashing, maybe
+            }
+        }
+        //else //if the same, or less...
+        //{
+        //    isLit = false;
+        //}
+    }
+
+    private IEnumerator SetIsLitTrueForAMoment()
+    {
+        isLit = true;
+
+        yield return new WaitForSeconds(.5f);
+
+        isLit = false;
+    }
+
+    public void EnemyDebugingText()
+    {
+        aggroNumDEBUG.text = aggression.ToString();
+        healthNumDEBUG.text = health.ToString();
+    }
+
+    //private void OnTriggerExit(Collider other) //this doesn't fire when the flashlight is turned off
+    //{
+    //    if (other.gameObject.tag == "LightCones") 
+    //    {
+    //        isLit = false;
+    //    }
+    //}
 
     //private void OnTriggerExit(Collider other) //this DOES NOT WORK FOR TURNING OFF THE LIGHT INSIDE
     //{
