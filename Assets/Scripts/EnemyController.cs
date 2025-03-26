@@ -126,7 +126,7 @@ public class EnemyController : MonoBehaviour
             {
                 //isLit = true;
                 aggression += aggroSpeed * Time.deltaTime; //increase one each second.. if it is hit by the light producer
-                Debug.Log("We hit: " + hit.transform.gameObject.name + " at aggression level: " + aggression);
+                //Debug.Log("We hit: " + hit.transform.gameObject.name + " at aggression level: " + aggression);
             } 
         }
 

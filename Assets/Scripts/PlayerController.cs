@@ -6,12 +6,19 @@ public class PlayerController : MonoBehaviour
 {
     public CharacterController controller;
 
+    [Header("Stats")]
+    public float health = 100f;
+    public float maxHealth = 100f;
+    public float food = 80f;
+    public float maxFood = 100f;
+    public float hungerRate = 1f;
+    public float regenRate = 1f;
+    public bool passiveHeal = true;
+
     [Header("Move")]
     public float walkSpeed = 3f;
     public float runSpeed = 6f;
     public float turnSpeedSensitivity = 2500f;
-    public float maxHealth = 100f;
-    public float health = 100f;
 
     private float playerScale = 1.1f;
 
@@ -34,6 +41,7 @@ public class PlayerController : MonoBehaviour
     [Header("Other")]
     public GameObject overheadLight;
     public TMP_Text healthTextUI;
+    public TMP_Text foodTextUI;
     public LayerMask clickableRayMask;
 
     private void Start()
@@ -56,6 +64,7 @@ public class PlayerController : MonoBehaviour
         ApplyGravity(jump);
         AimingRay();
         ManageHealth();
+        ManageFood();
 
         if (forward != 0 || right != 0) //only update movement if pressing something
         {
@@ -182,6 +191,7 @@ public class PlayerController : MonoBehaviour
                 if (clickableHit.collider.transform.parent.gameObject.name != null && clickableHit.collider.transform.parent.gameObject.name == "Bed")
                 {
                     health = maxHealth;
+                    food -= hungerRate * 5;
                 }
             }
         }
@@ -192,6 +202,7 @@ public class PlayerController : MonoBehaviour
         float damageDebug = 5f;
         float healDebug = 15f;
 
+        //debug damage
         if (Input.GetKeyDown(KeyCode.B))
         {
             if(health <= damageDebug)
@@ -205,6 +216,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        //debug heal
         if (Input.GetKeyDown(KeyCode.H))
         {
             if (health >= (maxHealth - healDebug))
@@ -217,9 +229,81 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        if (passiveHeal)
+        {
+            if (health < maxHealth)
+            {
+                health += (regenRate * Time.deltaTime);
+            }
+            else
+            {
+                health = maxHealth;
+            }
+        }
+
         if (healthTextUI != null)
         {
-            healthTextUI.text = "Health: " + health;
+            string displayedHealth = health.ToString("F0");
+            healthTextUI.text = "Health: " + displayedHealth;
+        }
+    }
+
+    public void ManageFood()
+    {
+        float eatDebug = 15f;
+        float hungerDebug = 10f;
+
+        if (food > 80)
+        {
+            passiveHeal = true;
+        }
+        else
+        {
+            passiveHeal = false;
+        }
+
+        food -= (hungerRate * Time.deltaTime);
+
+        if (food < 0)
+        {
+            food = 0;
+        }
+
+        if (food == 0)
+        {
+            health -= (regenRate * 2 * Time.deltaTime);
+        }
+
+        //debug hunger
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            if (food <= hungerDebug)
+            {
+                food = 0;
+            }
+            else
+            {
+                food -= hungerDebug;
+            }
+        }
+
+        //debug eating
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            if (food >= (maxFood - eatDebug))
+            {
+                food = maxFood;
+            }
+            else
+            {
+                food += eatDebug;
+            }
+        }
+
+        if (foodTextUI != null)
+        {
+            string displayedHunger = food.ToString("F0");
+            foodTextUI.text = "Hunger: " + displayedHunger;
         }
     }
 }
