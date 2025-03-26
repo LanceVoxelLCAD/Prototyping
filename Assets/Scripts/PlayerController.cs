@@ -38,6 +38,9 @@ public class PlayerController : MonoBehaviour
     public Vector3 eyesRot;
     public LayerMask torchRayMask;
 
+    [Header("Weapon")]
+    public GameObject weapon;
+
     [Header("Other")]
     public GameObject overheadLight;
     public TMP_Text healthTextUI;
@@ -59,12 +62,14 @@ public class PlayerController : MonoBehaviour
         float mouseYInput = Input.GetAxis("Mouse Y");
         bool run = Input.GetKey(KeyCode.LeftShift);
         bool jump = Input.GetButtonDown("Jump");
+        float scrollInput = Input.GetAxis("Mouse ScrollWheel");
         //float pitchYaw = Input.GetAxis("PitchYaw");
 
         ApplyGravity(jump);
         AimingRay();
         ManageHealth();
         ManageFood();
+        Hotbar(scrollInput);
 
         if (forward != 0 || right != 0) //only update movement if pressing something
         {
@@ -74,9 +79,9 @@ public class PlayerController : MonoBehaviour
 
         transform.Rotate(Vector3.up, mouseXInput * turnSpeedSensitivity * Time.deltaTime);
 
-        torchRot.x += verticalLookSpeed * mouseYInput * -1 * Time.deltaTime;
-        torchRot.x = Mathf.Clamp(torchRot.x, -80, 80);
-        torch.transform.localEulerAngles = torchRot;
+        //torchRot.x += verticalLookSpeed * mouseYInput * -1 * Time.deltaTime;
+        //torchRot.x = Mathf.Clamp(torchRot.x, -80, 80);
+        //torch.transform.localEulerAngles = torchRot;
 
         eyesRot.x += verticalLookSpeed * mouseYInput * -1 * Time.deltaTime;
         eyesRot.x = Mathf.Clamp(eyesRot.x, -80, 80);
@@ -165,7 +170,7 @@ public class PlayerController : MonoBehaviour
         }
 
         //torch looks at mouse, aka center of screen
-        torch.transform.LookAt(hitPoint);
+        //torch.transform.LookAt(hitPoint);
         //playerEyesCam.transform.LookAt(hitPoint);
 
         //clickable stuff
@@ -182,16 +187,16 @@ public class PlayerController : MonoBehaviour
                 //if item..
                 //if bed/clickable...
 
-                if (clickableHit.collider != null)
-                {
-                    Debug.Log("Player clicked: " + clickableHit.collider.gameObject.name);
-                }
+                Debug.Log("Player clicked: " + clickableHit.collider.gameObject.name);
 
                 //this is checking for the name, which feels bad
-                if (clickableHit.collider.transform.parent.gameObject.name != null && clickableHit.collider.transform.parent.gameObject.name == "Bed")
+                if (clickableHit.collider.transform.parent != null)
                 {
-                    health = maxHealth;
-                    food -= hungerRate * 5;
+                    if (clickableHit.collider.transform.parent.gameObject.name == "Bed")
+                    {
+                        health = maxHealth;
+                        food -= hungerRate * 5;
+                    }
                 }
             }
         }
@@ -305,5 +310,60 @@ public class PlayerController : MonoBehaviour
             string displayedHunger = food.ToString("F0");
             foodTextUI.text = "Hunger: " + displayedHunger;
         }
+    }
+
+    public void Hotbar(float scrollInput)
+    {
+        int currentHotbar = 1;
+
+        if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
+        {
+            currentHotbar = 1;
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
+        {
+            currentHotbar = 2;
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3))
+        {
+            currentHotbar = 3;
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Keypad4))
+        {
+            currentHotbar = 4;
+        }
+
+        if(scrollInput > 0)
+        {
+            if(currentHotbar >= 3)
+            {
+                //currentHotbar...
+            }
+        }
+        //RESUME HERE: this wont work well if we're constantly setting this active
+
+        if (currentHotbar == 1)
+        {
+            torch.SetActive(true);
+            weapon.SetActive(false);
+        }
+        else if (currentHotbar == 2)
+        {
+            torch.SetActive(false);
+            weapon.SetActive(true);
+        }
+        else if (currentHotbar == 3)
+        {
+            torch.SetActive(false);
+            weapon.SetActive(false);
+            //building items?
+        }
+        else if (currentHotbar == 4)
+        {
+            torch.SetActive(false);
+            weapon.SetActive(false);
+            //food items?
+        }
+
     }
 }
