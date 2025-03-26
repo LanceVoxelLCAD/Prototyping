@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour
     [Header("Other")]
     public GameObject overheadLight;
     public TMP_Text healthTextUI;
+    public LayerMask clickableRayMask;
 
     private void Start()
     {
@@ -72,15 +73,16 @@ public class PlayerController : MonoBehaviour
         eyesRot.x = Mathf.Clamp(eyesRot.x, -80, 80);
         playerEyesCam.transform.localEulerAngles = eyesRot;
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             torchLightCone.SetActive(!torchLightCone.gameObject.activeSelf);
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            overheadLight.SetActive(!overheadLight.gameObject.activeSelf);
-        }
+        //Prototype 1 nonsense:
+        //if (Input.GetKeyDown(KeyCode.E))
+        //{
+        //    overheadLight.SetActive(!overheadLight.gameObject.activeSelf);
+        //}
     }
 
     public void HandleMovement(float forward, float right, bool run)
@@ -156,7 +158,34 @@ public class PlayerController : MonoBehaviour
         //torch looks at mouse, aka center of screen
         torch.transform.LookAt(hitPoint);
         //playerEyesCam.transform.LookAt(hitPoint);
-       
+
+        //clickable stuff
+        //using different ray due to twitchy torch..?
+        Ray clickableRay;
+        clickableRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit clickableHit;
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (Physics.Raycast(clickableRay, out clickableHit, 5f, clickableRayMask))
+            {
+                //if enemy..
+                //if item..
+                //if bed/clickable...
+
+                if (clickableHit.collider != null)
+                {
+                    Debug.Log("Player clicked: " + clickableHit.collider.gameObject.name);
+                }
+
+                //this is checking for the name, which feels bad
+                if (clickableHit.collider.transform.parent.gameObject.name != null && clickableHit.collider.transform.parent.gameObject.name == "Bed")
+                {
+                    health = maxHealth;
+                }
+            }
+        }
+
     }
     public void ManageHealth()
     {
