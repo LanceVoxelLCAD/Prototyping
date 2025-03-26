@@ -167,8 +167,8 @@ public class EnemyController : MonoBehaviour
 
     public void EnemyDebugingText()
     {
-        aggroNumDEBUG.text = aggression.ToString();
-        healthNumDEBUG.text = health.ToString();
+        aggroNumDEBUG.text = "Aggro: " + aggression.ToString();
+        healthNumDEBUG.text = "Health: " + health.ToString();
     }
 
     //private void OnTriggerExit(Collider other) //this doesn't fire when the flashlight is turned off

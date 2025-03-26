@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +10,7 @@ public class PlayerController : MonoBehaviour
     public float walkSpeed = 3f;
     public float runSpeed = 6f;
     public float turnSpeedSensitivity = 2500f;
+    public float maxHealth = 100f;
     public float health = 100f;
 
     private float playerScale = 1.1f;
@@ -31,6 +33,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Other")]
     public GameObject overheadLight;
+    public TMP_Text healthTextUI;
 
     private void Start()
     {
@@ -51,6 +54,7 @@ public class PlayerController : MonoBehaviour
 
         ApplyGravity(jump);
         AimingRay();
+        ManageHealth();
 
         if (forward != 0 || right != 0) //only update movement if pressing something
         {
@@ -153,5 +157,40 @@ public class PlayerController : MonoBehaviour
         torch.transform.LookAt(hitPoint);
         //playerEyesCam.transform.LookAt(hitPoint);
        
+    }
+    public void ManageHealth()
+    {
+        float damageDebug = 5f;
+        float healDebug = 15f;
+
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            if(health <= damageDebug)
+            {
+                health = 0;
+                Destroy(gameObject);
+            } 
+            else
+            {
+                health -= damageDebug;
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            if (health >= (maxHealth - healDebug))
+            {
+                health = maxHealth;
+            }
+            else
+            {
+                health += healDebug;
+            }
+        }
+
+        if (healthTextUI != null)
+        {
+            healthTextUI.text = "Health: " + health;
+        }
     }
 }
