@@ -176,6 +176,8 @@ public class EnemyController : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        aggression = aggroMax;
     }
 
     public void EnemyDebugingText()
