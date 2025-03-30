@@ -26,7 +26,9 @@ public class EnemyController : MonoBehaviour
     public float lastAggression;
     public float aggroSpeed = 15f;
     public float aggroDecay = 3f;
-    public float aggroMax = 100f;
+    public float aggroTrigger = 100f;
+    public float maxAggro = 200f;
+    public float minAggro = 0f;
     public float bufferBeforeCalmingBegins = 20f;
     public bool isLit = false;
     public bool hasAggrod = false;
@@ -42,7 +44,7 @@ public class EnemyController : MonoBehaviour
         originalGoal = goal;
         player = GameObject.Find("Player");
         agent = GetComponent<NavMeshAgent>();
-        aggression = Random.Range(0, aggroMax-1);
+        aggression = Random.Range(minAggro, aggroTrigger-1);
         enemyRenderer = GetComponent<Renderer>();
         startMaterialColor = startMaterial.color;
         health = maxHealth;
@@ -68,7 +70,7 @@ public class EnemyController : MonoBehaviour
 
         agent.SetDestination(goal.transform.position);
 
-        if (aggression > aggroMax)
+        if (aggression > aggroTrigger)
         {
             if (distanceToPlayer > stoppingDistance)
             {
@@ -81,7 +83,7 @@ public class EnemyController : MonoBehaviour
             }
             hasAggrod = true;
         }
-        else if (aggression < aggroMax - bufferBeforeCalmingBegins)
+        else if (aggression < aggroTrigger - bufferBeforeCalmingBegins)
         {
             hasAggrod = false;
             goal = originalGoal;
@@ -91,9 +93,13 @@ public class EnemyController : MonoBehaviour
             goal = originalGoal;
         }
 
-        if (hasAggrod) //could do the has aggro'd, or could save the random aggression generated as a minimum..
+        if (hasAggrod && aggression > minAggro) //could do the has aggro'd, or could save the random aggression generated as a minimum..
         {
             aggression -= aggroDecay * Time.deltaTime;
+        }
+        else if (aggression <= minAggro)
+        {
+            aggression = minAggro;
         }
     }
 
@@ -127,8 +133,15 @@ public class EnemyController : MonoBehaviour
             if (hit.transform.tag == "LightProducer")
             {
                 //isLit = true;
-                aggression += aggroSpeed * Time.deltaTime; //increase one each second.. if it is hit by the light producer
-                //Debug.Log("We hit: " + hit.transform.gameObject.name + " at aggression level: " + aggression);
+                if (aggression < maxAggro)
+                {
+                    aggression += aggroSpeed * Time.deltaTime; //increase one each second.. if it is hit by the light producer
+                    //Debug.Log("We hit: " + hit.transform.gameObject.name + " at aggression level: " + aggression);
+                }
+                else if (aggression >= maxAggro)
+                {
+                    aggression = maxAggro;
+                }
             } 
         }
 
@@ -177,7 +190,7 @@ public class EnemyController : MonoBehaviour
             Destroy(gameObject);
         }
 
-        aggression = aggroMax;
+        aggression = maxAggro;
     }
 
     public void EnemyDebugingText()
