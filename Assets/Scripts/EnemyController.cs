@@ -84,27 +84,25 @@ public class EnemyController : MonoBehaviour
             {
                 goal = lastSeenLightProducer;
             }
-            //should switch in the little window, but stop if it comes too close
-            else if (distanceToPlayer > stoppingDistance && distanceToPlayer < enemySightMaxDistance)
+            else if (!hasAggrod && distanceToPlayer < switchAttentionFromLightToPlayerDistance)
             {
                 goal = player;
                 hasAggrod = true;
             }
-            //putting this bc for some reason they are stopping.. hmm.
-            //else if (hasAggrod && distanceToPlayer > enemySightMaxDistance)
-            //{
-            //    goal = originalGoal;
-            //}
+            //should switch in the little window, but stop if it comes too close
+            //* added the hasAggrod since last functional, but trying out the above logic instead
+            else if (hasAggrod && distanceToPlayer > stoppingDistance && distanceToPlayer < enemySightMaxDistance)
+            {
+                //i dont think this actually does anything here.. other than keep the max enemy sight line?
+                goal = player;
+                hasAggrod = true;
+            }
+            //*
             else if (distanceToLight <= stoppingDistance || distanceToPlayer <= stoppingDistance)
             {
                 transform.LookAt(goal.transform); //this should only apply to the head, but this is fine for now
                 agent.ResetPath(); //stop walking bro
             }
-            //else if (switchAttentionFromLightToPlayerDistance > distanceToPlayer)
-            //{
-            //    goal = player;
-            //}
-
         }
         //previously: else if (aggression < aggroTrigger - bufferBeforeCalmingBegins)
         else if (aggression < aggroTrigger)
@@ -136,6 +134,12 @@ public class EnemyController : MonoBehaviour
             {
                 aggression = minAggro;
             }
+        }
+        //if still lit, but no longer by the player
+        else if (isLit && (hasAggrod && distanceToPlayer > enemySightMaxDistance))
+        {
+            goal = lastSeenLightProducer;
+            hasAggrod = false;
         }
     }
 
