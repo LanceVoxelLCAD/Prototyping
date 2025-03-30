@@ -21,6 +21,7 @@ public class EnemyController : MonoBehaviour
     private Renderer enemyRenderer;
 
     public float health = 30f;
+    public float maxHealth = 30f;
     public float aggression;
     public float lastAggression;
     public float aggroSpeed = 15f;
@@ -44,6 +45,7 @@ public class EnemyController : MonoBehaviour
         aggression = Random.Range(0, aggroMax-1);
         enemyRenderer = GetComponent<Renderer>();
         startMaterialColor = startMaterial.color;
+        health = maxHealth;
     }
 
     // Update is called once per frame
@@ -163,6 +165,16 @@ public class EnemyController : MonoBehaviour
         yield return new WaitForSeconds(.5f);
 
         isLit = false;
+    }
+
+    public void TakeDamage(float damageAmtReceived)
+    {
+        health -= damageAmtReceived;
+
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void EnemyDebugingText()

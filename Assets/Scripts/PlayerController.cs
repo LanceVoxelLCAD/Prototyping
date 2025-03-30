@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     public float hungerRate = 1f;
     public float regenRate = 1f;
     public bool passiveHeal = true;
+    public float attackDamage = 10f;
 
     [Header("Move")]
     public float walkSpeed = 3f;
@@ -40,6 +41,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Weapon")]
     public GameObject weapon;
+    public float playerReach = 5f;
 
     [Header("Other")]
     public GameObject overheadLight;
@@ -181,13 +183,18 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            if (Physics.Raycast(clickableRay, out clickableHit, 5f, clickableRayMask))
+            if (Physics.Raycast(clickableRay, out clickableHit, playerReach, clickableRayMask))
             {
                 //if enemy..
                 //if item..
                 //if bed/clickable...
 
                 Debug.Log("Player clicked: " + clickableHit.collider.gameObject.name);
+
+                if(hit.transform.TryGetComponent<EnemyController>(out EnemyController T))
+                {
+                    T.TakeDamage(attackDamage);
+                }
 
                 //this is checking for the name, which feels bad
                 if (clickableHit.collider.transform.parent != null)
@@ -198,6 +205,8 @@ public class PlayerController : MonoBehaviour
                         food -= hungerRate * 5;
                     }
                 }
+
+
             }
         }
 
