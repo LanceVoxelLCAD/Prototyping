@@ -24,17 +24,22 @@ public class EnemyController : MonoBehaviour
     public float maxHealth = 30f;
     public float aggression;
     public float lastAggression;
+    public float switchAttentionFromLightToPlayerDistance;
+    public float enemySightMaxDistance = 30f;
     public float aggroSpeed = 15f;
     public float aggroDecay = 3f;
     public float aggroTrigger = 100f;
     public float maxAggro = 200f;
     public float minAggro = 0f;
-    public float bufferBeforeCalmingBegins = 20f;
+    //public float bufferBeforeCalmingBegins = 8f;
     public bool isLit = false;
     public bool hasAggrod = false;
+    public GameObject lastSeenLightProducer;
+
 
     public float stoppingDistance;
     public float distanceToPlayer;
+    public float distanceToLight;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -48,6 +53,7 @@ public class EnemyController : MonoBehaviour
         enemyRenderer = GetComponent<Renderer>();
         startMaterialColor = startMaterial.color;
         health = maxHealth;
+        switchAttentionFromLightToPlayerDistance = stoppingDistance + 1f;
     }
 
     // Update is called once per frame
@@ -56,6 +62,8 @@ public class EnemyController : MonoBehaviour
         IsLitTest();
         EnemyDebugingText();
         lastAggression = aggression;
+
+        //convert to seconds
 
         distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
 
@@ -72,18 +80,34 @@ public class EnemyController : MonoBehaviour
 
         if (aggression > aggroTrigger)
         {
-            if (distanceToPlayer > stoppingDistance)
+            if (!hasAggrod && distanceToLight > switchAttentionFromLightToPlayerDistance)
+            {
+                goal = lastSeenLightProducer;
+            }
+            //should switch in the little window, but stop if it comes too close
+            else if (distanceToPlayer > stoppingDistance && distanceToPlayer < enemySightMaxDistance)
             {
                 goal = player;
+                hasAggrod = true;
             }
-            else
+            //putting this bc for some reason they are stopping.. hmm.
+            //else if (hasAggrod && distanceToPlayer > enemySightMaxDistance)
+            //{
+            //    goal = originalGoal;
+            //}
+            else if (distanceToLight <= stoppingDistance || distanceToPlayer <= stoppingDistance)
             {
-                transform.LookAt(player.transform); //this should only apply to the head, but this is fine for now
+                transform.LookAt(goal.transform); //this should only apply to the head, but this is fine for now
                 agent.ResetPath(); //stop walking bro
             }
-            hasAggrod = true;
+            //else if (switchAttentionFromLightToPlayerDistance > distanceToPlayer)
+            //{
+            //    goal = player;
+            //}
+
         }
-        else if (aggression < aggroTrigger - bufferBeforeCalmingBegins)
+        //previously: else if (aggression < aggroTrigger - bufferBeforeCalmingBegins)
+        else if (aggression < aggroTrigger)
         {
             hasAggrod = false;
             goal = originalGoal;
@@ -93,13 +117,25 @@ public class EnemyController : MonoBehaviour
             goal = originalGoal;
         }
 
-        if (hasAggrod && aggression > minAggro) //could do the has aggro'd, or could save the random aggression generated as a minimum..
+        //make aggressive if very close? might remove this later.
+        if (distanceToPlayer < stoppingDistance)
         {
-            aggression -= aggroDecay * Time.deltaTime;
+            aggression = aggroTrigger + 1f;
+            goal = player;
+            hasAggrod = true;
         }
-        else if (aggression <= minAggro)
+
+        //decrease aggression when far away from player... or the light they saw.. and is not lit
+        if (!isLit && (hasAggrod && distanceToPlayer > enemySightMaxDistance) || (!hasAggrod && distanceToLight > enemySightMaxDistance))
         {
-            aggression = minAggro;
+            if (hasAggrod && aggression > minAggro) //could do the has aggro'd, or could save the random aggression generated as a minimum..
+            {
+                aggression -= aggroDecay * Time.deltaTime;
+            }
+            else if (aggression <= minAggro)
+            {
+                aggression = minAggro;
+            }
         }
     }
 
@@ -142,6 +178,10 @@ public class EnemyController : MonoBehaviour
                 {
                     aggression = maxAggro;
                 }
+
+                //only updates when illuminated
+                lastSeenLightProducer = hit.transform.gameObject;
+                distanceToLight = Vector3.Distance(transform.position, lastSeenLightProducer.transform.position);
             } 
         }
 

@@ -798,16 +798,22 @@ MonoBehaviour:
   startMaterial: {fileID: 2100000, guid: e8fc3a7ecb1d8f8458b1915dbdb82b09, type: 2}
   startMaterialColor: {r: 0, g: 0, b: 0, a: 0}
   health: 30
+  maxHealth: 30
   aggression: 0
   lastAggression: 0
+  switchAttentionFromLightToPlayerDistance: 0
+  enemySightMaxDistance: 20
   aggroSpeed: 8
-  aggroDecay: 0.5
-  aggroMax: 100
-  bufferBeforeCalmingBegins: 20
+  aggroDecay: 5
+  aggroTrigger: 100
+  maxAggro: 200
+  minAggro: 0
   isLit: 0
   hasAggrod: 0
+  lastSeenLightProducer: {fileID: 0}
   stoppingDistance: 4
   distanceToPlayer: 0
+  distanceToLight: 0
 --- !u!54 &2666781883699522645
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -831,7 +837,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
