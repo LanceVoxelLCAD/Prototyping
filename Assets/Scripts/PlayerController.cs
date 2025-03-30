@@ -44,6 +44,7 @@ public class PlayerController : MonoBehaviour
     [Header("Weapon")]
     public GameObject weapon;
     public float playerReach = 5f;
+    public Animator weaponAnimator;
 
     [Header("Other")]
     public GameObject overheadLight;
@@ -81,12 +82,14 @@ public class PlayerController : MonoBehaviour
             HandleMovement(forward, right, run);
         }
 
+        //left to right visuals
         transform.Rotate(Vector3.up, mouseXInput * turnSpeedSensitivity * Time.deltaTime);
 
         //torchRot.x += verticalLookSpeed * mouseYInput * -1 * Time.deltaTime;
         //torchRot.x = Mathf.Clamp(torchRot.x, -80, 80);
         //torch.transform.localEulerAngles = torchRot;
 
+        //up and down visuals
         eyesRot.x += verticalLookSpeed * mouseYInput * -1 * Time.deltaTime;
         eyesRot.x = Mathf.Clamp(eyesRot.x, -80, 80);
         playerEyesCam.transform.localEulerAngles = eyesRot;
@@ -193,13 +196,6 @@ public class PlayerController : MonoBehaviour
 
                 Debug.Log("Player clicked: " + clickableHit.collider.gameObject.name);
 
-                if(canAttack && hit.transform.TryGetComponent<EnemyController>(out EnemyController T))
-                {
-                    canAttack = false;
-                    T.TakeDamage(attackDamage);
-                    Invoke(nameof(ResetAttack), attackCooldown);
-                }
-
                 //this is checking for the name, which feels bad
                 if (clickableHit.collider.transform.parent != null)
                 {
@@ -208,9 +204,32 @@ public class PlayerController : MonoBehaviour
                         health = maxHealth;
                         food -= hungerRate * 5;
                     }
+                    return;
+                    //don't needlessly attack the bed
+                    //maybe an else if (item) and then else if (enemy) would be better
                 }
 
+                if (canAttack)
+                {
+                    //play an animation here
+                    weaponAnimator.SetTrigger("PerformAttack");
 
+                    canAttack = false;
+                    Invoke(nameof(ResetAttack), attackCooldown);
+
+                    if (hit.transform.TryGetComponent<EnemyController>(out EnemyController T))
+                    {
+                        T.TakeDamage(attackDamage);
+                    }
+                }
+
+            }
+            //if we hit nothing and CAN attack... swing at the sky
+            else if (canAttack)
+            {
+                weaponAnimator.SetTrigger("PerformAttack");
+                canAttack = false;
+                Invoke(nameof(ResetAttack), attackCooldown);
             }
         }
 
@@ -332,6 +351,7 @@ public class PlayerController : MonoBehaviour
 
     public void Hotbar(float scrollInput)
     {
+        //when weapon is active, change damage
         int currentHotbar = 1;
 
         if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))

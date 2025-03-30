@@ -318,6 +318,11 @@ Transform:
   - {fileID: 1085968769}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &223600231 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8447939401402388698, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
+  m_PrefabInstance: {fileID: 1253140918}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &302767031
 GameObject:
   m_ObjectHideFlags: 0
@@ -1067,24 +1072,16 @@ PrefabInstance:
       objectReference: {fileID: 31957552}
     - target: {fileID: 4844612146070095619, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
       propertyPath: m_VersionIndex
-      value: 4529
+      value: 4616
       objectReference: {fileID: 0}
     - target: {fileID: 4952957238402054617, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
       propertyPath: foodTextUI
       value: 
       objectReference: {fileID: 1048196883}
     - target: {fileID: 4952957238402054617, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
-      propertyPath: hungerRate
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 4952957238402054617, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
       propertyPath: healthTextUI
       value: 
       objectReference: {fileID: 368692093}
-    - target: {fileID: 4952957238402054617, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
-      propertyPath: attackCooldown
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6417457864236173443, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1125,6 +1122,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6958272636585080502, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7000686804275146929, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.457
@@ -1140,7 +1141,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8447939401402388698, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1615337369}
   m_SourcePrefab: {fileID: 100100000, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
 --- !u!1 &1343000273
 GameObject:
@@ -1441,6 +1445,28 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5117278900662631044, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
   m_PrefabInstance: {fileID: 1253140918}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &1615337369
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 223600231}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c09c6e1543e64ff4c86e4269932d05be, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1743296308
 GameObject:
   m_ObjectHideFlags: 0
