@@ -1067,7 +1067,7 @@ PrefabInstance:
       objectReference: {fileID: 31957552}
     - target: {fileID: 4844612146070095619, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
       propertyPath: m_VersionIndex
-      value: 4520
+      value: 4529
       objectReference: {fileID: 0}
     - target: {fileID: 4952957238402054617, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
       propertyPath: foodTextUI
@@ -1081,6 +1081,10 @@ PrefabInstance:
       propertyPath: healthTextUI
       value: 
       objectReference: {fileID: 368692093}
+    - target: {fileID: 4952957238402054617, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
+      propertyPath: attackCooldown
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6417457864236173443, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

@@ -77,9 +77,12 @@ MonoBehaviour:
   maxHealth: 100
   food: 80
   maxFood: 100
-  hungerRate: 0.005
+  hungerRate: 0.05
   regenRate: 0.2
   passiveHeal: 1
+  attackDamage: 10
+  canAttack: 1
+  attackCooldown: 0.8
   walkSpeed: 3
   runSpeed: 6
   turnSpeedSensitivity: 1000
@@ -100,6 +103,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 53
   weapon: {fileID: 8839987463277134784}
+  playerReach: 5
   overheadLight: {fileID: 0}
   healthTextUI: {fileID: 0}
   foodTextUI: {fileID: 0}

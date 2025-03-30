@@ -134,6 +134,7 @@ public class EnemyController : MonoBehaviour
 
         if (other.gameObject.name == "DeathCube")
         {
+            //DEBUG
             Destroy(gameObject);
         }
     }

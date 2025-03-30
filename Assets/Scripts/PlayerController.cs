@@ -15,6 +15,8 @@ public class PlayerController : MonoBehaviour
     public float regenRate = 1f;
     public bool passiveHeal = true;
     public float attackDamage = 10f;
+    public bool canAttack = true;
+    public float attackCooldown = 1f;
 
     [Header("Move")]
     public float walkSpeed = 3f;
@@ -191,9 +193,11 @@ public class PlayerController : MonoBehaviour
 
                 Debug.Log("Player clicked: " + clickableHit.collider.gameObject.name);
 
-                if(hit.transform.TryGetComponent<EnemyController>(out EnemyController T))
+                if(canAttack && hit.transform.TryGetComponent<EnemyController>(out EnemyController T))
                 {
+                    canAttack = false;
                     T.TakeDamage(attackDamage);
+                    Invoke(nameof(ResetAttack), attackCooldown);
                 }
 
                 //this is checking for the name, which feels bad
@@ -211,6 +215,11 @@ public class PlayerController : MonoBehaviour
         }
 
     }
+    public void ResetAttack()
+    {
+        canAttack = true;
+    }
+
     public void ManageHealth()
     {
         float damageDebug = 5f;
