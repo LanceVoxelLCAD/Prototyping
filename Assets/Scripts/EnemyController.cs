@@ -18,7 +18,7 @@ public class EnemyController : MonoBehaviour
     public TMP_Text aggroNumDEBUG;
     public Material startMaterial;
     public Color startMaterialColor;
-    private Renderer enemyRenderer;
+    public Renderer enemyRenderer;
 
     public float health = 30f;
     public float maxHealth = 30f;
@@ -35,6 +35,7 @@ public class EnemyController : MonoBehaviour
     public bool isLit = false;
     public bool hasAggrod = false;
     public GameObject lastSeenLightProducer;
+    public GameObject headObject;
 
 
     public float stoppingDistance;
@@ -50,10 +51,11 @@ public class EnemyController : MonoBehaviour
         player = GameObject.Find("Player");
         agent = GetComponent<NavMeshAgent>();
         aggression = Random.Range(minAggro, aggroTrigger-1);
-        enemyRenderer = GetComponent<Renderer>();
+        //enemyRenderer = GetComponent<Renderer>();
         startMaterialColor = startMaterial.color;
         health = maxHealth;
         switchAttentionFromLightToPlayerDistance = stoppingDistance + 1f;
+        lastSeenLightProducer = originalGoal;
     }
 
     // Update is called once per frame
@@ -100,7 +102,7 @@ public class EnemyController : MonoBehaviour
             //*
             else if (distanceToLight <= stoppingDistance || distanceToPlayer <= stoppingDistance)
             {
-                transform.LookAt(goal.transform); //this should only apply to the head, but this is fine for now
+                headObject.transform.LookAt(goal.transform); //this should only apply to the head, but this is fine for now
                 agent.ResetPath(); //stop walking bro
             }
         }
@@ -121,6 +123,15 @@ public class EnemyController : MonoBehaviour
             aggression = aggroTrigger + 1f;
             goal = player;
             hasAggrod = true;
+        }
+
+        //if right up on a light, pay attention
+        //should aggression rise faster if closer instead, perhaps? this is a hardcoded behavior
+        //also doesnt trigger if theyve never seen a light now
+        if (!hasAggrod && lastSeenLightProducer != originalGoal && distanceToLight < stoppingDistance)
+        {
+            aggression = aggroTrigger + 1f;
+            goal = lastSeenLightProducer;
         }
 
         //decrease aggression when far away from player... or the light they saw.. and is not lit
