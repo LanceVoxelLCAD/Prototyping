@@ -22,6 +22,7 @@ public class EnemyController : MonoBehaviour
 
     public float health = 30f;
     public float maxHealth = 30f;
+    public float attackDamage = 5f;
     public float aggression;
     public float lastAggression;
     public float switchAttentionFromLightToPlayerDistance;
@@ -31,12 +32,16 @@ public class EnemyController : MonoBehaviour
     public float aggroTrigger = 100f;
     public float maxAggro = 200f;
     public float minAggro = 0f;
+    public float attackDelay = 5f;
     //public float bufferBeforeCalmingBegins = 8f;
     public bool isLit = false;
     public bool hasAggrod = false;
+    public bool hasStartedAttackCoroutine = false; //has aggrod once
     public GameObject lastSeenLightProducer;
     public GameObject headObject;
-
+    public bool canAttack = false;
+    public bool isAttacking = false;
+    public Animator enemyAttackAnimator;
 
     public float stoppingDistance;
     public float distanceToPlayer;
@@ -56,6 +61,11 @@ public class EnemyController : MonoBehaviour
         health = maxHealth;
         switchAttentionFromLightToPlayerDistance = stoppingDistance + 1f;
         lastSeenLightProducer = originalGoal;
+
+        //should probably only start and play when first close to the player.. would help it not be all at once.
+        //just kidding. i tried that and learned that kills unity
+        //because im asking it to do something infinitely, an infinite number of times! cool
+        //StartCoroutine(AttackWhenClose());
     }
 
     // Update is called once per frame
@@ -103,8 +113,9 @@ public class EnemyController : MonoBehaviour
             else if (distanceToLight <= stoppingDistance || distanceToPlayer <= stoppingDistance)
             {
                 headObject.transform.LookAt(goal.transform); //this should only apply to the head, but this is fine for now
-                agent.ResetPath(); //stop walking bro
+                //agent.ResetPath(); //stop walking bro //this is unneeded, agents have a built in stopping distance?!!
             }
+            headObject.transform.LookAt(goal.transform); //do it again.
         }
         //previously: else if (aggression < aggroTrigger - bufferBeforeCalmingBegins)
         else if (aggression < aggroTrigger)
@@ -112,7 +123,7 @@ public class EnemyController : MonoBehaviour
             hasAggrod = false;
             goal = originalGoal;
         }
-        else
+        else //i dont think i need this either, it would only be called if equal.
         {
             goal = originalGoal;
         }
@@ -120,7 +131,10 @@ public class EnemyController : MonoBehaviour
         //make aggressive if very close? might remove this later.
         if (distanceToPlayer < stoppingDistance)
         {
-            aggression = aggroTrigger + 1f;
+            if (aggression < aggroTrigger + 1f)
+            {
+                aggression = aggroTrigger + 1f;
+            }
             goal = player;
             hasAggrod = true;
         }
@@ -130,7 +144,10 @@ public class EnemyController : MonoBehaviour
         //also doesnt trigger if theyve never seen a light now
         if (!hasAggrod && lastSeenLightProducer != originalGoal && distanceToLight < stoppingDistance)
         {
-            aggression = aggroTrigger + 1f;
+            if (aggression < aggroTrigger + 1f)
+            {
+                aggression = aggroTrigger + 1f;
+            }
             goal = lastSeenLightProducer;
         }
 
@@ -151,6 +168,34 @@ public class EnemyController : MonoBehaviour
         {
             goal = lastSeenLightProducer;
             hasAggrod = false;
+        }
+
+        if (goal == player && distanceToPlayer <= stoppingDistance)
+        {
+            //attack player
+            //pass damage to player script
+            //animation?
+            canAttack = true;
+            if (!hasStartedAttackCoroutine)
+            {
+                StartCoroutine(AttackWhenClose());
+                hasStartedAttackCoroutine = true;
+            }
+        }
+        else if (goal == lastSeenLightProducer && distanceToLight <= stoppingDistance)
+        {
+            //attack ambient
+            canAttack = true;
+            if (!hasStartedAttackCoroutine)
+            {
+                StartCoroutine(AttackWhenClose());
+                hasStartedAttackCoroutine = true;
+            }
+        }
+        else
+        {
+            //no attacking, via a bool. also stop it when the object is deleted
+            canAttack = false;
         }
     }
 
@@ -203,6 +248,7 @@ public class EnemyController : MonoBehaviour
         if (other.gameObject.name == "DeathCube")
         {
             //DEBUG
+            StopAllCoroutines();
             Destroy(gameObject);
         }
     }
@@ -242,10 +288,41 @@ public class EnemyController : MonoBehaviour
 
         if (health <= 0)
         {
+            //turn off coroutine
+            StopAllCoroutines();
             Destroy(gameObject);
         }
 
         aggression = maxAggro;
+    }
+
+    private IEnumerator AttackWhenClose()
+    {
+        while (true)
+        {
+            if (!isAttacking)
+            {
+                isAttacking = true;
+
+                enemyAttackAnimator.SetTrigger("PerformAttack");
+
+                //this should maybe be invoked with a delay matching the length of the attack animation
+                if (canAttack)
+                {
+                    if (goal == player && distanceToPlayer <= stoppingDistance)
+                    {
+                        if (player.TryGetComponent<PlayerController>(out PlayerController T))
+                        {
+                            T.TakeDamage(attackDamage);
+                        }
+                    }
+                }
+
+                yield return new WaitForSeconds(attackDelay);
+
+                isAttacking = false;
+            }
+        }
     }
 
     public void EnemyDebugingText()

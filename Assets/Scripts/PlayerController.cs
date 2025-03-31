@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -51,6 +53,7 @@ public class PlayerController : MonoBehaviour
     public TMP_Text healthTextUI;
     public TMP_Text foodTextUI;
     public LayerMask clickableRayMask;
+    public Image damagedUIEffect;
 
     private void Start()
     {
@@ -255,6 +258,7 @@ public class PlayerController : MonoBehaviour
             else
             {
                 health -= damageDebug;
+                StartCoroutine(DamageUIEffect());
             }
         }
 
@@ -288,6 +292,31 @@ public class PlayerController : MonoBehaviour
             string displayedHealth = health.ToString("F0");
             healthTextUI.text = "Health: " + displayedHealth;
         }
+    }
+
+    public void TakeDamage(float damageAmtReceived)
+    {
+        health -= damageAmtReceived;
+
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+        }
+
+        //show player was hurt?
+        //id like the screen to darken, then turn red and fade back
+        //for now itll just flash red.
+
+        StartCoroutine(DamageUIEffect());
+    }
+
+    private IEnumerator DamageUIEffect()
+    {
+        damagedUIEffect.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(.2f);
+
+        damagedUIEffect.gameObject.SetActive(false);
     }
 
     public void ManageFood()
