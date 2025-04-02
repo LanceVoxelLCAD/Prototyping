@@ -2,6 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class EnemyController : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class EnemyController : MonoBehaviour
 
     public TMP_Text healthNumDEBUG;
     public TMP_Text aggroNumDEBUG;
+    public Slider healthSlider;
     public Material startMaterial;
     public Color startMaterialColor;
     public Renderer enemyRenderer;
@@ -42,6 +44,8 @@ public class EnemyController : MonoBehaviour
     public bool canAttack = false;
     public bool isAttacking = false;
     public Animator enemyAttackAnimator;
+    public GameObject healingItem;
+    public GameObject foodItem;
 
     public float stoppingDistance;
     public float distanceToPlayer;
@@ -248,8 +252,7 @@ public class EnemyController : MonoBehaviour
         if (other.gameObject.name == "DeathCube")
         {
             //DEBUG
-            StopAllCoroutines();
-            Destroy(gameObject);
+            Die();
         }
     }
 
@@ -288,12 +291,30 @@ public class EnemyController : MonoBehaviour
 
         if (health <= 0)
         {
-            //turn off coroutine
-            StopAllCoroutines();
-            Destroy(gameObject);
+            Die();
         }
 
         aggression = maxAggro;
+    }
+
+    public void Die()
+    {
+        //turn off coroutine
+        StopAllCoroutines();
+        //if it was holding a resource, it would just.. deparent it? or actually spawn it?
+
+        int randomDrop = Random.Range(0, 2); //int isnt inclusive for max? huh.
+        //in theory, this is already visible.. thus it would be determined before death. maybe on spawn
+
+        if (randomDrop == 0)
+        {
+            Instantiate(healingItem, transform.position, transform.rotation);
+        }
+        else if (randomDrop == 1)
+        {
+            Instantiate(foodItem, transform.position, transform.rotation);
+        }
+        Destroy(gameObject);
     }
 
     private IEnumerator AttackWhenClose()
@@ -328,7 +349,8 @@ public class EnemyController : MonoBehaviour
     public void EnemyDebugingText()
     {
         aggroNumDEBUG.text = "Aggro: " + aggression.ToString();
-        healthNumDEBUG.text = "Health: " + health.ToString();
+        //healthNumDEBUG.text = "Health: " + health.ToString();
+        healthSlider.value = health;
     }
 
     //private void OnTriggerExit(Collider other) //this doesn't fire when the flashlight is turned off

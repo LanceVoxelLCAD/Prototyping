@@ -54,6 +54,7 @@ public class PlayerController : MonoBehaviour
     public TMP_Text foodTextUI;
     public LayerMask clickableRayMask;
     public Image damagedUIEffect;
+    public Image healedUIEffect;
 
     private void Start()
     {
@@ -208,7 +209,7 @@ public class PlayerController : MonoBehaviour
                         food -= hungerRate * 5;
                     }
                     return;
-                    //don't needlessly attack the bed
+                    //don't needlessly attack the bed or other usable items
                     //maybe an else if (item) and then else if (enemy) would be better
                 }
 
@@ -310,6 +311,32 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(DamageUIEffect());
     }
 
+    public void HealFromDamage(float damageAmtHealed)
+    {
+        health += damageAmtHealed;
+
+        if (health >= maxHealth)
+        {
+            health = maxHealth;
+        }
+
+        //show player was healed?
+
+        StartCoroutine(HealUIEffect());
+    }
+
+    public void Eat(float satiation)
+    {
+        food += satiation;
+
+        if (food >= maxFood)
+        {
+            food = maxFood;
+        }
+
+        //play eating sound, in theory
+    }
+
     private IEnumerator DamageUIEffect()
     {
         damagedUIEffect.gameObject.SetActive(true);
@@ -317,6 +344,15 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(.2f);
 
         damagedUIEffect.gameObject.SetActive(false);
+    }
+
+    private IEnumerator HealUIEffect()
+    {
+        healedUIEffect.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(.2f);
+
+        healedUIEffect.gameObject.SetActive(false);
     }
 
     public void ManageFood()
