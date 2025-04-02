@@ -13,6 +13,12 @@ public class EnemySpawner : MonoBehaviour
     public float spawnRate = 2f;
     //make array of spawn points
 
+    private void Start()
+    {
+        //TEMP FOR PROTOTYPE 2 PLAYTEST
+        InvokeRepeating("SpawnDudes", 0f, spawnRate);
+    }
+
     // Update is called once per frame
     void Update()
     {
