@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     public float attackDamage = 10f;
     public bool canAttack = true;
     public float attackCooldown = 1f;
+    public float killcount = 0f;
 
     [Header("Move")]
     public float walkSpeed = 3f;
@@ -55,6 +56,7 @@ public class PlayerController : MonoBehaviour
     public LayerMask clickableRayMask;
     public Image damagedUIEffect;
     public Image healedUIEffect;
+    public TMP_Text killcountTextUI;
 
     private void Start()
     {
@@ -79,6 +81,12 @@ public class PlayerController : MonoBehaviour
         ManageHealth();
         ManageFood();
         Hotbar(scrollInput);
+
+        if (killcountTextUI != null)
+        {
+            string displayedKillcount = killcount.ToString("F0");
+            killcountTextUI.text = "Killcount: " + killcount;
+        }
 
         if (forward != 0 || right != 0) //only update movement if pressing something
         {

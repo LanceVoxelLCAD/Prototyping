@@ -298,6 +298,10 @@ public class EnemyController : MonoBehaviour
 
         if (health <= 0)
         {
+            if (player.TryGetComponent<PlayerController>(out PlayerController T))
+            {
+                T.killcount++;
+            }
             Die();
         }
 
