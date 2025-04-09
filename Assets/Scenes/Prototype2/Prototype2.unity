@@ -55534,7 +55534,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -20.96}
+  m_AnchoredPosition: {x: 3.79, y: -19.96}
   m_SizeDelta: {x: 20, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1190664981
@@ -55559,7 +55559,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'LORE. Behind a locked door, unable to be opened if the player has not
     collected a weapon from the enemies. Have you considered checking out the big
-    cone?
+    cone? (different location...)
 
 '
   m_isRightToLeft: 0
@@ -55626,7 +55626,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -9.11155, y: 0, z: -9.173722, w: 0}
+  m_margin: {x: -9.11155, y: 0, z: -52.10645, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   _SortingLayer: 0
