@@ -55,7 +55,8 @@ public class EnemyController : MonoBehaviour
     void Start()
     {
         //find the goal (must be in root hierarchy)
-        goal = GameObject.Find("Goal");
+        //goal = GameObject.Find("Goal");
+        goal = gameObject; //stop looking for anything //allows for wandering
         originalGoal = goal;
         player = GameObject.Find("Player");
         agent = GetComponent<NavMeshAgent>();
