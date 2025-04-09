@@ -1614,7 +1614,7 @@ MonoBehaviour:
   switchAttentionFromLightToPlayerDistance: 0
   enemySightMaxDistance: 20
   aggroSpeed: 18
-  aggroDecay: 5
+  aggroDecay: 25
   aggroTrigger: 100
   maxAggro: 200
   minAggro: 0

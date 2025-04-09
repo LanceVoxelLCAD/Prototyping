@@ -100,6 +100,11 @@ public class EnemyController : MonoBehaviour
             if (!hasAggrod && distanceToLight > switchAttentionFromLightToPlayerDistance)
             {
                 goal = lastSeenLightProducer;
+                if(Vector3.Distance(lastSeenLightProducer.transform.position, player.transform.position) < stoppingDistance)
+                { //risky new code
+                    goal = player;
+                    hasAggrod = true;
+                }
             }
             else if (!hasAggrod && distanceToPlayer < switchAttentionFromLightToPlayerDistance)
             {
@@ -141,7 +146,7 @@ public class EnemyController : MonoBehaviour
                 aggression = aggroTrigger + 1f;
             }
             goal = player;
-            hasAggrod = true;
+            hasAggrod = true; //this is the only time hasaggro'd is true...
         }
 
         //if right up on a light, pay attention
@@ -149,17 +154,18 @@ public class EnemyController : MonoBehaviour
         //also doesnt trigger if theyve never seen a light now
         if (!hasAggrod && lastSeenLightProducer != originalGoal && distanceToLight < stoppingDistance)
         {
-            if (aggression < aggroTrigger + 1f)
+            if (aggression < aggroTrigger + 2f) //different number for debugging
             {
-                aggression = aggroTrigger + 1f;
+                aggression = aggroTrigger + 2f;
             }
             goal = lastSeenLightProducer;
         }
 
         //decrease aggression when far away from player... or the light they saw.. and is not lit
-        if (!isLit && (hasAggrod && distanceToPlayer > enemySightMaxDistance) || (!hasAggrod && distanceToLight > enemySightMaxDistance))
+        if (!isLit && (distanceToPlayer > enemySightMaxDistance) || (!hasAggrod && distanceToLight > enemySightMaxDistance))
         {
-            if (hasAggrod && aggression > minAggro) //could do the has aggro'd, or could save the random aggression generated as a minimum..
+            //removed from above & below line requirement to not be aggro'd
+            if (aggression > minAggro) //could do the has aggro'd, or could save the random aggression generated as a minimum..
             {
                 aggression -= aggroDecay * Time.deltaTime;
             }
