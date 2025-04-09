@@ -169,7 +169,7 @@ public class EnemyController : MonoBehaviour
             }
         }
         //if still lit, but no longer by the player
-        else if (isLit && (hasAggrod && distanceToPlayer > enemySightMaxDistance))
+        else if (isLit && (hasAggrod && distanceToPlayer > enemySightMaxDistance/4))
         {
             goal = lastSeenLightProducer;
             hasAggrod = false;
@@ -304,7 +304,7 @@ public class EnemyController : MonoBehaviour
         StopAllCoroutines();
         //if it was holding a resource, it would just.. deparent it? or actually spawn it?
 
-        int randomDrop = Random.Range(0, 2); //int isnt inclusive for max? huh.
+        int randomDrop = Random.Range(0, 6); //int isnt inclusive for max? huh.
         //in theory, this is already visible.. thus it would be determined before death. maybe on spawn
 
         if (randomDrop == 0)
