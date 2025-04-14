@@ -424,6 +424,7 @@ public class PlayerController : MonoBehaviour
 
     public void Hotbar(float scrollInput)
     {
+        /*
         //when weapon is active, change damage
         int currentHotbar = 1;
 
@@ -444,9 +445,9 @@ public class PlayerController : MonoBehaviour
             currentHotbar = 4;
         }
 
-        if(scrollInput > 0)
+        if (scrollInput > 0)
         {
-            if(currentHotbar >= 3)
+            if (currentHotbar >= 3)
             {
                 //currentHotbar...
             }
@@ -475,6 +476,6 @@ public class PlayerController : MonoBehaviour
             weapon.SetActive(false);
             //food items?
         }
-
+        */
     }
 }
