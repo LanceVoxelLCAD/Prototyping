@@ -221,28 +221,29 @@ public class PlayerController : MonoBehaviour
                     //maybe an else if (item) and then else if (enemy) would be better
                 }
 
-                if (canAttack)
-                {
-                    //play an animation here
-                    weaponAnimator.SetTrigger("PerformAttack");
 
-                    canAttack = false;
-                    Invoke(nameof(ResetAttack), attackCooldown);
+                //if (canAttack)
+                //{
+                //    //play an animation here
+                //    weaponAnimator.SetTrigger("PerformAttack");
 
-                    if (hit.transform.TryGetComponent<EnemyController>(out EnemyController T))
-                    {
-                        T.TakeDamage(attackDamage);
-                    }
-                }
+                //    canAttack = false;
+                //    Invoke(nameof(ResetAttack), attackCooldown);
+
+                //    if (hit.transform.TryGetComponent<EnemyController>(out EnemyController T))
+                //    {
+                //        T.TakeDamage(attackDamage);
+                //    }
+                //}
 
             }
             //if we hit nothing and CAN attack... swing at the sky
-            else if (canAttack)
-            {
-                weaponAnimator.SetTrigger("PerformAttack");
-                canAttack = false;
-                Invoke(nameof(ResetAttack), attackCooldown);
-            }
+            //else if (canAttack)
+            //{
+            //    weaponAnimator.SetTrigger("PerformAttack");
+            //    canAttack = false;
+            //    Invoke(nameof(ResetAttack), attackCooldown);
+            //}
         }
 
     }
