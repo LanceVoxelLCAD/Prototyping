@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3236970370643379523}
   - component: {fileID: 84975208584082118}
   - component: {fileID: -3138237453654547381}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: EctoSphereSmall
   m_TagString: GhostFoam
   m_Icon: {fileID: 0}

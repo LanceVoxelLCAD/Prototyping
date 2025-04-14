@@ -10,6 +10,8 @@ public class GooProjectile : MonoBehaviour
     {
         //god this is so much cleaner than what I had before. bruh
         Destroy(gameObject, lifetime);
+
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("ProjectileGhostFoam"), LayerMask.NameToLayer("Player"));
     }
 
     // Update is called once per frame
@@ -19,7 +21,7 @@ public class GooProjectile : MonoBehaviour
         ContactPoint contact = collision.contacts[0];
         Quaternion gooRotation = Quaternion.LookRotation(contact.normal);
 
-        if (collision.gameObject.tag != "GhostFoam")
+        if (collision.gameObject.tag != "GhostFoam") //this could also be a layer thing.
         {
             //no infinite foam towers, sorry
             Instantiate(gooPlacedPrefab, contact.point, gooRotation);
