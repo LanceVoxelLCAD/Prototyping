@@ -24,7 +24,8 @@ public class GooProjectile : MonoBehaviour
         if (collision.gameObject.tag != "GhostFoam") //this could also be a layer thing.
         {
             //no infinite foam towers, sorry
-            Instantiate(gooPlacedPrefab, contact.point, gooRotation);
+            //Instantiate(gooPlacedPrefab, contact.point, gooRotation);
+            Instantiate(gooPlacedPrefab, contact.point, Quaternion.identity);
         }
 
         Destroy(gameObject);

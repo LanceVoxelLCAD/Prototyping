@@ -5,20 +5,52 @@ public class GooGun : MonoBehaviour
     public GameObject gooProjectilePrefab;
     public Transform firePoint;
     public float launchForce = 20f;
-    public float fireCooldown = 0.5f;
+    public float gooFireCooldown = 0.3f;
 
     public float arcStrength = .1f;
 
-    private float lastFireTime;
+    public float beamRange = 8f;
+
+    private float lastGooFireTime;
+    private float lastBeamFireTime;
     Vector3 targetingPt;
+
+    public bool firingModeBlue = true;
+    //1 for firing (blue)
+    //2 for glooping (green)
+    //could be a bool maybe
+
+    public float attackDamage;
+    public LayerMask beamMask;
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButton(0) && Time.time > lastFireTime + fireCooldown)
+
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            FireGoo();
-            lastFireTime = Time.time;
+            firingModeBlue = !firingModeBlue;
+        }
+
+
+        if (Input.GetMouseButton(0))
+        {
+            if (!firingModeBlue)
+            {
+                if (Time.time > lastGooFireTime + gooFireCooldown)
+                {
+                    FireGoo();
+                    lastGooFireTime = Time.time;
+                }
+            }
+            else
+            {
+                if (Time.time > lastBeamFireTime + gooFireCooldown)
+                {
+                    FireBeam();
+                    lastBeamFireTime = Time.time;
+                }
+            }
         }
     }
 
@@ -62,6 +94,34 @@ public class GooGun : MonoBehaviour
 
             rb.AddForce(finalDirection * launchForce, ForceMode.Impulse);
 
+        }
+    }
+
+    void FireBeam()
+    {
+        Ray ray;
+        Vector3 hitPoint;
+
+        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, beamRange, beamMask))
+        {
+            hitPoint = ray.GetPoint(hit.distance);
+
+            if (hit.transform.TryGetComponent<EnemyController>(out EnemyController T))
+            {
+                T.TakeDamage(attackDamage);
+            }
+
+            Debug.DrawLine(firePoint.position, hitPoint, Color.blue, 1f);
+        }
+        else
+        {
+            //i want this to speed up after sustained fire on one enemy
+            hitPoint = ray.GetPoint(beamRange);
+
+            Debug.DrawLine(firePoint.position, hitPoint, Color.blue, 1f);
         }
     }
 }
