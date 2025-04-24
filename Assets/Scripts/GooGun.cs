@@ -6,6 +6,7 @@ public class GooGun : MonoBehaviour
     public Transform firePoint;
     public float launchForce = 20f;
     public float gooFireCooldown = 0.3f;
+    public float beamFireCooldown = 0.4f;
 
     public float arcStrength = .1f;
 
@@ -23,15 +24,32 @@ public class GooGun : MonoBehaviour
     public float attackDamage;
     public LayerMask beamMask;
 
+    public LineRenderer beamLine;
+
+    public ParticleSystem gunModeParticles;
+    public Gradient greenParticles;
+    public Gradient blueParticles;
+    
+
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
 
         if (Input.GetKeyDown(KeyCode.E))
         {
             firingModeBlue = !firingModeBlue;
-        }
 
+            var colorOverLifetime = gunModeParticles.colorOverLifetime;
+
+            if (firingModeBlue)
+            {
+                colorOverLifetime.color = new ParticleSystem.MinMaxGradient(blueParticles);
+            }
+            else
+            {
+                colorOverLifetime.color = new ParticleSystem.MinMaxGradient(greenParticles);
+            }
+        }
 
         if (Input.GetMouseButton(0))
         {
@@ -45,12 +63,16 @@ public class GooGun : MonoBehaviour
             }
             else
             {
-                if (Time.time > lastBeamFireTime + gooFireCooldown)
+                //if (Time.time > lastBeamFireTime + beamFireCooldown)
                 {
                     FireBeam();
-                    lastBeamFireTime = Time.time;
+                    //lastBeamFireTime = Time.time;
                 }
             }
+        }
+        else
+        {
+            beamLine.enabled = false;
         }
     }
 
@@ -99,6 +121,8 @@ public class GooGun : MonoBehaviour
 
     void FireBeam()
     {
+        beamLine.enabled = true;
+
         Ray ray;
         Vector3 hitPoint;
 
@@ -109,17 +133,23 @@ public class GooGun : MonoBehaviour
         {
             hitPoint = ray.GetPoint(hit.distance);
 
-            if (hit.transform.TryGetComponent<EnemyController>(out EnemyController T))
+            //if it should do damage again
+            if (Time.time > lastBeamFireTime + beamFireCooldown)
             {
-                T.TakeDamage(attackDamage);
-            }
+                lastBeamFireTime = Time.time;
 
-            if (hit.transform.TryGetComponent<Health>(out Health H))
-            {
-                H.TakeDamage(attackDamage); //this is better, remember for one day fixing enemies
-            }
+                if (hit.transform.TryGetComponent<EnemyController>(out EnemyController T))
+                {
+                    T.TakeDamage(attackDamage);
+                }
 
-            Debug.DrawLine(firePoint.position, hitPoint, Color.blue, 1f);
+                if (hit.transform.TryGetComponent<Health>(out Health H))
+                {
+                    H.TakeDamage(attackDamage); //this is better, remember for one day fixing enemies
+                }
+
+                Debug.DrawLine(firePoint.position, hitPoint, Color.blue, 1f);
+            }
         }
         else
         {
@@ -128,5 +158,8 @@ public class GooGun : MonoBehaviour
 
             Debug.DrawLine(firePoint.position, hitPoint, Color.blue, 1f);
         }
+
+        beamLine.SetPosition(0, firePoint.position);
+        beamLine.SetPosition(1, hitPoint);
     }
 }
