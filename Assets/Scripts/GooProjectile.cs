@@ -4,6 +4,7 @@ public class GooProjectile : MonoBehaviour
 {
     public GameObject gooPlacedPrefab;
     public float lifetime = 5f;
+    public float spawnOffset = .3f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -19,13 +20,16 @@ public class GooProjectile : MonoBehaviour
     {
         //herm. I don't know about this. I think making it a trigger could be better...
         ContactPoint contact = collision.contacts[0];
-        Quaternion gooRotation = Quaternion.LookRotation(contact.normal);
 
         if (collision.gameObject.tag != "GhostFoam") //this could also be a layer thing.
         {
+            //Quaternion gooRotation = Quaternion.LookRotation(contact.normal);
+            Vector3 spawnPosition = contact.point + (contact.normal * spawnOffset);
+
             //no infinite foam towers, sorry
             //Instantiate(gooPlacedPrefab, contact.point, gooRotation);
-            Instantiate(gooPlacedPrefab, contact.point, Quaternion.identity);
+            //Instantiate(gooPlacedPrefab, contact.point, Quaternion.identity);
+            Instantiate(gooPlacedPrefab, spawnPosition, Quaternion.identity);
         }
 
         Destroy(gameObject);

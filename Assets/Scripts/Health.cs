@@ -3,21 +3,25 @@ using UnityEngine;
 public class Health : MonoBehaviour
 {
     public float health = 1f;
-    public float maxHealth = 1f;
-    public float minHealth = 1f;
+    public float maxHealth = 100f;
+    public float minHealth = 0f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        //get annother script, called death on thing
+        health = maxHealth;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void TakeDamage(float damageAmtReceived)
     {
-        if (health < minHealth)
+        health -= damageAmtReceived;
+
+        if (health <= minHealth)
         {
-            
+            Destroy(gameObject);
+            //Die();
+            //get annother script, called death on thing
         }
+
     }
 }

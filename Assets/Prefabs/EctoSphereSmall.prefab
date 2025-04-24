@@ -151,3 +151,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gooPlacedPrefab: {fileID: 8772396109635877265, guid: 7afffcc797b0e034686eb6f3b789b0f6, type: 3}
   lifetime: 5
+  spawnOffset: 0.35

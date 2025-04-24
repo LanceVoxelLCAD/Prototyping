@@ -114,6 +114,11 @@ public class GooGun : MonoBehaviour
                 T.TakeDamage(attackDamage);
             }
 
+            if (hit.transform.TryGetComponent<Health>(out Health H))
+            {
+                H.TakeDamage(attackDamage); //this is better, remember for one day fixing enemies
+            }
+
             Debug.DrawLine(firePoint.position, hitPoint, Color.blue, 1f);
         }
         else
