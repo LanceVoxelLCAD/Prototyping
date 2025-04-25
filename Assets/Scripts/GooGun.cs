@@ -50,7 +50,7 @@ public class GooGun : MonoBehaviour
     void LateUpdate()
     {
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(1) || Input.GetMouseButtonUp(1))
         {
             firingModeBlue = !firingModeBlue;
 
@@ -67,6 +67,8 @@ public class GooGun : MonoBehaviour
             }
             else
             {
+                beamLine.enabled = false;
+
                 colorOverLifetime.color = new ParticleSystem.MinMaxGradient(greenParticles);
                 blueIndicator.material = blueUnlitMaterial;
                 greenIndicator.material = greenlitMaterial;
