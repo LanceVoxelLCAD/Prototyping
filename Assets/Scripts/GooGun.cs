@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GooGun : MonoBehaviour
 {
@@ -29,7 +30,21 @@ public class GooGun : MonoBehaviour
     public ParticleSystem gunModeParticles;
     public Gradient greenParticles;
     public Gradient blueParticles;
-    
+
+    public Renderer blueIndicator;
+    public Renderer greenIndicator;
+    public Material blueUnlitMaterial;
+    public Material blueLitMaterial;
+    public Material greenUnlitMaterial;
+    public Material greenlitMaterial;
+
+    public Image hudBars;
+    public Sprite blueHudBars;
+    public Sprite greenHudBars;
+
+    public Image centerReticle;
+    public Color blueReticleCircle;
+    public Color GreenReticleCircle;
 
     // Update is called once per frame
     void LateUpdate()
@@ -44,10 +59,20 @@ public class GooGun : MonoBehaviour
             if (firingModeBlue)
             {
                 colorOverLifetime.color = new ParticleSystem.MinMaxGradient(blueParticles);
+                blueIndicator.material = blueLitMaterial;
+                greenIndicator.material = greenUnlitMaterial;
+
+                hudBars.sprite = blueHudBars;
+                centerReticle.color = blueReticleCircle;
             }
             else
             {
                 colorOverLifetime.color = new ParticleSystem.MinMaxGradient(greenParticles);
+                blueIndicator.material = blueUnlitMaterial;
+                greenIndicator.material = greenlitMaterial;
+
+                hudBars.sprite = greenHudBars;
+                centerReticle.color = GreenReticleCircle;
             }
         }
 
