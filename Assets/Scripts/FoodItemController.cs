@@ -11,7 +11,7 @@ public class FoodItemController : MonoBehaviour
             if (other.TryGetComponent<PlayerController>(out PlayerController T))
             {
                 //T.TakeDamage(-1 * healDamage); //this plays the damage effect, let me seperate them
-                T.Eat(satiation);
+                //T.Eat(satiation);
             }
 
             Destroy(gameObject);

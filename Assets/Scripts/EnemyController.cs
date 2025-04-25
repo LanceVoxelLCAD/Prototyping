@@ -45,7 +45,7 @@ public class EnemyController : MonoBehaviour
     public bool isAttacking = false;
     public Animator enemyAttackAnimator;
     public GameObject healingItem;
-    public GameObject foodItem;
+    //public GameObject foodItem;
 
     public float stoppingDistance;
     public float distanceToPlayer;
@@ -314,7 +314,7 @@ public class EnemyController : MonoBehaviour
         StopAllCoroutines();
         //if it was holding a resource, it would just.. deparent it? or actually spawn it?
 
-        int randomDrop = Random.Range(0, 6); //int isnt inclusive for max? huh.
+        int randomDrop = Random.Range(0, 4); //int isnt inclusive for max? huh.
         //in theory, this is already visible.. thus it would be determined before death. maybe on spawn
 
         if (randomDrop == 0)
@@ -323,7 +323,7 @@ public class EnemyController : MonoBehaviour
         }
         else if (randomDrop == 1)
         {
-            Instantiate(foodItem, transform.position, transform.rotation);
+            //Instantiate(foodItem, transform.position, transform.rotation);
         }
         Destroy(gameObject);
     }

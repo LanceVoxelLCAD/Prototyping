@@ -18,13 +18,22 @@ public class GooGun : MonoBehaviour
     Vector3 targetingPt;
 
     public bool firingModeBlue = true;
-    //1 for firing (blue)
-    //2 for glooping (green)
     //could be a bool maybe
 
     public float attackDamage;
     public LayerMask beamMask;
 
+    [Header("Gun StaMana")]
+    public float maxStaMana = 80f;
+    public float staManaRegenRate = 1f;
+    public float staManaBeamDrain = 2f;
+    public float staManaGooCost = 6f;
+    public float staManaRegenDelay = 1f;
+
+    public float currStaMana;
+
+    [Header("Hookups")]
+    public Slider staManaSlider;
     public LineRenderer beamLine;
 
     public ParticleSystem gunModeParticles;
@@ -45,6 +54,17 @@ public class GooGun : MonoBehaviour
     public Image centerReticle;
     public Color blueReticleCircle;
     public Color GreenReticleCircle;
+
+    private void Start()
+    {
+        currStaMana = maxStaMana;
+        staManaSlider.maxValue = maxStaMana;
+    }
+
+    private void Update()
+    {
+
+    }
 
     // Update is called once per frame
     void LateUpdate()
@@ -82,25 +102,41 @@ public class GooGun : MonoBehaviour
         {
             if (!firingModeBlue)
             {
-                if (Time.time > lastGooFireTime + gooFireCooldown)
+                if (Time.time > lastGooFireTime + gooFireCooldown && currStaMana >= staManaGooCost)
                 {
                     FireGoo();
                     lastGooFireTime = Time.time;
+                    currStaMana -= staManaGooCost; //should only cost when it fires
                 }
             }
             else
             {
-                //if (Time.time > lastBeamFireTime + beamFireCooldown)
+                if(currStaMana >= staManaBeamDrain)
                 {
                     FireBeam();
-                    //lastBeamFireTime = Time.time;
+                    //should continously cost
+                    currStaMana -= staManaBeamDrain * Time.deltaTime;
+
+                    if (currStaMana < staManaBeamDrain)
+                    {
+                        //cool dying beam logic would be cool
+                        beamLine.enabled = false;
+                    }
                 }
             }
         }
         else
         {
             beamLine.enabled = false;
+
+            float mostRecentFireTime = Mathf.Max(lastBeamFireTime, lastGooFireTime);
+
+            if(Time.time - mostRecentFireTime > staManaRegenDelay)
+            currStaMana += staManaRegenDelay * Time.deltaTime; //dont go above max, fix this buddy
+            currStaMana = Mathf.Min(currStaMana, maxStaMana); //well this is cooler than what i usually do
         }
+
+        staManaSlider.value = currStaMana;
     }
 
     void FireGoo()

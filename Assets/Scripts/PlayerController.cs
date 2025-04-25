@@ -11,9 +11,9 @@ public class PlayerController : MonoBehaviour
     [Header("Stats")]
     public float health = 100f;
     public float maxHealth = 100f;
-    public float food = 80f;
-    public float maxFood = 100f;
-    public float hungerRate = 1f;
+    //public float food = 80f;
+    //public float maxFood = 100f;
+    //public float hungerRate = 1f;
     public float regenRate = 1f;
     public bool passiveHeal = true;
     public float attackDamage = 10f;
@@ -47,22 +47,26 @@ public class PlayerController : MonoBehaviour
     [Header("Weapon")]
     public GameObject weapon;
     public float playerReach = 5f;
-    public Animator weaponAnimator;
+    //public Animator weaponAnimator;
 
     [Header("Other")]
     public GameObject overheadLight;
-    public TMP_Text healthTextUI;
-    public TMP_Text foodTextUI;
+    //public TMP_Text healthTextUI;
+    //public TMP_Text foodTextUI;
     public LayerMask clickableRayMask;
     public Image damagedUIEffect;
     public Image healedUIEffect;
-    public TMP_Text killcountTextUI;
+    //public TMP_Text killcountTextUI;
+    public Slider healthSlider;
 
     private void Start()
     {
         torchRot = torch.transform.localEulerAngles;
         eyesRot = playerEyesCam.transform.localEulerAngles;
         Cursor.lockState = CursorLockMode.Locked;
+
+        passiveHeal = true; //no more food system
+        healthSlider.maxValue = maxHealth;
     }
 
     void Update()
@@ -79,14 +83,14 @@ public class PlayerController : MonoBehaviour
         ApplyGravity(jump);
         AimingRay();
         ManageHealth();
-        ManageFood();
-        Hotbar(scrollInput);
+        //ManageFood();
+        //Hotbar(scrollInput);
 
-        if (killcountTextUI != null)
-        {
-            string displayedKillcount = killcount.ToString("F0");
-            killcountTextUI.text = "Killcount: " + killcount;
-        }
+        //if (killcountTextUI != null)
+        //{
+        //    string displayedKillcount = killcount.ToString("F0");
+        //    killcountTextUI.text = "Killcount: " + killcount;
+        //}
 
         if (forward != 0 || right != 0) //only update movement if pressing something
         {
@@ -214,7 +218,7 @@ public class PlayerController : MonoBehaviour
                     if (clickableHit.collider.transform.parent.gameObject.name == "Bed")
                     {
                         health = maxHealth;
-                        food -= hungerRate * 5;
+                        //food -= hungerRate * 5;
                     }
                     return;
                     //don't needlessly attack the bed or other usable items
@@ -297,11 +301,13 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (healthTextUI != null)
-        {
-            string displayedHealth = health.ToString("F0");
-            healthTextUI.text = "Health: " + displayedHealth;
-        }
+        //if (healthTextUI != null)
+        //{
+        //    string displayedHealth = health.ToString("F0");
+        //    healthTextUI.text = "Health: " + displayedHealth;
+        //}
+
+        healthSlider.value = health;
     }
 
     public void TakeDamage(float damageAmtReceived)
@@ -334,17 +340,18 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(HealUIEffect());
     }
 
-    public void Eat(float satiation)
-    {
-        food += satiation;
+    //replace this with the stamana thing maybe
+    //public void Eat(float satiation)
+    //{
+    //    food += satiation;
 
-        if (food >= maxFood)
-        {
-            food = maxFood;
-        }
+    //    if (food >= maxFood)
+    //    {
+    //        food = maxFood;
+    //    }
 
-        //play eating sound, in theory
-    }
+    //    //play eating sound, in theory
+    //}
 
     private IEnumerator DamageUIEffect()
     {
@@ -364,119 +371,4 @@ public class PlayerController : MonoBehaviour
         healedUIEffect.gameObject.SetActive(false);
     }
 
-    public void ManageFood()
-    {
-        float eatDebug = 15f;
-        float hungerDebug = 10f;
-
-        if (food > 80)
-        {
-            passiveHeal = true;
-        }
-        else
-        {
-            passiveHeal = false;
-        }
-
-        food -= (hungerRate * Time.deltaTime);
-
-        if (food < 0)
-        {
-            food = 0;
-        }
-
-        if (food == 0)
-        {
-            health -= (regenRate * 2 * Time.deltaTime);
-        }
-
-        //debug hunger
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            if (food <= hungerDebug)
-            {
-                food = 0;
-            }
-            else
-            {
-                food -= hungerDebug;
-            }
-        }
-
-        //debug eating
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            if (food >= (maxFood - eatDebug))
-            {
-                food = maxFood;
-            }
-            else
-            {
-                food += eatDebug;
-            }
-        }
-
-        if (foodTextUI != null)
-        {
-            string displayedHunger = food.ToString("F0");
-            foodTextUI.text = "Hunger: " + displayedHunger;
-        }
-    }
-
-    public void Hotbar(float scrollInput)
-    {
-        /*
-        //when weapon is active, change damage
-        int currentHotbar = 1;
-
-        if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
-        {
-            currentHotbar = 1;
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
-        {
-            currentHotbar = 2;
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3))
-        {
-            currentHotbar = 3;
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Keypad4))
-        {
-            currentHotbar = 4;
-        }
-
-        if (scrollInput > 0)
-        {
-            if (currentHotbar >= 3)
-            {
-                //currentHotbar...
-            }
-        }
-        //RESUME HERE: this wont work well if we're constantly setting this active
-
-        if (currentHotbar == 1)
-        {
-            torch.SetActive(true);
-            weapon.SetActive(false);
-        }
-        else if (currentHotbar == 2)
-        {
-            torch.SetActive(false);
-            weapon.SetActive(true);
-        }
-        else if (currentHotbar == 3)
-        {
-            torch.SetActive(false);
-            weapon.SetActive(false);
-            //building items?
-        }
-        else if (currentHotbar == 4)
-        {
-            torch.SetActive(false);
-            weapon.SetActive(false);
-            //food items?
-        }
-        */
-    }
 }
