@@ -49,16 +49,18 @@ public class PlayerController : MonoBehaviour
     public float maxStaMana = 80f;
     public float currStaMana;
     public float playerReach = 3f;
+    public float staManaRegenRate = 1f;
+    public float staManaRegenDelay = 1f;
     //public Animator weaponAnimator;
 
     [Header("Canisters")]
     public int redCanisterCount;
-    public float redCanisterValue;
     public int yellowCanisterCount;
-    public float yellowCanisterValue;
     public int greenCanisterCount;
-    public float greenCanisterValue;
     public int blueCanisterCount;
+    public float redCanisterValue;
+    public float yellowCanisterValue;
+    public float greenCanisterValue;
     public float blueCanisterValue;
     public TMP_Text yellowCanisterUICount;
     public TMP_Text redCanisterUICount;
@@ -97,6 +99,10 @@ public class PlayerController : MonoBehaviour
         ApplyGravity(jump);
         AimingRay();
         ManageHealth();
+
+        if (Input.GetKeyDown(KeyCode.H)) { UseRedCanister(); }
+        if (Input.GetKeyDown(KeyCode.R)) { UseYellowCanister(); }
+
         //ManageFood();
         //Hotbar(scrollInput);
 
@@ -218,6 +224,7 @@ public class PlayerController : MonoBehaviour
                 Debug.Log("Player hit E on: " + clickableHit.collider.gameObject.name);
 
                 Pickup pickup = clickableHit.collider.GetComponent<Pickup>();
+
                 if(pickup != null)
                 {
                     CollectPickup(pickup);
@@ -242,10 +249,12 @@ public class PlayerController : MonoBehaviour
 
             case Pickup.PickupType.GreenCanister:
                 greenCanisterCount++;
+                UseGreenCanister();
                 break;
 
             case Pickup.PickupType.BlueCanister:
                 blueCanisterCount++;
+                UseBlueCanister();
                 break;
 
             default:
@@ -282,6 +291,20 @@ public class PlayerController : MonoBehaviour
             yellowCanisterCount--;
             UpdatePickupUI();
         }
+    }
+
+    // (A green canister will make your TORCH’s resin-due refill faster,
+    //while blue ones will increase your TORCH’s maximum resin-due reservoir.)
+
+    public void UseGreenCanister()
+    {
+        staManaRegenRate += greenCanisterValue;
+    }
+
+    public void UseBlueCanister()
+    {
+        maxStaMana += blueCanisterValue;
+        //currStaMana += Mathf.Min(maxStaMana, currStaMana + blueCanisterValue); //give them that little boost?
     }
 
     //public void ResetAttack()

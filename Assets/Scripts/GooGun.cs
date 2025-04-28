@@ -25,10 +25,10 @@ public class GooGun : MonoBehaviour
 
     [Header("Gun StaMana/Resin-due")]
     //public float maxStaMana = 80f; //move to player controller
-    public float staManaRegenRate = 1f;
+    //public float staManaRegenRate = 1f;
     public float staManaBeamDrain = 2f;
     public float staManaGooCost = 6f;
-    public float staManaRegenDelay = 1f;
+    //public float staManaRegenDelay = 1f;
     //public float currStaMana;
     private PlayerController playCont;
 
@@ -73,7 +73,7 @@ public class GooGun : MonoBehaviour
     void LateUpdate()
     {
 
-        if (Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(1) || Input.GetMouseButtonUp(1))
+        if (Input.GetKeyDown(KeyCode.C) || Input.GetMouseButtonDown(1) || Input.GetMouseButtonUp(1))
         {
             firingModeBlue = !firingModeBlue;
 
@@ -134,8 +134,8 @@ public class GooGun : MonoBehaviour
 
             float mostRecentFireTime = Mathf.Max(lastBeamFireTime, lastGooFireTime);
 
-            if(Time.time - mostRecentFireTime > staManaRegenDelay)
-            playCont.currStaMana += staManaRegenDelay * Time.deltaTime; //dont go above max, fix this buddy
+            if(Time.time - mostRecentFireTime > playCont.staManaRegenDelay)
+            playCont.currStaMana += playCont.staManaRegenRate * Time.deltaTime; //dont go above max, fix this buddy
             playCont.currStaMana = Mathf.Min(playCont.currStaMana, playCont.maxStaMana); //well this is cooler than what i usually do
         }
 
