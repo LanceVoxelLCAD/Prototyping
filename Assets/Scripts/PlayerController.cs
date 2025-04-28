@@ -46,8 +46,22 @@ public class PlayerController : MonoBehaviour
 
     [Header("Weapon")]
     public GameObject weapon;
-    public float playerReach = 5f;
+    public float maxStaMana = 80f;
+    public float currStaMana;
+    public float playerReach = 3f;
     //public Animator weaponAnimator;
+
+    [Header("Canisters")]
+    public int redCanisterCount;
+    public float redCanisterValue;
+    public int yellowCanisterCount;
+    public float yellowCanisterValue;
+    public int greenCanisterCount;
+    public float greenCanisterValue;
+    public int blueCanisterCount;
+    public float blueCanisterValue;
+    public TMP_Text yellowCanisterUICount;
+    public TMP_Text redCanisterUICount;
 
     [Header("Other")]
     public GameObject overheadLight;
@@ -110,16 +124,11 @@ public class PlayerController : MonoBehaviour
         eyesRot.x = Mathf.Clamp(eyesRot.x, -80, 80);
         playerEyesCam.transform.localEulerAngles = eyesRot;
 
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            torchLightCone.SetActive(!torchLightCone.gameObject.activeSelf);
-        }
-
-        //Prototype 1 nonsense:
         //if (Input.GetKeyDown(KeyCode.E))
         //{
-        //    overheadLight.SetActive(!overheadLight.gameObject.activeSelf);
+        //    torchLightCone.SetActive(!torchLightCone.gameObject.activeSelf);
         //}
+
     }
 
     public void HandleMovement(float forward, float right, bool run)
@@ -202,92 +211,116 @@ public class PlayerController : MonoBehaviour
         clickableRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit clickableHit;
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             if (Physics.Raycast(clickableRay, out clickableHit, playerReach, clickableRayMask))
             {
-                //if enemy..
-                //if item..
-                //if bed/clickable...
+                Debug.Log("Player hit E on: " + clickableHit.collider.gameObject.name);
 
-                Debug.Log("Player clicked: " + clickableHit.collider.gameObject.name);
-
-                //this is checking for the name, which feels bad
-                if (clickableHit.collider.transform.parent != null)
+                Pickup pickup = clickableHit.collider.GetComponent<Pickup>();
+                if(pickup != null)
                 {
-                    if (clickableHit.collider.transform.parent.gameObject.name == "Bed")
-                    {
-                        health = maxHealth;
-                        //food -= hungerRate * 5;
-                    }
-                    return;
-                    //don't needlessly attack the bed or other usable items
-                    //maybe an else if (item) and then else if (enemy) would be better
+                    CollectPickup(pickup);
                 }
-
-
-                //if (canAttack)
-                //{
-                //    //play an animation here
-                //    weaponAnimator.SetTrigger("PerformAttack");
-
-                //    canAttack = false;
-                //    Invoke(nameof(ResetAttack), attackCooldown);
-
-                //    if (hit.transform.TryGetComponent<EnemyController>(out EnemyController T))
-                //    {
-                //        T.TakeDamage(attackDamage);
-                //    }
-                //}
-
             }
-            //if we hit nothing and CAN attack... swing at the sky
-            //else if (canAttack)
-            //{
-            //    weaponAnimator.SetTrigger("PerformAttack");
-            //    canAttack = false;
-            //    Invoke(nameof(ResetAttack), attackCooldown);
-            //}
+
         }
 
     }
-    public void ResetAttack()
+
+    public void CollectPickup(Pickup pickup)
     {
-        canAttack = true;
+        switch (pickup.pickupType)
+        {
+            case Pickup.PickupType.RedCanister:
+                redCanisterCount++;
+                break;
+
+            case Pickup.PickupType.YellowCanister:
+                yellowCanisterCount++;
+                break;
+
+            case Pickup.PickupType.GreenCanister:
+                greenCanisterCount++;
+                break;
+
+            case Pickup.PickupType.BlueCanister:
+                blueCanisterCount++;
+                break;
+
+            default:
+                Debug.Log("Messed up your switch statement for the canisters probably");
+                break;
+        }
+
+        UpdatePickupUI();
+        Destroy(pickup.gameObject);
+
     }
+
+    public void UpdatePickupUI()
+    {
+        redCanisterUICount.text = redCanisterCount.ToString();
+        yellowCanisterUICount.text = yellowCanisterCount.ToString();
+    }
+
+    public void UseRedCanister()
+    {
+        if (redCanisterCount > 0 && health < maxHealth)
+        {
+            health = Mathf.Min(maxHealth, health + redCanisterValue);
+            redCanisterCount--;
+            UpdatePickupUI();
+        }
+    }
+
+    public void UseYellowCanister()
+    {
+        if (yellowCanisterCount > 0 && currStaMana < maxStaMana )
+        {
+            currStaMana = Mathf.Min(maxStaMana, currStaMana + yellowCanisterValue);
+            yellowCanisterCount--;
+            UpdatePickupUI();
+        }
+    }
+
+    //public void ResetAttack()
+    //{
+    //    canAttack = true;
+    //}
 
     public void ManageHealth()
     {
-        float damageDebug = 5f;
-        float healDebug = 15f;
+        //float damageDebug = 5f;
+        //float healDebug = 15f;
 
         //debug damage
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            if(health <= damageDebug)
-            {
-                health = 0;
-                Destroy(gameObject);
-            } 
-            else
-            {
-                health -= damageDebug;
-                StartCoroutine(DamageUIEffect());
-            }
-        }
+        //if (Input.GetKeyDown(KeyCode.B))
+        //{
+        //    if(health <= damageDebug)
+        //    {
+        //        health = 0;
+        //        Destroy(gameObject);
+        //    } 
+        //    else
+        //    {
+        //        health -= damageDebug;
+        //        StartCoroutine(DamageUIEffect());
+        //    }
+        //}
 
-        //debug heal
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            if (health >= (maxHealth - healDebug))
-            {
-                health = maxHealth;
-            }
-            else
-            {
-                health += healDebug;
-            }
-        }
+        ////debug heal
+        //if (Input.GetKeyDown(KeyCode.H))
+        //{
+        //    if (health >= (maxHealth - healDebug))
+        //    {
+        //        health = maxHealth;
+        //    }
+        //    else
+        //    {
+        //        health += healDebug;
+        //    }
+        //}
 
         if (passiveHeal)
         {

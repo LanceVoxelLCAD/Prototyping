@@ -23,16 +23,17 @@ public class GooGun : MonoBehaviour
     public float attackDamage;
     public LayerMask beamMask;
 
-    [Header("Gun StaMana")]
-    public float maxStaMana = 80f;
+    [Header("Gun StaMana/Resin-due")]
+    //public float maxStaMana = 80f; //move to player controller
     public float staManaRegenRate = 1f;
     public float staManaBeamDrain = 2f;
     public float staManaGooCost = 6f;
     public float staManaRegenDelay = 1f;
-
-    public float currStaMana;
+    //public float currStaMana;
+    private PlayerController playCont;
 
     [Header("Hookups")]
+    public GameObject player;
     public Slider staManaSlider;
     public LineRenderer beamLine;
 
@@ -57,13 +58,15 @@ public class GooGun : MonoBehaviour
 
     private void Start()
     {
-        currStaMana = maxStaMana;
-        staManaSlider.maxValue = maxStaMana;
+        player = GameObject.Find("Player");
+        playCont = player.GetComponent<PlayerController>();
+        playCont.currStaMana = playCont.maxStaMana;
+        staManaSlider.maxValue = playCont.maxStaMana;
     }
 
     private void Update()
     {
-
+        
     }
 
     // Update is called once per frame
@@ -102,22 +105,22 @@ public class GooGun : MonoBehaviour
         {
             if (!firingModeBlue)
             {
-                if (Time.time > lastGooFireTime + gooFireCooldown && currStaMana >= staManaGooCost)
+                if (Time.time > lastGooFireTime + gooFireCooldown && playCont.currStaMana >= staManaGooCost)
                 {
                     FireGoo();
                     lastGooFireTime = Time.time;
-                    currStaMana -= staManaGooCost; //should only cost when it fires
+                    playCont.currStaMana -= staManaGooCost; //should only cost when it fires
                 }
             }
             else
             {
-                if(currStaMana >= staManaBeamDrain)
+                if(playCont.currStaMana >= staManaBeamDrain)
                 {
                     FireBeam();
                     //should continously cost
-                    currStaMana -= staManaBeamDrain * Time.deltaTime;
+                    playCont.currStaMana -= staManaBeamDrain * Time.deltaTime;
 
-                    if (currStaMana < staManaBeamDrain)
+                    if (playCont.currStaMana < staManaBeamDrain)
                     {
                         //cool dying beam logic would be cool
                         beamLine.enabled = false;
@@ -132,11 +135,11 @@ public class GooGun : MonoBehaviour
             float mostRecentFireTime = Mathf.Max(lastBeamFireTime, lastGooFireTime);
 
             if(Time.time - mostRecentFireTime > staManaRegenDelay)
-            currStaMana += staManaRegenDelay * Time.deltaTime; //dont go above max, fix this buddy
-            currStaMana = Mathf.Min(currStaMana, maxStaMana); //well this is cooler than what i usually do
+            playCont.currStaMana += staManaRegenDelay * Time.deltaTime; //dont go above max, fix this buddy
+            playCont.currStaMana = Mathf.Min(playCont.currStaMana, playCont.maxStaMana); //well this is cooler than what i usually do
         }
 
-        staManaSlider.value = currStaMana;
+        staManaSlider.value = playCont.currStaMana;
     }
 
     void FireGoo()
