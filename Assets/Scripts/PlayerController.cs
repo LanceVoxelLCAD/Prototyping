@@ -198,7 +198,7 @@ public class PlayerController : MonoBehaviour
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, 100f, torchRayMask))
+        if (Physics.Raycast(ray, out hit, 100f, torchRayMask, QueryTriggerInteraction.Ignore))
         {
             hitPoint = ray.GetPoint(hit.distance);
         }
@@ -219,7 +219,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (Physics.Raycast(clickableRay, out clickableHit, playerReach, clickableRayMask))
+            if (Physics.Raycast(clickableRay, out clickableHit, playerReach, clickableRayMask, QueryTriggerInteraction.Ignore))
             {
                 Debug.Log("Player hit E on: " + clickableHit.collider.gameObject.name);
 
