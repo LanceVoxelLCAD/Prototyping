@@ -44,7 +44,10 @@ public class EnemyController : MonoBehaviour
     public bool canAttack = false;
     public bool isAttacking = false;
     public Animator enemyAttackAnimator;
-    public GameObject healingItem;
+    public GameObject redCanister;
+    public GameObject blueCanister;
+    public int blueCanisterRarity = 7;
+    public int redCanisterRarity = 2;
     //public GameObject foodItem;
 
     public float stoppingDistance;
@@ -314,17 +317,18 @@ public class EnemyController : MonoBehaviour
         StopAllCoroutines();
         //if it was holding a resource, it would just.. deparent it? or actually spawn it?
 
-        int randomDrop = Random.Range(0, 4); //int isnt inclusive for max? huh.
+        int randomDrop = Random.Range(0, blueCanisterRarity + 1); //int isnt inclusive for max? huh.
         //in theory, this is already visible.. thus it would be determined before death. maybe on spawn
 
-        if (randomDrop == 0)
+        if (randomDrop < redCanisterRarity)
         {
-            Instantiate(healingItem, transform.position, transform.rotation);
+            Instantiate(redCanister, transform.position, transform.rotation);
         }
-        else if (randomDrop == 1)
+        else if (randomDrop == blueCanisterRarity)
         {
-            //Instantiate(foodItem, transform.position, transform.rotation);
+            Instantiate(blueCanister, transform.position, transform.rotation);
         }
+
         Destroy(gameObject);
     }
 
@@ -362,6 +366,11 @@ public class EnemyController : MonoBehaviour
         aggroNumDEBUG.text = "Aggro: " + aggression.ToString();
         //healthNumDEBUG.text = "Health: " + health.ToString();
         healthSlider.value = health;
+    }
+
+    public void SlowDown()
+    {
+        //navmesh
     }
 
     //private void OnTriggerExit(Collider other) //this doesn't fire when the flashlight is turned off

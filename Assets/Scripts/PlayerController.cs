@@ -257,6 +257,10 @@ public class PlayerController : MonoBehaviour
                 UseBlueCanister();
                 break;
 
+            case Pickup.PickupType.FakeGun:
+                weapon.SetActive(true);
+                break;
+
             default:
                 Debug.Log("Messed up your switch statement for the canisters probably");
                 break;
@@ -280,6 +284,7 @@ public class PlayerController : MonoBehaviour
             health = Mathf.Min(maxHealth, health + redCanisterValue);
             redCanisterCount--;
             UpdatePickupUI();
+            StartCoroutine(HealUIEffect());
         }
     }
 

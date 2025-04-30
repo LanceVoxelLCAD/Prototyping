@@ -7,6 +7,7 @@ TagManager:
   - LightCones
   - LightProducer
   - GhostFoam
+  - Door
   layers:
   - Default
   - TransparentFX
@@ -18,7 +19,7 @@ TagManager:
   - Player
   - LightProducer
   - ProjectileGhostFoam
-  - 
+  - Weapon
   - 
   - 
   - 

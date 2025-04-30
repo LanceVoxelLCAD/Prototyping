@@ -56,6 +56,9 @@ public class GooGun : MonoBehaviour
     public Color blueReticleCircle;
     public Color GreenReticleCircle;
 
+    public GameObject wholeReticle;
+    public GameObject tinyReticle;
+
     private void Start()
     {
         player = GameObject.Find("Player");
@@ -67,6 +70,13 @@ public class GooGun : MonoBehaviour
     private void Update()
     {
         
+    }
+
+    private void Awake()
+    {
+        wholeReticle.SetActive(true);
+
+        if (tinyReticle.activeSelf) { Destroy(tinyReticle); }
     }
 
     // Update is called once per frame

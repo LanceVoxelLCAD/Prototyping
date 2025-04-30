@@ -13,6 +13,8 @@ public class GooProjectile : MonoBehaviour
         Destroy(gameObject, lifetime);
 
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("ProjectileGhostFoam"), LayerMask.NameToLayer("Player"));
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("ProjectileGhostFoam"), LayerMask.NameToLayer("Weapon"));
+
     }
 
     // Update is called once per frame
@@ -30,6 +32,14 @@ public class GooProjectile : MonoBehaviour
             //Instantiate(gooPlacedPrefab, contact.point, gooRotation);
             //Instantiate(gooPlacedPrefab, contact.point, Quaternion.identity);
             Instantiate(gooPlacedPrefab, spawnPosition, Quaternion.identity);
+        }
+
+        if (collision.gameObject.tag == "Enemy")
+        {
+            if (collision.gameObject.TryGetComponent<EnemyController>(out EnemyController T))
+            {
+                T.SlowDown();
+            }
         }
 
         Destroy(gameObject);

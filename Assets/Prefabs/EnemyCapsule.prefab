@@ -1590,7 +1590,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8374637652830762679}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1915c5d4977af7c4e87c26ff0fd9c9ae, type: 3}
   m_Name: 
@@ -1628,8 +1628,9 @@ MonoBehaviour:
   canAttack: 0
   isAttacking: 0
   enemyAttackAnimator: {fileID: 5483417363198866881}
-  healingItem: {fileID: 2357367642551453593, guid: e9fd44543feb67e4b8812b5b38581467, type: 3}
-  foodItem: {fileID: 2357367642551453593, guid: 1d54f700e9a3cd64484398c262ebe8de, type: 3}
+  redCanister: {fileID: 1182285976102392685, guid: 11a150d5ff3009242a40c912f376bf2d, type: 3}
+  blueCanister: {fileID: 6265941510972648978, guid: 39dae636d6809d64db6fe64e9a4a39e7, type: 3}
+  blueCanisterRarity: 7
   stoppingDistance: 4
   distanceToPlayer: 0
   distanceToLight: 0
@@ -1667,11 +1668,22 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8374637652830762679}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8d9b2583445a1c84ab1ef3e3426cc23b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  agent: {fileID: 0}
+  player: {fileID: 0}
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  attackDistance: 2
+  aggroDistance: 10
+  lightAggroDistance: 15
+  attackCooldown: 2
+  patrolPoint: {fileID: 0}
+  isLit: 0
 --- !u!1 &8829828434733754112
 GameObject:
   m_ObjectHideFlags: 0
