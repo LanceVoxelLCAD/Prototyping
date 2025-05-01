@@ -64,6 +64,8 @@ public class PlayerController : MonoBehaviour
     public float blueCanisterValue;
     public TMP_Text yellowCanisterUICount;
     public TMP_Text redCanisterUICount;
+    public GameObject canPopupContainer;
+    public TMP_Text canPopupTxt;
 
     [Header("Other")]
     public GameObject overheadLight;
@@ -304,11 +306,15 @@ public class PlayerController : MonoBehaviour
     public void UseGreenCanister()
     {
         staManaRegenRate += greenCanisterValue;
+        canPopupContainer.SetActive(true);
+        canPopupTxt.text = "Resin Regen Increased";
     }
 
     public void UseBlueCanister()
     {
         maxStaMana += blueCanisterValue;
+        canPopupContainer.SetActive(true);
+        canPopupTxt.text = "Max Regen Increased";
         //currStaMana += Mathf.Min(maxStaMana, currStaMana + blueCanisterValue); //give them that little boost?
     }
 
