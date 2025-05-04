@@ -144,51 +144,25 @@ public class EnemyController : MonoBehaviour
     void Update()
     {
         anim.SetFloat("Speed", agent.velocity.magnitude);
-        float targetSpeed = Mathf.Lerp(1f, 0f, gooAmountPercent); //1 is goo-less, 0 is goo'd
-        anim.speed = targetSpeed;
+        anim.speed = Mathf.Lerp(1f, 0f, gooAmountPercent); //1 is goo-less, 0 is goo'd
 
         IsLitTest();
         EnemyDebugingText();
         lastAggression = aggression;
 
+        if (isFrozen) return;
 
-
+        UpdateGlowDecay();
+        UpdateGoalAndAggro();
+        TryAttackWhenClose();
         //convert to seconds
-        if (!isFrozen)
-        {
-            //glow decay
-            if (!isBeingBeamed && currentBeamCharge > 0)
-            {
-                currentBeamCharge -= glowDecayRate * Time.deltaTime;
-                currentBeamCharge = Mathf.Max(currentBeamCharge, 0f);
-            }
-
-            chargePercent = currentBeamCharge / maxBeamCharge;
-            UpdateGlow(chargePercent);
-
-            isBeingBeamed = false;
-
-
-            //logic for glow independent of actual value
-            //float target = isBeingBeamed ? 1f : 0f;
-
-            //if (isBeingBeamed)
-            //{
-            //    //ease in
-            //    glowCharge = Mathf.MoveTowards(glowCharge, target, glowChargeSpeed * Time.deltaTime);
-            //}
-            //else
-            //{
-            //    //linear decay
-            //    glowCharge = Mathf.MoveTowards(glowCharge, target, glowDecayRate * Time.deltaTime);
-            //}
-
-            //UpdateGlow(glowCharge);
-            //isBeingBeamed = false;
+        //if (!isFrozen)
+        //{
+           
 
 
             //AGGRO LOGIC
-            distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+
 
             //if (isLit)
             //{
@@ -199,129 +173,256 @@ public class EnemyController : MonoBehaviour
             //    enemyRenderer.material.color = startMaterialColor;
             //}
 
-            agent.SetDestination(goal.transform.position);
 
-            if (aggression > aggroTrigger)
+            
+        //}
+        
+    }
+
+    private void UpdateGlowDecay()
+    {
+        //glow decay
+        if (!isBeingBeamed && currentBeamCharge > 0)
+        {
+            currentBeamCharge -= glowDecayRate * Time.deltaTime;
+            currentBeamCharge = Mathf.Max(currentBeamCharge, 0f);
+        }
+
+        chargePercent = currentBeamCharge / maxBeamCharge;
+        UpdateGlow(chargePercent);
+        isBeingBeamed = false;
+    }
+
+    private void UpdateGoalAndAggro()
+    {
+        distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+        distanceToLight = lastSeenLightProducer ? Vector3.Distance(transform.position, lastSeenLightProducer.transform.position) : Mathf.Infinity;
+
+        // Default to goal pathing
+        agent.SetDestination(goal.transform.position);
+
+        // Automatically aggro player if very close
+        if (distanceToPlayer < stoppingDistance)
+        {
+            AggroToPlayer(aggroTrigger + 1f);
+        }
+
+        // Aggro light if very close and not already fixated on player
+        if (!hasAggrod && lastSeenLightProducer && distanceToLight < stoppingDistance)
+        {
+            AggroToLight(aggroTrigger + 2f);
+        }
+
+        // Main aggro switching logic
+        if (aggression > aggroTrigger)
+        {
+            if (!hasAggrod)
             {
-                if (!hasAggrod && distanceToLight > switchAttentionFromLightToPlayerDistance)
+                if (distanceToPlayer < switchAttentionFromLightToPlayerDistance)
+                {
+                    AggroToPlayer(); // switch to player
+                }
+                else if (distanceToLight < switchAttentionFromLightToPlayerDistance)
                 {
                     goal = lastSeenLightProducer;
-                    if (Vector3.Distance(lastSeenLightProducer.transform.position, player.transform.position) < stoppingDistance)
-                    { //risky new code
-                        goal = player;
-                        hasAggrod = true;
-                    }
                 }
-                else if (!hasAggrod && distanceToPlayer < switchAttentionFromLightToPlayerDistance)
+            }
+            else // already aggrod
+            {
+                if (distanceToPlayer > stoppingDistance && distanceToPlayer < enemySightMaxDistance)
                 {
                     goal = player;
-                    hasAggrod = true;
                 }
-                //should switch in the little window, but stop if it comes too close
-                //* added the hasAggrod since last functional, but trying out the above logic instead
-                else if (hasAggrod && distanceToPlayer > stoppingDistance && distanceToPlayer < enemySightMaxDistance)
-                {
-                    //i dont think this actually does anything here.. other than keep the max enemy sight line?
-                    goal = player;
-                    hasAggrod = true;
-                }
-                //*
-                else if (distanceToLight <= stoppingDistance || distanceToPlayer <= stoppingDistance)
-                {
-                    headObject.transform.LookAt(goal.transform); //this should only apply to the head, but this is fine for now
-                                                                 //agent.ResetPath(); //stop walking bro //this is unneeded, agents have a built in stopping distance?!!
-                }
-                headObject.transform.LookAt(goal.transform); //do it again.
-            }
-            //previously: else if (aggression < aggroTrigger - bufferBeforeCalmingBegins)
-            else if (aggression < aggroTrigger)
-            {
-                hasAggrod = false;
-                goal = originalGoal;
-            }
-            else //i dont think i need this either, it would only be called if equal.
-            {
-                goal = originalGoal;
             }
 
-            //make aggressive if very close? might remove this later.
-            if (distanceToPlayer < stoppingDistance)
+            // Keep looking at current goal
+            headObject.transform.LookAt(goal.transform);
+        }
+        else
+        {
+            // Calm down and reset goal
+            hasAggrod = false;
+            goal = originalGoal;
+        }
+
+        // Decay aggro over time if out of range or not lit
+        if (!isLit && (distanceToPlayer > enemySightMaxDistance || (!hasAggrod && distanceToLight > enemySightMaxDistance)))
+        {
+            aggression = Mathf.Max(aggression - aggroDecay * Time.deltaTime, minAggro);
+        }
+
+        // If lit but player is far, return to light
+        else if (isLit && hasAggrod && distanceToPlayer > enemySightMaxDistance / 4f)
+        {
+            goal = lastSeenLightProducer;
+            hasAggrod = false;
+        }
+
+
+
+
+
+        /*
+        distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+        agent.SetDestination(goal.transform.position);
+
+
+        if (aggression > aggroTrigger)
+        {
+            if (!hasAggrod && distanceToLight > switchAttentionFromLightToPlayerDistance)
             {
-                if (aggression < aggroTrigger + 1f)
-                {
-                    aggression = aggroTrigger + 1f;
+                goal = lastSeenLightProducer;
+
+                if (Vector3.Distance(transform.position, player.transform.position) < stoppingDistance)
+                { 
+                    goal = player;
+                    hasAggrod = true;
                 }
+            }
+            else if (!hasAggrod && distanceToPlayer < switchAttentionFromLightToPlayerDistance)
+            {
                 goal = player;
-                hasAggrod = true; //this is the only time hasaggro'd is true...
+                hasAggrod = true;
             }
+            //should switch in the little window, but stop if it comes too close
+            //* added the hasAggrod since last functional, but trying out the above logic instead
+            else if (hasAggrod && distanceToPlayer > stoppingDistance && distanceToPlayer < enemySightMaxDistance)
+            {
+                //i dont think this actually does anything here.. other than keep the max enemy sight line?
+                goal = player;
+            }
+            //*
+            else if (distanceToLight <= stoppingDistance || distanceToPlayer <= stoppingDistance)
+            {
+                headObject.transform.LookAt(goal.transform); //this should only apply to the head, but this is fine for now
+                                                             //agent.ResetPath(); //stop walking bro //this is unneeded, agents have a built in stopping distance?!!
+            }
+            headObject.transform.LookAt(goal.transform); //do it again.
+        }
+        //previously: else if (aggression < aggroTrigger - bufferBeforeCalmingBegins)
+        else
+        {
+            hasAggrod = false;
+            goal = originalGoal;
+        }
 
-            //if right up on a light, pay attention
-            //should aggression rise faster if closer instead, perhaps? this is a hardcoded behavior
-            //also doesnt trigger if theyve never seen a light now
-            if (!hasAggrod && lastSeenLightProducer != originalGoal && distanceToLight < stoppingDistance)
-            {
-                if (aggression < aggroTrigger + 2f) //different number for debugging
-                {
-                    aggression = aggroTrigger + 2f;
-                }
-                goal = lastSeenLightProducer;
-            }
 
-            //decrease aggression when far away from player... or the light they saw.. and is not lit
-            if (!isLit && (distanceToPlayer > enemySightMaxDistance) || (!hasAggrod && distanceToLight > enemySightMaxDistance))
+        //make aggressive if very close? might remove this later.
+        if (distanceToPlayer < stoppingDistance)
+        {
+            if (aggression < aggroTrigger + 1f)
             {
-                //removed from above & below line requirement to not be aggro'd
-                if (aggression > minAggro) //could do the has aggro'd, or could save the random aggression generated as a minimum..
-                {
-                    aggression -= aggroDecay * Time.deltaTime;
-                }
-                else if (aggression <= minAggro)
-                {
-                    aggression = minAggro;
-                }
+                aggression = aggroTrigger + 1f;
             }
-            //if still lit, but no longer by the player
-            else if (isLit && (hasAggrod && distanceToPlayer > enemySightMaxDistance / 4))
-            {
-                goal = lastSeenLightProducer;
-                hasAggrod = false;
-            }
+            goal = player;
+            hasAggrod = true;
+        }
 
-            if (goal == player && distanceToPlayer <= stoppingDistance ||
-                goal != originalGoal && goal == lastSeenLightProducer && distanceToLight <= stoppingDistance)
+        //if right up on a light, pay attention
+        //should aggression rise faster if closer instead, perhaps? this is a hardcoded behavior
+        //also doesnt trigger if theyve never seen a light now
+        if (!hasAggrod && lastSeenLightProducer != originalGoal && distanceToLight < stoppingDistance)
+        {
+            if (aggression < aggroTrigger + 2f) //different number for debugging
             {
-                //attack player
-                //pass damage to player script
-                //animation?
-                canAttack = true;
-                if (!hasStartedAttackCoroutine)
-                {
-                    attackCoroutine = StartCoroutine(AttackWhenClose());
-                    hasStartedAttackCoroutine = true;
-                }
+                aggression = aggroTrigger + 2f;
             }
-            else
-            {
-                //no attacking, via a bool. also stop it when the object is deleted
-                canAttack = false;
+            goal = lastSeenLightProducer;
+        }
 
-                //if (hasStartedAttackCoroutine)
-                //{
-                //    StopCoroutine(attackCoroutine);
-                //    hasStartedAttackCoroutine = false;
-                //}
+        //decrease aggression when far away from player... or the light they saw.. and is not lit
+        if (!isLit && (distanceToPlayer > enemySightMaxDistance) || (!hasAggrod && distanceToLight > enemySightMaxDistance))
+        {
+            //removed from above & below line requirement to not be aggro'd
+            if (aggression > minAggro) //could do the has aggro'd, or could save the random aggression generated as a minimum..
+            {
+                aggression -= aggroDecay * Time.deltaTime;
+            }
+            else if (aggression <= minAggro)
+            {
+                aggression = minAggro;
             }
         }
-        
+        //if still lit, but no longer by the player
+        else if (isLit && (hasAggrod && distanceToPlayer > enemySightMaxDistance / 4))
+        {
+            goal = lastSeenLightProducer;
+            hasAggrod = false;
+        }
+        */
+    }
+
+    private void AggroToPlayer(float forceAggro = -1f)
+    {
+        hasAggrod = true;
+        goal = player;
+        if (forceAggro > 0f)
+            aggression = Mathf.Max(aggression, forceAggro);
+    }
+
+    private void AggroToLight(float forceAggro = -1f)
+    {
+        goal = lastSeenLightProducer;
+        if (forceAggro > 0f)
+            aggression = Mathf.Max(aggression, forceAggro);
+    }
+
+
+    private void TryAttackWhenClose()
+    {
+        bool closeToGoal =
+            (goal == player && distanceToPlayer <= stoppingDistance ||
+            goal != originalGoal && goal == lastSeenLightProducer && distanceToLight <= stoppingDistance);
+
+
+        if (closeToGoal)
+        {
+            canAttack = true;
+            if (!hasStartedAttackCoroutine)
+            {
+                attackCoroutine = StartCoroutine(AttackWhenClose());
+            }
+        }
+        else
+        {
+            //no attacking, via a bool
+            canAttack = false;
+        }
     }
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, stoppingDistance);
+        {
+            //draw stopping distance (when enemy fully aggros)
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, stoppingDistance);
 
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, enemySightMaxDistance);
+            //draw max sight/aggression decay range
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, enemySightMaxDistance);
+
+            //draw light producer line if one was recently seen
+            if (lastSeenLightProducer != null)
+            {
+                Gizmos.color = Color.cyan;
+                Gizmos.DrawLine(transform.position, lastSeenLightProducer.transform.position);
+            }
+
+            //draw line to player if currently aggro'd
+            if (hasAggrod && player != null)
+            {
+                Gizmos.color = Color.magenta;
+                Gizmos.DrawLine(transform.position, player.transform.position);
+            }
+
+            //draw agent's destination if available
+            if (goal != null)
+            {
+                Gizmos.color = Color.green;
+                Gizmos.DrawLine(transform.position, goal.transform.position);
+                Gizmos.DrawSphere(goal.transform.position, 0.25f);
+            }
+        }
     }
 
     private float gooAmountPercent => gooAmount / maxGooAmount;
@@ -336,8 +437,34 @@ public class EnemyController : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        //Debug.Log("collided with cone of light");
-        //Debug.Log("seen cone of light w/ raycast");
+        //cleaned, in theory - but untested...
+        if (isFrozen) return;
+
+        if (other.CompareTag("LightCones"))
+        {
+            Transform lightProducer = other.transform.parent?.parent;
+
+            if (!lightProducer) return;
+
+            // Check line of sight to the light producer
+            if (Physics.Linecast(eyeline.position, lightProducer.position, out RaycastHit hit, mask))
+            {
+                if (hit.transform.CompareTag("LightProducer"))
+                {
+                    // Increase aggression based on light exposure
+                    aggression = Mathf.Min(aggression + aggroSpeed * Time.deltaTime, maxAggro);
+
+                    // Update last seen light source and distance
+                    lastSeenLightProducer = hit.transform.gameObject;
+                    distanceToLight = Vector3.Distance(transform.position, lastSeenLightProducer.transform.position);
+                }
+            }
+        }
+        
+
+        /*
+        if (isFrozen) return;
+
         //if both are true:
         if(other.gameObject.tag == "LightCones")
         {
@@ -377,6 +504,7 @@ public class EnemyController : MonoBehaviour
             //DEBUG
             Die(blueCanister);
         }
+        */
     }
 
     private void IsLitTest()
@@ -468,11 +596,11 @@ public class EnemyController : MonoBehaviour
 
     public void ApplyGoo()
     {
-        if (isFrozen) { return; }
+        //if (isFrozen) { return; }
 
         gooAmount += gooPerHit;
         gooAmount = Mathf.Clamp(gooAmount, 0, maxGooAmount);
-        UpdateMoveSpeed();
+        UpdateGooMoveSpeed();
 
         if (gooDecayCoroutineHolder == null)
         {
@@ -480,7 +608,7 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    private void UpdateMoveSpeed()
+    private void UpdateGooMoveSpeed()
     {
         float gooRatio = gooAmount / maxGooAmount;
         float newSpeed = maxSpeed * (1f - gooRatio);
@@ -490,6 +618,7 @@ public class EnemyController : MonoBehaviour
             newSpeed = 0f;
             isFrozen = true;
             gooDecayCoroutineHolder = null;
+            agent.isStopped = true;
 
             DropItem(specialCanisterRarity, yellowCanister);
             Die(yellowCanister);
@@ -530,7 +659,7 @@ public class EnemyController : MonoBehaviour
 
             gooAmount -= gooDecayRate * updateRate;
             gooAmount = Mathf.Max(gooAmount, 0f);
-            UpdateMoveSpeed();
+            UpdateGooMoveSpeed();
         }
 
         gooDecayCoroutineHolder = null;
