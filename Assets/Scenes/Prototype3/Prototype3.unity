@@ -65323,6 +65323,10 @@ PrefabInstance:
       value: 33
       objectReference: {fileID: 0}
     - target: {fileID: 4952957238402054617, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
+      propertyPath: yellowCanisterValue
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4952957238402054617, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
       propertyPath: yellowCanisterUICount
       value: 
       objectReference: {fileID: 1399959796}
@@ -107709,7 +107713,7 @@ MonoBehaviour:
   enemyAttackAnimator: {fileID: 0}
   redCanister: {fileID: 0}
   blueCanister: {fileID: 0}
-  greenCanister: {fileID: 0}
+  yellowCanister: {fileID: 0}
   lastSeenLightProducer: {fileID: 0}
   headObject: {fileID: 2079013593}
   health: 30
@@ -107730,8 +107734,8 @@ MonoBehaviour:
   hasStartedAttackCoroutine: 0
   canAttack: 0
   isAttacking: 0
-  blueCanisterRarity: 7
-  greenCanisterRarity: 6
+  specialCanisterRarity: 8
+  yellowCanisterRarity: 6
   redCanisterRarity: 2
   stoppingDistance: 4
   distanceToPlayer: 0
@@ -107744,6 +107748,7 @@ MonoBehaviour:
   maxSpeed: 0
   isFrozen: 0
   deadGlow: -0.5
+  chargePercentSetWhenFrozen: 85
   maxBeamCharge: 100
   currentBeamCharge: 0
   beamChargeRate: 20

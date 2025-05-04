@@ -29,6 +29,9 @@ public class GooProjectile : MonoBehaviour
             {
                 Enemy.ApplyGoo();
             }
+
+            Debug.Log("GhsotFoam hit gameobject: " + collision.gameObject.name);
+
         }
         else if (collision.gameObject.tag != "GhostFoam") //this could also be a layer thing.
         {

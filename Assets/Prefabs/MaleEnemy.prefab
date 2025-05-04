@@ -1419,7 +1419,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 5.8
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -1458,12 +1458,12 @@ MonoBehaviour:
   enemyAttackAnimator: {fileID: 0}
   redCanister: {fileID: 1182285976102392685, guid: 11a150d5ff3009242a40c912f376bf2d, type: 3}
   blueCanister: {fileID: 6265941510972648978, guid: 39dae636d6809d64db6fe64e9a4a39e7, type: 3}
-  greenCanister: {fileID: 4300682976447218357, guid: 65269c11fe9c0054dadfecbd9945566d, type: 3}
+  yellowCanister: {fileID: 3965478413647577249, guid: 8dff0ae3120111b4394b0b2eb31645a4, type: 3}
   lastSeenLightProducer: {fileID: 0}
   headObject: {fileID: 382477327201543995}
   health: 30
   maxHealth: 30
-  attackDamage: 3
+  attackDamage: 8
   aggression: 0
   lastAggression: 0
   switchAttentionFromLightToPlayerDistance: 4
@@ -1479,20 +1479,21 @@ MonoBehaviour:
   hasStartedAttackCoroutine: 0
   canAttack: 0
   isAttacking: 0
-  blueCanisterRarity: 4
-  greenCanisterRarity: 4
+  specialCanisterRarity: 8
+  yellowCanisterRarity: 4
   redCanisterRarity: 2
   stoppingDistance: 4
   distanceToPlayer: 0
   distanceToLight: 0
   maxGooAmount: 100
-  gooDecayRate: 5
-  gooPerHit: 35
+  gooDecayRate: 15
+  gooPerHit: 40
   updateRate: 0.1
   gooAmount: 0
   maxSpeed: 0
   isFrozen: 0
   deadGlow: -0.8
+  chargePercentSetWhenFrozen: 85
   maxBeamCharge: 100
   currentBeamCharge: 0
   beamChargeRate: 30

@@ -28,7 +28,7 @@ public class EnemyController : MonoBehaviour
     public Animator enemyAttackAnimator;
     public GameObject redCanister;
     public GameObject blueCanister;
-    public GameObject greenCanister;
+    public GameObject yellowCanister;
 
     public GameObject lastSeenLightProducer;
     public GameObject headObject;
@@ -57,8 +57,9 @@ public class EnemyController : MonoBehaviour
     public bool hasStartedAttackCoroutine = false; //has aggrod once
     public bool canAttack = false;
     public bool isAttacking = false;
-    public int blueCanisterRarity = 7;
-    public int greenCanisterRarity = 6;
+    //public int blueCanisterRarity = 7;
+    public int specialCanisterRarity = 8;
+    public int yellowCanisterRarity = 6;
     public int redCanisterRarity = 2;
     //public GameObject foodItem;
 
@@ -408,7 +409,7 @@ public class EnemyController : MonoBehaviour
             //    T.killcount++;
             //}
 
-            DropItem(blueCanisterRarity, blueCanister);
+            DropItem(specialCanisterRarity, blueCanister);
             Die(blueCanister);
         }
 
@@ -432,7 +433,7 @@ public class EnemyController : MonoBehaviour
 
         if (currentBeamCharge >= maxBeamCharge)
         {
-            if(!isFrozen) { DropItem(blueCanisterRarity, blueCanister); }
+            if(!isFrozen) { DropItem(specialCanisterRarity, blueCanister); }
             Die(blueCanister);
         }
     }
@@ -478,8 +479,8 @@ public class EnemyController : MonoBehaviour
             isFrozen = true;
             gooDecayCoroutineHolder = null;
 
-            DropItem(greenCanisterRarity, greenCanister);
-            Die(greenCanister);
+            DropItem(specialCanisterRarity, yellowCanister);
+            Die(yellowCanister);
         }
 
         agent.speed = newSpeed;
@@ -491,11 +492,17 @@ public class EnemyController : MonoBehaviour
 
         int randomDrop = Random.Range(0, rarity + 1);
 
-        if (randomDrop < redCanisterRarity)
+        //this could be way better.
+
+        if (randomDrop < redCanisterRarity) //if less than 2
         {
             Instantiate(redCanister, dropPos, transform.rotation);
+        } 
+        else if (randomDrop < yellowCanisterRarity) //if 2 or more, AND less than 4
+        {
+            Instantiate(yellowCanister, dropPos, transform.rotation);
         }
-        else if (randomDrop == rarity)
+        else if (randomDrop == rarity) //for the yellow, this probably just prints a yellow. goo kills therefore print resources....
         {
             Instantiate(canister, dropPos, transform.rotation);
         }
@@ -528,7 +535,7 @@ public class EnemyController : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if (canister == greenCanister)
+        if (canister == yellowCanister)
         {
             foreach (Renderer rend in renderers)
             {
