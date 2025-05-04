@@ -1467,7 +1467,7 @@ MonoBehaviour:
   attackDamage: 8
   aggression: 0
   lastAggression: 0
-  switchAttentionFromLightToPlayerDistance: 4
+  switchAttentionFromLightToPlayerDistance: 8
   enemySightMaxDistance: 20
   aggroSpeed: 18
   aggroDecay: 25
@@ -1486,6 +1486,7 @@ MonoBehaviour:
   stoppingDistance: 4
   distanceToPlayer: 0
   distanceToLight: 0
+  attackWindupTime: 0.35
   maxGooAmount: 100
   gooDecayRate: 15
   gooPerHit: 40

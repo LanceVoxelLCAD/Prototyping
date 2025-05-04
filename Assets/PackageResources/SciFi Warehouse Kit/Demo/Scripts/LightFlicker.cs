@@ -9,7 +9,7 @@
      public float strength;
 
      private bool noFlicker;
-     private Light source;
+    private Light source;
      private float initialIntensity;
  
      public void Reset()

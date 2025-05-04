@@ -38,6 +38,8 @@ public class EnemyController : MonoBehaviour
     private Renderer[] renderers;
     public ParticleSystem deathParticle;
 
+    private Coroutine attackCoroutine;
+
     [Header("Stats")]
     public float health = 30f;
     public float maxHealth = 30f;
@@ -67,6 +69,7 @@ public class EnemyController : MonoBehaviour
     public float stoppingDistance;
     public float distanceToPlayer;
     public float distanceToLight;
+    public float attackWindupTime = .3f;
 
     [Header("Goo Slowdown")]
     public float maxGooAmount = 100f;
@@ -128,6 +131,8 @@ public class EnemyController : MonoBehaviour
         switchAttentionFromLightToPlayerDistance = stoppingDistance + 1f;
         lastSeenLightProducer = originalGoal;
         anim = GetComponent<Animator>();
+
+        //attackCoroutine = StartCoroutine(AttackWhenClose());
 
         //should probably only start and play when first close to the player.. would help it not be all at once.
         //just kidding. i tried that and learned that kills unity
@@ -282,7 +287,8 @@ public class EnemyController : MonoBehaviour
                 hasAggrod = false;
             }
 
-            if (goal == player && distanceToPlayer <= stoppingDistance)
+            if (goal == player && distanceToPlayer <= stoppingDistance ||
+                goal != originalGoal && goal == lastSeenLightProducer && distanceToLight <= stoppingDistance)
             {
                 //attack player
                 //pass damage to player script
@@ -290,17 +296,7 @@ public class EnemyController : MonoBehaviour
                 canAttack = true;
                 if (!hasStartedAttackCoroutine)
                 {
-                    StartCoroutine(AttackWhenClose());
-                    hasStartedAttackCoroutine = true;
-                }
-            }
-            else if (goal == lastSeenLightProducer && distanceToLight <= stoppingDistance)
-            {
-                //attack ambient
-                canAttack = true;
-                if (!hasStartedAttackCoroutine)
-                {
-                    StartCoroutine(AttackWhenClose());
+                    attackCoroutine = StartCoroutine(AttackWhenClose());
                     hasStartedAttackCoroutine = true;
                 }
             }
@@ -308,9 +304,24 @@ public class EnemyController : MonoBehaviour
             {
                 //no attacking, via a bool. also stop it when the object is deleted
                 canAttack = false;
+
+                //if (hasStartedAttackCoroutine)
+                //{
+                //    StopCoroutine(attackCoroutine);
+                //    hasStartedAttackCoroutine = false;
+                //}
             }
         }
         
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, stoppingDistance);
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, enemySightMaxDistance);
     }
 
     private float gooAmountPercent => gooAmount / maxGooAmount;
@@ -555,31 +566,35 @@ public class EnemyController : MonoBehaviour
 
     private IEnumerator AttackWhenClose()
     {
-        while (true)
+        hasStartedAttackCoroutine = true;
+
+        while (canAttack)
         {
             if (!isAttacking)
             {
                 isAttacking = true;
-
                 anim.SetTrigger("PerformAttack");
 
+                yield return new WaitForSeconds(attackWindupTime);
+
                 //this should maybe be invoked with a delay matching the length of the attack animation
-                if (canAttack)
-                {
-                    if (goal == player && distanceToPlayer <= stoppingDistance)
+                if (canAttack && goal == player && distanceToPlayer <= stoppingDistance)
+                {                    
+                    if (player.TryGetComponent<PlayerController>(out PlayerController T))
                     {
-                        if (player.TryGetComponent<PlayerController>(out PlayerController T))
-                        {
-                            T.TakeDamage(attackDamage);
-                        }
+                        T.TakeDamage(attackDamage);
                     }
                 }
 
-                yield return new WaitForSeconds(attackDelay);
-
+                yield return new WaitForSeconds(attackDelay); //cooldown between attacks
                 isAttacking = false;
             }
+
+            yield return null; //i aparently need this
         }
+
+        //and this
+        hasStartedAttackCoroutine = false;
     }
 
     public void EnemyDebugingText()

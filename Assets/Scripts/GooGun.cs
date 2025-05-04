@@ -129,6 +129,8 @@ public class GooGun : MonoBehaviour
                 if(playCont.currStaMana >= staManaBeamDrain)
                 {
                     FireBeam();
+                    lastBeamFireTime = Time.time;
+
                     //should continously cost
                     playCont.currStaMana -= staManaBeamDrain * Time.deltaTime;
 
