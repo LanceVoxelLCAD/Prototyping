@@ -23,7 +23,14 @@ public class GooProjectile : MonoBehaviour
         //herm. I don't know about this. I think making it a trigger could be better...
         ContactPoint contact = collision.contacts[0];
 
-        if (collision.gameObject.tag != "GhostFoam") //this could also be a layer thing.
+        if (collision.gameObject.tag == "Enemy")
+        {
+            if (collision.gameObject.TryGetComponent<EnemyController>(out EnemyController Enemy))
+            {
+                Enemy.ApplyGoo();
+            }
+        }
+        else if (collision.gameObject.tag != "GhostFoam") //this could also be a layer thing.
         {
             //Quaternion gooRotation = Quaternion.LookRotation(contact.normal);
             Vector3 spawnPosition = contact.point + (contact.normal * spawnOffset);
@@ -32,14 +39,6 @@ public class GooProjectile : MonoBehaviour
             //Instantiate(gooPlacedPrefab, contact.point, gooRotation);
             //Instantiate(gooPlacedPrefab, contact.point, Quaternion.identity);
             Instantiate(gooPlacedPrefab, spawnPosition, Quaternion.identity);
-        }
-
-        if (collision.gameObject.tag == "Enemy")
-        {
-            if (collision.gameObject.TryGetComponent<EnemyController>(out EnemyController T))
-            {
-                T.SlowDown();
-            }
         }
 
         Destroy(gameObject);

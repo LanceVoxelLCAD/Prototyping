@@ -24,6 +24,8 @@ public class Pickup : MonoBehaviour
             if (mainCamera != null)
             {
                 pickupUIPrompt.transform.LookAt(mainCamera.transform);
+                //pickupUIPrompt.transform.LookAt(mainCamera.transform.rotation * Vector3.forward,
+                //                 mainCamera.transform.rotation * Vector3.up);
             }
         }
     }

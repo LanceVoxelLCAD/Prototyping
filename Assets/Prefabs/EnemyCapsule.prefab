@@ -179,7 +179,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Height: 2
@@ -291,7 +291,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Height: 2
@@ -490,7 +490,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Height: 2
@@ -600,7 +600,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Height: 2
@@ -1169,7 +1169,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Height: 2
@@ -1312,7 +1312,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Height: 2
@@ -1461,7 +1461,7 @@ GameObject:
   - component: {fileID: 8081436402465598233}
   m_Layer: 0
   m_Name: EnemyCapsule
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1607,12 +1607,18 @@ MonoBehaviour:
   startMaterial: {fileID: 2100000, guid: e8fc3a7ecb1d8f8458b1915dbdb82b09, type: 2}
   startMaterialColor: {r: 0, g: 0, b: 0, a: 0}
   enemyRenderer: {fileID: 4595580003998742903}
+  enemyAttackAnimator: {fileID: 5483417363198866881}
+  redCanister: {fileID: 1182285976102392685, guid: 11a150d5ff3009242a40c912f376bf2d, type: 3}
+  blueCanister: {fileID: 6265941510972648978, guid: 39dae636d6809d64db6fe64e9a4a39e7, type: 3}
+  greenCanister: {fileID: 4300682976447218357, guid: 65269c11fe9c0054dadfecbd9945566d, type: 3}
+  lastSeenLightProducer: {fileID: 0}
+  headObject: {fileID: 4689684170501780449}
   health: 30
   maxHealth: 30
   attackDamage: 3
   aggression: 0
   lastAggression: 0
-  switchAttentionFromLightToPlayerDistance: 0
+  switchAttentionFromLightToPlayerDistance: 4
   enemySightMaxDistance: 20
   aggroSpeed: 18
   aggroDecay: 25
@@ -1623,17 +1629,21 @@ MonoBehaviour:
   isLit: 0
   hasAggrod: 0
   hasStartedAttackCoroutine: 0
-  lastSeenLightProducer: {fileID: 0}
-  headObject: {fileID: 4689684170501780449}
   canAttack: 0
   isAttacking: 0
-  enemyAttackAnimator: {fileID: 5483417363198866881}
-  redCanister: {fileID: 1182285976102392685, guid: 11a150d5ff3009242a40c912f376bf2d, type: 3}
-  blueCanister: {fileID: 6265941510972648978, guid: 39dae636d6809d64db6fe64e9a4a39e7, type: 3}
-  blueCanisterRarity: 7
+  blueCanisterRarity: 4
+  greenCanisterRarity: 4
+  redCanisterRarity: 2
   stoppingDistance: 4
   distanceToPlayer: 0
   distanceToLight: 0
+  maxGooAmount: 100
+  gooDecayRate: 5
+  gooPerHit: 35
+  updateRate: 0.1
+  gooAmount: 0
+  maxSpeed: 0
+  isFrozen: 0
 --- !u!54 &2666781883699522645
 Rigidbody:
   m_ObjectHideFlags: 0
