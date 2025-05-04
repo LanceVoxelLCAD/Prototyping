@@ -3664,6 +3664,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d58f7109f50ab3d4990e33878170cd89, type: 3}
+--- !u!198 &61986119 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 4657814162352596501, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
+  m_PrefabInstance: {fileID: 1253140918}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &62494746
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -65271,6 +65276,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 641899179}
     - target: {fileID: 4919002419282003237, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
+      propertyPath: beamParticle
+      value: 
+      objectReference: {fileID: 61986119}
+    - target: {fileID: 4919002419282003237, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
       propertyPath: reticleImage
       value: 
       objectReference: {fileID: 21300000, guid: 67f7a12e723d14545804e1f577f82679, type: 3}
@@ -107716,6 +107725,7 @@ MonoBehaviour:
   yellowCanister: {fileID: 0}
   lastSeenLightProducer: {fileID: 0}
   headObject: {fileID: 2079013593}
+  deathParticle: {fileID: 0}
   health: 30
   maxHealth: 30
   attackDamage: 20

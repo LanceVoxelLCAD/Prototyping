@@ -59,6 +59,8 @@ public class GooGun : MonoBehaviour
     public GameObject wholeReticle;
     public GameObject tinyReticle;
 
+    public ParticleSystem beamParticle;
+
     private void Start()
     {
         player = GameObject.Find("Player");
@@ -100,7 +102,7 @@ public class GooGun : MonoBehaviour
             }
             else
             {
-                beamLine.enabled = false;
+                DisableBeam();
 
                 colorOverLifetime.color = new ParticleSystem.MinMaxGradient(greenParticles);
                 blueIndicator.material = blueUnlitMaterial;
@@ -133,14 +135,14 @@ public class GooGun : MonoBehaviour
                     if (playCont.currStaMana < staManaBeamDrain)
                     {
                         //cool dying beam logic would be cool
-                        beamLine.enabled = false;
+                        DisableBeam();
                     }
                 }
             }
         }
         else
         {
-            beamLine.enabled = false;
+            DisableBeam();
 
             float mostRecentFireTime = Mathf.Max(lastBeamFireTime, lastGooFireTime);
 
@@ -150,6 +152,12 @@ public class GooGun : MonoBehaviour
         }
 
         staManaSlider.value = playCont.currStaMana;
+    }
+
+    void DisableBeam()
+    {
+        beamLine.enabled = false;
+        if (beamParticle.isPlaying) { beamParticle.Stop(); }
     }
 
     void FireGoo()
@@ -209,6 +217,10 @@ public class GooGun : MonoBehaviour
         {
             hitPoint = ray.GetPoint(hit.distance);
 
+            //move and play the fizzle particle
+            if (!beamParticle.isPlaying) { beamParticle.Play(); }
+            beamParticle.transform.position = hitPoint;
+
             //if it should do damage again
             //if (Time.time > lastBeamFireTime + beamFireCooldown)
             {
@@ -232,6 +244,8 @@ public class GooGun : MonoBehaviour
         {
             //i want this to speed up after sustained fire on one enemy
             hitPoint = ray.GetPoint(beamRange);
+
+            if (beamParticle.isPlaying) { beamParticle.Stop(); }
 
             Debug.DrawLine(firePoint.position, hitPoint, Color.blue, 1f);
         }

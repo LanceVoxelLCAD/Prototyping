@@ -1461,6 +1461,7 @@ MonoBehaviour:
   yellowCanister: {fileID: 3965478413647577249, guid: 8dff0ae3120111b4394b0b2eb31645a4, type: 3}
   lastSeenLightProducer: {fileID: 0}
   headObject: {fileID: 382477327201543995}
+  deathParticle: {fileID: 4907179594118903495, guid: e60687c2fb42a994abaa8532df74b5e0, type: 3}
   health: 30
   maxHealth: 30
   attackDamage: 8

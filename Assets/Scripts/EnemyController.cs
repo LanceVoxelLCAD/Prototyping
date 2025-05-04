@@ -36,6 +36,7 @@ public class EnemyController : MonoBehaviour
     private Animator anim;
     private Material[] allMaterials;
     private Renderer[] renderers;
+    public ParticleSystem deathParticle;
 
     [Header("Stats")]
     public float health = 30f;
@@ -531,7 +532,10 @@ public class EnemyController : MonoBehaviour
         //if it was holding a resource, it would just.. deparent it? or actually spawn it?
 
         if (canister == blueCanister)
-        { 
+        {
+            Vector3 dropPos = transform.position + Vector3.up * 1f;
+            Instantiate(deathParticle, dropPos, transform.rotation);
+
             Destroy(gameObject);
         }
 
