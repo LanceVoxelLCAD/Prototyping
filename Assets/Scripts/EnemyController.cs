@@ -76,6 +76,25 @@ public class EnemyController : MonoBehaviour
     public float maxSpeed;
     public bool isFrozen = false;
     private Coroutine gooDecayCoroutineHolder;
+    public float deadGlow = -.8f;
+    public float chargePercentSetWhenFrozen = 85f;
+
+    [Header("Beam Logic")]
+    public float maxBeamCharge = 100f;
+    public float currentBeamCharge = 0f;
+    public float beamChargeRate = 20f;
+
+    public float usualGlowItensity = -.1f;
+    public float maxGlowIntensity = 5f;
+
+    public float glowCurveExponent = 2.5f; //change in inspector
+
+    public float glowDecayRate = .4f;
+    //public float glowChargeSpeed = .8f; //visual glow only
+    //public float glowCharge = 0f; //visual glow only
+    public bool isBeingBeamed = false;
+    float chargePercent = 0f;
+
 
     private void Awake()
     {
@@ -87,7 +106,7 @@ public class EnemyController : MonoBehaviour
             mats.AddRange(r.materials); //agh im not completely confident in this
         }
 
-        allMaterials.ToArray();
+        allMaterials = mats.ToArray();
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -125,19 +144,53 @@ public class EnemyController : MonoBehaviour
         EnemyDebugingText();
         lastAggression = aggression;
 
+
+
         //convert to seconds
         if (!isFrozen)
         {
+            //glow decay
+            if (!isBeingBeamed && currentBeamCharge > 0)
+            {
+                currentBeamCharge -= glowDecayRate * Time.deltaTime;
+                currentBeamCharge = Mathf.Max(currentBeamCharge, 0f);
+            }
+
+            chargePercent = currentBeamCharge / maxBeamCharge;
+            UpdateGlow(chargePercent);
+
+            isBeingBeamed = false;
+
+
+            //logic for glow independent of actual value
+            //float target = isBeingBeamed ? 1f : 0f;
+
+            //if (isBeingBeamed)
+            //{
+            //    //ease in
+            //    glowCharge = Mathf.MoveTowards(glowCharge, target, glowChargeSpeed * Time.deltaTime);
+            //}
+            //else
+            //{
+            //    //linear decay
+            //    glowCharge = Mathf.MoveTowards(glowCharge, target, glowDecayRate * Time.deltaTime);
+            //}
+
+            //UpdateGlow(glowCharge);
+            //isBeingBeamed = false;
+
+
+            //AGGRO LOGIC
             distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
 
-            if (isLit)
-            {
-                enemyRenderer.material.color = Color.yellow;
-            }
-            else
-            {
-                enemyRenderer.material.color = startMaterialColor;
-            }
+            //if (isLit)
+            //{
+            //    enemyRenderer.material.color = Color.yellow;
+            //}
+            //else
+            //{
+            //    enemyRenderer.material.color = startMaterialColor;
+            //}
 
             agent.SetDestination(goal.transform.position);
 
@@ -260,13 +313,13 @@ public class EnemyController : MonoBehaviour
 
     private float gooAmountPercent => gooAmount / maxGooAmount;
 
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if (other.gameObject.tag == "Light")
-    //    {
-    //        isLit = true;
-    //    }
-    //}
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Light")
+        {
+            isLit = true;
+        }
+    }
 
     private void OnTriggerStay(Collider other)
     {
@@ -309,7 +362,7 @@ public class EnemyController : MonoBehaviour
         if (other.gameObject.name == "DeathCube")
         {
             //DEBUG
-            Die();
+            Die(blueCanister);
         }
     }
 
@@ -354,10 +407,50 @@ public class EnemyController : MonoBehaviour
             //{
             //    T.killcount++;
             //}
-            Die();
+
+            DropItem(blueCanisterRarity, blueCanister);
+            Die(blueCanister);
         }
 
         aggression = maxAggro;
+    }
+
+    //this is replacing health, maybe
+    public void ApplyBeam(float deltaTime)
+    {
+        isBeingBeamed = true;
+
+        if (currentBeamCharge >= maxBeamCharge) return;
+
+        currentBeamCharge += beamChargeRate * deltaTime;
+        currentBeamCharge = Mathf.Min(currentBeamCharge, maxBeamCharge); //just in case clamp
+
+        chargePercent = currentBeamCharge / maxBeamCharge;
+        //isBeingBeamed = true; //this was for using a seperate charge value just for the visuals
+
+        //UpdateGlow(chargePercent);
+
+        if (currentBeamCharge >= maxBeamCharge)
+        {
+            if(!isFrozen) { DropItem(blueCanisterRarity, blueCanister); }
+            Die(blueCanister);
+        }
+    }
+
+    private void UpdateGlow(float glowChargePercent) //was glow percent before when just visual
+    {
+        //float intensity = Mathf.Lerp(usualGlowItensity, maxGlowIntensity, chargePercent);
+        //float eased = Mathf.SmoothStep(0f, 1f, chargePercent);
+        float curved = Mathf.Pow(glowChargePercent, glowCurveExponent);
+        float intensity = Mathf.Lerp(usualGlowItensity, maxGlowIntensity, curved);
+
+        foreach (Renderer rend in renderers)
+        {
+            foreach (Material mat in rend.materials)
+            {
+                mat.SetFloat("_GlowIntensity", intensity);
+            }
+        }
     }
 
     public void ApplyGoo()
@@ -383,10 +476,10 @@ public class EnemyController : MonoBehaviour
         {
             newSpeed = 0f;
             isFrozen = true;
-            StopAllCoroutines();
             gooDecayCoroutineHolder = null;
 
             DropItem(greenCanisterRarity, greenCanister);
+            Die(greenCanister);
         }
 
         agent.speed = newSpeed;
@@ -424,15 +517,29 @@ public class EnemyController : MonoBehaviour
         gooDecayCoroutineHolder = null;
     }
 
-    public void Die()
+    public void Die(GameObject canister)
     {
         //turn off coroutine
         StopAllCoroutines();
         //if it was holding a resource, it would just.. deparent it? or actually spawn it?
 
-        DropItem(blueCanisterRarity, blueCanister);
+        if (canister == blueCanister)
+        { 
+            Destroy(gameObject);
+        }
 
-        Destroy(gameObject);
+        if (canister == greenCanister)
+        {
+            foreach (Renderer rend in renderers)
+            {
+                foreach (Material mat in rend.materials)
+                {
+                    mat.SetFloat("_GlowIntensity", deadGlow);
+                }
+            }
+            currentBeamCharge = chargePercentSetWhenFrozen;
+            //gameObject.AddComponent<Health>();
+        }
     }
 
     private IEnumerator AttackWhenClose()
@@ -443,7 +550,7 @@ public class EnemyController : MonoBehaviour
             {
                 isAttacking = true;
 
-                enemyAttackAnimator.SetTrigger("PerformAttack");
+                anim.SetTrigger("PerformAttack");
 
                 //this should maybe be invoked with a delay matching the length of the attack animation
                 if (canAttack)
@@ -469,12 +576,6 @@ public class EnemyController : MonoBehaviour
         aggroNumDEBUG.text = "Aggro: " + aggression.ToString();
         //healthNumDEBUG.text = "Health: " + health.ToString();
         healthSlider.value = health;
-    }
-
-    public void SlowDown()
-    {
-
-        //navmesh
     }
 
     //private void OnTriggerExit(Collider other) //this doesn't fire when the flashlight is turned off

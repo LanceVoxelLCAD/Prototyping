@@ -210,13 +210,14 @@ public class GooGun : MonoBehaviour
             hitPoint = ray.GetPoint(hit.distance);
 
             //if it should do damage again
-            if (Time.time > lastBeamFireTime + beamFireCooldown)
+            //if (Time.time > lastBeamFireTime + beamFireCooldown)
             {
-                lastBeamFireTime = Time.time;
+                //lastBeamFireTime = Time.time;
 
                 if (hit.transform.TryGetComponent<EnemyController>(out EnemyController T))
                 {
-                    T.TakeDamage(attackDamage);
+                    //T.TakeDamage(attackDamage);
+                    T.ApplyBeam(Time.deltaTime);
                 }
 
                 if (hit.transform.TryGetComponent<Health>(out Health H))
