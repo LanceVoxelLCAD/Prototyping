@@ -1,4 +1,7 @@
+using NUnit.Framework;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
@@ -29,7 +32,10 @@ public class EnemyController : MonoBehaviour
 
     public GameObject lastSeenLightProducer;
     public GameObject headObject;
+
     private Animator anim;
+    private Material[] allMaterials;
+    private Renderer[] renderers;
 
     [Header("Stats")]
     public float health = 30f;
@@ -71,6 +77,18 @@ public class EnemyController : MonoBehaviour
     public bool isFrozen = false;
     private Coroutine gooDecayCoroutineHolder;
 
+    private void Awake()
+    {
+        renderers = GetComponentsInChildren<Renderer>();
+        List<Material> mats = new List<Material>();
+
+        foreach (var r in renderers)
+        {
+            mats.AddRange(r.materials); //agh im not completely confident in this
+        }
+
+        allMaterials.ToArray();
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -100,6 +118,8 @@ public class EnemyController : MonoBehaviour
     void Update()
     {
         anim.SetFloat("Speed", agent.velocity.magnitude);
+        float targetSpeed = Mathf.Lerp(1f, 0f, gooAmountPercent); //1 is goo-less, 0 is goo'd
+        anim.speed = targetSpeed;
 
         IsLitTest();
         EnemyDebugingText();
@@ -238,6 +258,8 @@ public class EnemyController : MonoBehaviour
         
     }
 
+    private float gooAmountPercent => gooAmount / maxGooAmount;
+
     //private void OnTriggerEnter(Collider other)
     //{
     //    if (other.gameObject.tag == "Light")
@@ -370,7 +392,7 @@ public class EnemyController : MonoBehaviour
         agent.speed = newSpeed;
     }
 
-    public void DropItem(int rarity, GameObject canister)
+    public void DropItem(int rarity, GameObject canister) //this could be combined with the die script...
     {
         Vector3 dropPos = transform.position + Vector3.up * .5f;
 

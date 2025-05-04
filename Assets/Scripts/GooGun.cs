@@ -221,7 +221,7 @@ public class GooGun : MonoBehaviour
 
                 if (hit.transform.TryGetComponent<Health>(out Health H))
                 {
-                    H.TakeDamage(attackDamage); //this is better, remember for one day fixing enemies
+                    H.TakeDamage(attackDamage); //this is better and works for the foam, remember for one day fixing enemies
                 }
 
                 Debug.DrawLine(firePoint.position, hitPoint, Color.blue, 1f);
