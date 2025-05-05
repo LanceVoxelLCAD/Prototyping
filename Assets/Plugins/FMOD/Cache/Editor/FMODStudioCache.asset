@@ -42,7 +42,7 @@ MonoBehaviour:
   Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638819876296741423
+  lastModified: 638819829480149141
   FileSizes:
   - Name: Desktop
     Value: 2176
@@ -62,7 +62,7 @@ MonoBehaviour:
   Path: Assets/FMOD/Audio/Prototype/Build/Desktop/UI Sounds.bank
   Name: UI Sounds
   StudioPath: bank:/UI Sounds
-  lastModified: 638819876296788850
+  lastModified: 638819829482275081
   FileSizes:
   - Name: Desktop
     Value: 27328
@@ -129,7 +129,7 @@ MonoBehaviour:
   Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Player.bank
   Name: Player
   StudioPath: bank:/Player
-  lastModified: 638819876296773679
+  lastModified: 638819829482016030
   FileSizes:
   - Name: Desktop
     Value: 242528
@@ -230,7 +230,7 @@ MonoBehaviour:
   Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638819876296741423
+  lastModified: 638819829480164905
   FileSizes:
   - Name: Desktop
     Value: 1408
@@ -383,7 +383,7 @@ MonoBehaviour:
   StringsBanks:
   - {fileID: -4589439008883423445}
   cacheVersion: 131847
-  cacheTime: 638819876296798897
+  cacheTime: 638819959746364843
   SerializableEventsDict:
   - key: event:/Music/LoopingAmbient
     index: 0
@@ -490,10 +490,10 @@ MonoBehaviour:
   Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Weapon.bank
   Name: Weapon
   StudioPath: bank:/Weapon
-  lastModified: 638819876296798897
+  lastModified: 638819959746364843
   FileSizes:
   - Name: Desktop
-    Value: 119552
+    Value: 68512
   Exists: 1
 --- !u!114 &2573899681913500042
 MonoBehaviour:
@@ -597,12 +597,12 @@ MonoBehaviour:
   Banks:
   - {fileID: 1791864180212617129}
   IsStream: 0
-  Is3D: 1
+  Is3D: 0
   IsOneShot: 0
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 1807
+  Length: 160
 --- !u!114 &7078711247186150864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -672,7 +672,7 @@ MonoBehaviour:
   Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Background.bank
   Name: Background
   StudioPath: bank:/Background
-  lastModified: 638819876296725314
+  lastModified: 638819829483679160
   FileSizes:
   - Name: Desktop
     Value: 4696864

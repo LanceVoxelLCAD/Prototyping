@@ -1,8 +1,17 @@
 using UnityEngine;
 using UnityEngine.UI;
+using FMODUnity;
+using FMOD.Studio;
 
 public class GooGun : MonoBehaviour
 {
+    [Header("FMOD Events")]
+    public EventReference gooFireSound;
+    public EventReference beamLoopSound;
+
+    private EventInstance beamInstance;
+    private bool beamSoundPlaying = false;
+
     public GameObject gooProjectilePrefab;
     public Transform firePoint;
     public float launchForce = 20f;
@@ -129,6 +138,7 @@ public class GooGun : MonoBehaviour
                 if(playCont.currStaMana >= staManaBeamDrain)
                 {
                     FireBeam();
+                   
                     lastBeamFireTime = Time.time;
                      
                     //should continously cost
@@ -160,6 +170,28 @@ public class GooGun : MonoBehaviour
     {
         beamLine.enabled = false;
         if (beamParticle.isPlaying) { beamParticle.Stop(); }
+        StopBeamSound(); // <- Ensure sound always stops with the beam
+    }
+
+    void StartBeamSound()
+    {
+        if (!beamLoopSound.IsNull && !beamSoundPlaying)
+        {
+            beamInstance = RuntimeManager.CreateInstance(beamLoopSound);
+            beamInstance.set3DAttributes(RuntimeUtils.To3DAttributes(firePoint));
+            beamInstance.start();
+            beamSoundPlaying = true;
+        }
+    }
+
+    void StopBeamSound()
+    {
+        if (beamSoundPlaying)
+        {
+            beamInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            beamInstance.release();
+            beamSoundPlaying = false;
+        }
     }
 
     void FireGoo()
@@ -180,6 +212,11 @@ public class GooGun : MonoBehaviour
         }
 
         Vector3 directionFromGunToReticle = (targetingPt - firePoint.position).normalized;
+
+        if (!gooFireSound.IsNull)
+        {
+            RuntimeManager.PlayOneShot(gooFireSound, firePoint.position);
+        }
 
         GameObject projectile = Instantiate(gooProjectilePrefab, firePoint.position, firePoint.rotation);
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
@@ -223,6 +260,12 @@ public class GooGun : MonoBehaviour
             if (!beamParticle.isPlaying) { beamParticle.Play(); }
             beamParticle.transform.position = hitPoint;
 
+            //beam sound
+            if (!beamSoundPlaying)
+            {
+                StartBeamSound();
+            } 
+
             //if it should do damage again
             //if (Time.time > lastBeamFireTime + beamFireCooldown)
             {
@@ -248,6 +291,8 @@ public class GooGun : MonoBehaviour
             hitPoint = ray.GetPoint(beamRange);
 
             if (beamParticle.isPlaying) { beamParticle.Stop(); }
+
+            StopBeamSound();
 
             Debug.DrawLine(firePoint.position, hitPoint, Color.blue, 1f);
         }
