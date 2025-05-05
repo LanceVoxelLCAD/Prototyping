@@ -1,8 +1,17 @@
 using UnityEngine;
 using UnityEngine.UI;
+using FMOD.Studio;
+using FMODUnity;
 
 public class GooGun : MonoBehaviour
 {
+    [Header("FMOD Events")]
+    public EventReference gooFireSound;
+    public EventReference beamLoopSound;
+
+    private EventInstance beamInstance;
+    private bool beamSoundPlaying = false;
+
     public GameObject gooProjectilePrefab;
     public Transform firePoint;
     public float launchForce = 20f;
@@ -181,6 +190,9 @@ public class GooGun : MonoBehaviour
 
         Vector3 directionFromGunToReticle = (targetingPt - firePoint.position).normalized;
 
+        if (!gooFireSound.IsNull)
+            RuntimeManager.PlayOneShot(gooFireSound, firePoint.position);
+
         GameObject projectile = Instantiate(gooProjectilePrefab, firePoint.position, firePoint.rotation);
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
         if (rb != null)
@@ -204,7 +216,26 @@ public class GooGun : MonoBehaviour
 
         }
     }
+    void StartBeamSound()
+    {
+        if (!beamLoopSound.IsNull && !beamSoundPlaying)
+        {
+            beamInstance = RuntimeManager.CreateInstance(beamLoopSound);
+            beamInstance.set3DAttributes(RuntimeUtils.To3DAttributes(firePoint));
+            beamInstance.start();
+            beamSoundPlaying = true;
+        }
+    }
 
+    void StopBeamSound()
+    {
+        if (beamSoundPlaying)
+        {
+            beamInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            beamInstance.release();
+            beamSoundPlaying = false;
+        }
+    }
     void FireBeam()
     {
         beamLine.enabled = true;
@@ -214,6 +245,9 @@ public class GooGun : MonoBehaviour
 
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
+
+        StartBeamSound();
+
 
         if (Physics.Raycast(ray, out hit, beamRange, beamMask))
         {
@@ -250,6 +284,8 @@ public class GooGun : MonoBehaviour
             if (beamParticle.isPlaying) { beamParticle.Stop(); }
 
             Debug.DrawLine(firePoint.position, hitPoint, Color.blue, 1f);
+            
+            StopBeamSound();
         }
 
         beamLine.SetPosition(0, firePoint.position);

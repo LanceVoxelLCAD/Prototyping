@@ -1,0 +1,14 @@
+{c0d91b8e-190e-4eb1-9829-ef5f019b49d0} bank:/Master
+{58c43b5a-6875-02f3-1e60-65a1f0684f48} bank:/Master.strings
+{decf5223-9a16-4ab0-8ae3-d76b738d403c} bank:/Player
+{f5d0dc38-72e1-456b-9f8a-78264cc0b0f4} bank:/UI Sounds
+{0e14d49a-da2c-492c-aa96-729ec8682b60} bank:/Weapon
+{e99ba0ce-8c6b-4664-aaf9-0b2840b0519b} bus:/
+{f333e599-33fe-45e8-883b-b3acb53db4d9} bus:/Reverb
+{15364ddc-2ee6-4d6d-a701-bc7713b0ce5c} event:/Player/Running
+{33e94579-2f62-46a3-8d3b-9d1a9f61e1b2} event:/Player/Walking
+{5f03c99e-32ff-4c77-bca1-d6793634d276} event:/UI/Background
+{7ddafc34-5a2f-4356-ba2f-02d6c1d672fb} event:/UI/UI Click
+{ff004f13-24e1-40a1-9ec8-2ab24b92a820} event:/UI/UI Hover
+{02425d87-77c4-4ffb-8460-76e013ac0c23} event:/Weapon/Gunshot
+{f93d9c38-271f-4e0d-97aa-1ea1ca2b9c89} event:/Weapon/Light Beam

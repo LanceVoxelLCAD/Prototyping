@@ -40895,6 +40895,25 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d58f7109f50ab3d4990e33878170cd89, type: 3}
+--- !u!1 &723854868 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7334299814030390389, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
+  m_PrefabInstance: {fileID: 1253140918}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &723854870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 723854868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 0}
 --- !u!4 &736381148 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7350250554219226100, guid: 6cf39e64bf60edb4d8584f15f586d3fd, type: 3}
@@ -65178,6 +65197,66 @@ PrefabInstance:
       propertyPath: staManaSlider
       value: 
       objectReference: {fileID: 1940659790}
+    - target: {fileID: 4919002419282003237, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
+      propertyPath: gooFireSound.Path
+      value: event:/Weapon/Gunshot
+      objectReference: {fileID: 0}
+    - target: {fileID: 4919002419282003237, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
+      propertyPath: beamFireSound.Path
+      value: event:/Weapon/Light Beam
+      objectReference: {fileID: 0}
+    - target: {fileID: 4919002419282003237, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
+      propertyPath: beamLoopSound.Path
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4919002419282003237, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
+      propertyPath: gooFireSound.Guid.Data1
+      value: 37903751
+      objectReference: {fileID: 0}
+    - target: {fileID: 4919002419282003237, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
+      propertyPath: gooFireSound.Guid.Data2
+      value: 1341880260
+      objectReference: {fileID: 0}
+    - target: {fileID: 4919002419282003237, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
+      propertyPath: gooFireSound.Guid.Data3
+      value: -529112956
+      objectReference: {fileID: 0}
+    - target: {fileID: 4919002419282003237, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
+      propertyPath: gooFireSound.Guid.Data4
+      value: 588033043
+      objectReference: {fileID: 0}
+    - target: {fileID: 4919002419282003237, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
+      propertyPath: beamFireSound.Guid.Data1
+      value: -113402824
+      objectReference: {fileID: 0}
+    - target: {fileID: 4919002419282003237, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
+      propertyPath: beamFireSound.Guid.Data2
+      value: 1309484831
+      objectReference: {fileID: 0}
+    - target: {fileID: 4919002419282003237, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
+      propertyPath: beamFireSound.Guid.Data3
+      value: -1591825769
+      objectReference: {fileID: 0}
+    - target: {fileID: 4919002419282003237, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
+      propertyPath: beamFireSound.Guid.Data4
+      value: -1986253878
+      objectReference: {fileID: 0}
+    - target: {fileID: 4919002419282003237, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
+      propertyPath: beamLoopSound.Guid.Data1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4919002419282003237, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
+      propertyPath: beamLoopSound.Guid.Data2
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4919002419282003237, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
+      propertyPath: beamLoopSound.Guid.Data3
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4919002419282003237, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
+      propertyPath: beamLoopSound.Guid.Data4
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4952957238402054617, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
       propertyPath: canPopupTxt
       value: 
@@ -65362,10 +65441,14 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 465029612}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5727057249031358893, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7334299814030390389, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 723854870}
   m_SourcePrefab: {fileID: 100100000, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
 --- !u!4 &1253541356 stripped
 Transform:
