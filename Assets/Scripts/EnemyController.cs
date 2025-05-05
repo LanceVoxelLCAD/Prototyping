@@ -91,7 +91,8 @@ public class EnemyController : MonoBehaviour
     public float maxBeamCharge = 100f;
     public float currentBeamCharge = 0f;
     public float beamChargeRate = 20f;
-    private float normalBeamChargeRateHolder;
+    private bool EnemyUnaware;
+    //private float normalBeamChargeRateHolder;
 
     public float usualGlowItensity = -.1f;
     public float maxGlowIntensity = 5f;
@@ -147,7 +148,9 @@ public class EnemyController : MonoBehaviour
         anim = GetComponent<Animator>();
 
         normalGooPerHitHolder = gooPerHit;
-        normalBeamChargeRateHolder = beamChargeRate;
+        //normalBeamChargeRateHolder = beamChargeRate;
+
+        SetState(EnemyState.Idle);
 
         //attackCoroutine = StartCoroutine(AttackWhenClose());
 
@@ -328,13 +331,13 @@ public class EnemyController : MonoBehaviour
 
     private void makeBeamGooNormal()
     {
-        beamChargeRate = normalBeamChargeRateHolder;
+        EnemyUnaware = false;
         gooPerHit = normalGooPerHitHolder;
     }
 
     private void makeBeamGooSneakyStrong()
     {
-        beamChargeRate = maxBeamCharge;
+        EnemyUnaware = true;
         gooPerHit *= 2;
     }
 

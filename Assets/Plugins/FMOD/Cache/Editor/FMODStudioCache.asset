@@ -42,7 +42,7 @@ MonoBehaviour:
   Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638819829480149141
+  lastModified: 638819876296741423
   FileSizes:
   - Name: Desktop
     Value: 2176
@@ -62,7 +62,7 @@ MonoBehaviour:
   Path: Assets/FMOD/Audio/Prototype/Build/Desktop/UI Sounds.bank
   Name: UI Sounds
   StudioPath: bank:/UI Sounds
-  lastModified: 638819829482275081
+  lastModified: 638819876296788850
   FileSizes:
   - Name: Desktop
     Value: 27328
@@ -129,7 +129,7 @@ MonoBehaviour:
   Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Player.bank
   Name: Player
   StudioPath: bank:/Player
-  lastModified: 638819829482016030
+  lastModified: 638819876296773679
   FileSizes:
   - Name: Desktop
     Value: 242528
@@ -230,7 +230,7 @@ MonoBehaviour:
   Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638819829480164905
+  lastModified: 638819876296741423
   FileSizes:
   - Name: Desktop
     Value: 1408
@@ -383,7 +383,7 @@ MonoBehaviour:
   StringsBanks:
   - {fileID: -4589439008883423445}
   cacheVersion: 131847
-  cacheTime: 638819868232514603
+  cacheTime: 638819876296798897
   SerializableEventsDict:
   - key: event:/Music/LoopingAmbient
     index: 0
@@ -490,7 +490,7 @@ MonoBehaviour:
   Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Weapon.bank
   Name: Weapon
   StudioPath: bank:/Weapon
-  lastModified: 638819868232514603
+  lastModified: 638819876296798897
   FileSizes:
   - Name: Desktop
     Value: 119552
@@ -672,7 +672,7 @@ MonoBehaviour:
   Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Background.bank
   Name: Background
   StudioPath: bank:/Background
-  lastModified: 638819829483679160
+  lastModified: 638819876296725314
   FileSizes:
   - Name: Desktop
     Value: 4696864

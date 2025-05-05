@@ -5,7 +5,9 @@ public class FadeOnAwake : MonoBehaviour
 {
     public float fadeTime = 2f;
     public float delayBeforeFade = 2f;
+
     private CanvasGroup canvasGroup;
+    private Tween fadeTween;
 
     private void Awake()
     {
@@ -15,9 +17,15 @@ public class FadeOnAwake : MonoBehaviour
     // Update is called once per frame
     void OnEnable()
     {
+        //this doesn't work. how do I kill a tween?
+        if (fadeTween != null && fadeTween.IsActive())
+        {
+            fadeTween.Kill();
+        }
+
         canvasGroup.alpha = 1f;
 
-        canvasGroup.DOFade(0f, fadeTime)
+        fadeTween = canvasGroup.DOFade(0f, fadeTime)
             .SetDelay(delayBeforeFade)
             .SetEase(Ease.InOutSine)
             .OnComplete(() =>

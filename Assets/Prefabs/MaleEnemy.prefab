@@ -1465,13 +1465,14 @@ MonoBehaviour:
   lastAggression: 0
   switchAttentionFromLightToPlayerDistance: 8
   enemySightAngle: 50
-  enemySightMaxDistance: 20
+  enemySightMaxDistance: 18
   aggroSpeed: 18
   aggroDecay: 25
   aggroTrigger: 100
   maxAggro: 200
   minAggro: 0
   attackDelay: 3
+  attackDistance: 3.5
   isLit: 0
   hasAggrod: 0
   hasStartedAttackCoroutine: 0
