@@ -9,6 +9,7 @@ TagManager:
   - GhostFoam
   - Door
   - Enemy
+  - Burnmark
   layers:
   - Default
   - TransparentFX

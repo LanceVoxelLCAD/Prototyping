@@ -42,10 +42,10 @@ MonoBehaviour:
   Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638819829480149141
+  lastModified: 638820568211160013
   FileSizes:
   - Name: Desktop
-    Value: 2176
+    Value: 1448
   Exists: 1
 --- !u!114 &-8566869364299892437
 MonoBehaviour:
@@ -62,7 +62,7 @@ MonoBehaviour:
   Path: Assets/FMOD/Audio/Prototype/Build/Desktop/UI Sounds.bank
   Name: UI Sounds
   StudioPath: bank:/UI Sounds
-  lastModified: 638819829482275081
+  lastModified: 638820568211435332
   FileSizes:
   - Name: Desktop
     Value: 27328
@@ -230,10 +230,10 @@ MonoBehaviour:
   Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638819829480164905
+  lastModified: 638820568211170432
   FileSizes:
   - Name: Desktop
-    Value: 1408
+    Value: 1416
   Exists: 1
 --- !u!114 &-3124551359897648918
 MonoBehaviour:
@@ -329,6 +329,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 2000
+--- !u!114 &-823911880268201621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Weapon/Light Beam Impact
+  m_EditorClassIdentifier: 
+  Path: event:/Weapon/Light Beam Impact
+  Guid:
+    Data1: 2010068037
+    Data2: 1196120599
+    Data3: -537036910
+    Data4: 1789882489
+  Banks:
+  - {fileID: 1791864180212617129}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2000
 --- !u!114 &-78170798479339411
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -370,36 +397,36 @@ MonoBehaviour:
   - {fileID: 1791864180212617129}
   EditorEvents:
   - {fileID: -2407002830436879666}
-  - {fileID: 571141359607005204}
   - {fileID: 3683469652473326158}
   - {fileID: 2573899681913500042}
   - {fileID: -6496557029928723640}
   - {fileID: -5141637560744268415}
   - {fileID: 5074165805445015329}
   - {fileID: 3114852278518029877}
+  - {fileID: -823911880268201621}
   EditorParameters: []
   MasterBanks:
   - {fileID: -8932181533296066825}
   StringsBanks:
   - {fileID: -4589439008883423445}
   cacheVersion: 131847
-  cacheTime: 638819959746364843
+  cacheTime: 638820568211701717
   SerializableEventsDict:
   - key: event:/Music/LoopingAmbient
     index: 0
-  - key: event:/UI/UI
-    index: 1
   - key: event:/Player/Walking
-    index: 2
+    index: 1
   - key: event:/Player/Running
-    index: 3
+    index: 2
   - key: event:/UI/UI Hover
-    index: 4
+    index: 3
   - key: event:/UI/UI Click
-    index: 5
+    index: 4
   - key: event:/Weapon/Light Beam
-    index: 6
+    index: 5
   - key: event:/Weapon/Gunshot
+    index: 6
+  - key: event:/Weapon/Light Beam Impact
     index: 7
 --- !u!114 &16148734274577184
 MonoBehaviour:
@@ -421,33 +448,6 @@ MonoBehaviour:
   - Name: Desktop
     Value: 27328
   Exists: 1
---- !u!114 &571141359607005204
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/UI/UI
-  m_EditorClassIdentifier: 
-  Path: event:/UI/UI
-  Guid:
-    Data1: 515085628
-    Data2: 1225411287
-    Data3: -542598982
-    Data4: 1149179242
-  Banks:
-  - {fileID: -8932181533296066825}
-  IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 0
 --- !u!114 &1700295307051285259
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -490,10 +490,10 @@ MonoBehaviour:
   Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Weapon.bank
   Name: Weapon
   StudioPath: bank:/Weapon
-  lastModified: 638819959746364843
+  lastModified: 638820568211701717
   FileSizes:
   - Name: Desktop
-    Value: 68512
+    Value: 219168
   Exists: 1
 --- !u!114 &2573899681913500042
 MonoBehaviour:
@@ -602,7 +602,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 160
+  Length: 340
 --- !u!114 &7078711247186150864
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using FMODUnity;
 using FMOD.Studio;
@@ -8,6 +8,16 @@ public class GooGun : MonoBehaviour
     [Header("FMOD Events")]
     public EventReference gooFireSound;
     public EventReference beamLoopSound;
+
+    [Header("FMOD Impact Loop")]
+    public EventReference beamImpactLoopSound;
+
+    [Header("Impact Effects")]
+    public GameObject burnMarkPrefab;
+    public float burnDuration = 5f;
+
+    private EventInstance beamImpactInstance;
+    private bool beamImpactSoundPlaying = false;
 
     private EventInstance beamInstance;
     private bool beamSoundPlaying = false;
@@ -93,6 +103,8 @@ public class GooGun : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
+        if (MenuPause.IsPaused)
+            return; // 🔒 Stop all gun behavior while paused
 
         if (Input.GetKeyDown(KeyCode.C) || Input.GetMouseButtonDown(1) || Input.GetMouseButtonUp(1))
         {
@@ -171,6 +183,8 @@ public class GooGun : MonoBehaviour
         beamLine.enabled = false;
         if (beamParticle.isPlaying) { beamParticle.Stop(); }
         StopBeamSound(); // <- Ensure sound always stops with the beam
+        StopBeamSound();
+        StopBeamImpactSound();
     }
 
     void StartBeamSound()
@@ -191,6 +205,43 @@ public class GooGun : MonoBehaviour
             beamInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
             beamInstance.release();
             beamSoundPlaying = false;
+        }
+    }
+    void StartBeamImpactSound(Vector3 hitPoint)
+    {
+        if (beamImpactLoopSound.IsNull) return;
+
+        // Clamp the hitPoint to avoid spatial audio artifacts
+        Vector3 listenerPos = Camera.main.transform.position;
+        Vector3 clampedPos = Vector3.Lerp(firePoint.position, hitPoint, 0.5f); // Midpoint between gun and target
+        float maxRange = 100f;
+
+        if (Vector3.Distance(listenerPos, clampedPos) > maxRange)
+        {
+            clampedPos = listenerPos + (clampedPos - listenerPos).normalized * maxRange;
+        }
+
+        if (!beamImpactSoundPlaying)
+        {
+            beamImpactInstance = RuntimeManager.CreateInstance(beamImpactLoopSound);
+            beamImpactInstance.set3DAttributes(RuntimeUtils.To3DAttributes(clampedPos));
+            beamImpactInstance.start();
+            beamImpactSoundPlaying = true;
+        }
+        else
+        {
+            // Update location while beam is moving
+            beamImpactInstance.set3DAttributes(RuntimeUtils.To3DAttributes(clampedPos));
+        }
+    }
+
+    void StopBeamImpactSound()
+    {
+        if (beamImpactSoundPlaying)
+        {
+            beamImpactInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            beamImpactInstance.release();
+            beamImpactSoundPlaying = false;
         }
     }
 
@@ -242,8 +293,24 @@ public class GooGun : MonoBehaviour
         }
     }
 
+    void CreateBurnMark(RaycastHit hit)
+    {
+        if (burnMarkPrefab == null) return;
+
+        Quaternion decalRotation = Quaternion.FromToRotation(Vector3.forward, hit.normal);
+        GameObject burnMark = Instantiate(burnMarkPrefab, hit.point + hit.normal * 0.01f, decalRotation);
+
+
+        burnMark.transform.SetParent(hit.collider.transform); // moves with surface
+
+        Destroy(burnMark, burnDuration); // Cleanup after time
+    }
+
+
     void FireBeam()
     {
+      
+
         beamLine.enabled = true;
 
         Ray ray;
@@ -251,6 +318,13 @@ public class GooGun : MonoBehaviour
 
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
+
+        //beam sound
+        if (!beamSoundPlaying)
+        {
+            StartBeamSound();
+        }
+
 
         if (Physics.Raycast(ray, out hit, beamRange, beamMask))
         {
@@ -260,11 +334,12 @@ public class GooGun : MonoBehaviour
             if (!beamParticle.isPlaying) { beamParticle.Play(); }
             beamParticle.transform.position = hitPoint;
 
-            //beam sound
-            if (!beamSoundPlaying)
+            StartBeamImpactSound(hitPoint); // Only play if hit is valid
+
+            if (!hit.collider.CompareTag("Enemy"))
             {
-                StartBeamSound();
-            } 
+                CreateBurnMark(hit);
+            }
 
             //if it should do damage again
             //if (Time.time > lastBeamFireTime + beamFireCooldown)
@@ -283,6 +358,8 @@ public class GooGun : MonoBehaviour
                 }
 
                 Debug.DrawLine(firePoint.position, hitPoint, Color.blue, 1f);
+
+
             }
         }
         else
@@ -292,7 +369,13 @@ public class GooGun : MonoBehaviour
 
             if (beamParticle.isPlaying) { beamParticle.Stop(); }
 
-            StopBeamSound();
+            // Don't call StartBeamImpactSound()
+            hitPoint = ray.GetPoint(beamRange);
+
+            if (beamParticle.isPlaying) beamParticle.Stop();
+
+            // Never update 3D attributes on a miss
+            StopBeamImpactSound(); // must be silent
 
             Debug.DrawLine(firePoint.position, hitPoint, Color.blue, 1f);
         }
