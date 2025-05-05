@@ -18,9 +18,9 @@ public class EnemyController : MonoBehaviour
     public LayerMask mask;
     public Transform eyeline;
 
-    public TMP_Text healthNumDEBUG;
+    //public TMP_Text healthNumDEBUG;
     public TMP_Text aggroNumDEBUG;
-    public Slider healthSlider;
+    //public Slider healthSlider;
     public Material startMaterial;
     public Color startMaterialColor;
     public Renderer enemyRenderer;
@@ -41,12 +41,13 @@ public class EnemyController : MonoBehaviour
     private Coroutine attackCoroutine;
 
     [Header("Stats")]
-    public float health = 30f;
-    public float maxHealth = 30f;
+    //public float health = 30f;
+    //public float maxHealth = 30f;
     public float attackDamage = 5f;
     public float aggression;
     public float lastAggression;
     public float switchAttentionFromLightToPlayerDistance;
+    public float enemySightAngle = 60f;
     public float enemySightMaxDistance = 30f;
     public float aggroSpeed = 15f;
     public float aggroDecay = 3f;
@@ -54,10 +55,11 @@ public class EnemyController : MonoBehaviour
     public float maxAggro = 200f;
     public float minAggro = 0f;
     public float attackDelay = 5f;
+    public float attackDistance = 3.5f;
     //public float bufferBeforeCalmingBegins = 8f;
     public bool isLit = false;
     public bool hasAggrod = false;
-    public bool hasStartedAttackCoroutine = false; //has aggrod once
+    public bool hasStartedAttackCoroutine = false; //has aggrod
     public bool canAttack = false;
     public bool isAttacking = false;
     //public int blueCanisterRarity = 7;
@@ -66,7 +68,7 @@ public class EnemyController : MonoBehaviour
     public int redCanisterRarity = 2;
     //public GameObject foodItem;
 
-    public float stoppingDistance;
+    public float bumpedIntoDistance;
     public float distanceToPlayer;
     public float distanceToLight;
     public float attackWindupTime = .3f;
@@ -75,6 +77,7 @@ public class EnemyController : MonoBehaviour
     public float maxGooAmount = 100f;
     public float gooDecayRate = 5f;
     public float gooPerHit = 35f;
+    private float normalGooPerHitHolder;
     public float updateRate = .1f;
 
     public float gooAmount = 0f;
@@ -88,6 +91,7 @@ public class EnemyController : MonoBehaviour
     public float maxBeamCharge = 100f;
     public float currentBeamCharge = 0f;
     public float beamChargeRate = 20f;
+    private float normalBeamChargeRateHolder;
 
     public float usualGlowItensity = -.1f;
     public float maxGlowIntensity = 5f;
@@ -100,6 +104,16 @@ public class EnemyController : MonoBehaviour
     public bool isBeingBeamed = false;
     float chargePercent = 0f;
 
+    public enum EnemyState
+    {
+        Idle,
+        Wander,
+        InvestigateLight,
+        ChasePlayer,
+        Frozen
+    }
+
+    public EnemyState currentState = EnemyState.Idle;
 
     private void Awake()
     {
@@ -126,11 +140,14 @@ public class EnemyController : MonoBehaviour
         aggression = Random.Range(minAggro, aggroTrigger-1);
         //enemyRenderer = GetComponent<Renderer>();
         startMaterialColor = startMaterial.color;
-        health = maxHealth;
+        //health = maxHealth;
         maxSpeed = agent.speed;
-        switchAttentionFromLightToPlayerDistance = stoppingDistance + 1f;
+        switchAttentionFromLightToPlayerDistance = attackDistance + 1f;
         lastSeenLightProducer = originalGoal;
         anim = GetComponent<Animator>();
+
+        normalGooPerHitHolder = gooPerHit;
+        normalBeamChargeRateHolder = beamChargeRate;
 
         //attackCoroutine = StartCoroutine(AttackWhenClose());
 
@@ -153,30 +170,172 @@ public class EnemyController : MonoBehaviour
         if (isFrozen) return;
 
         UpdateGlowDecay();
-        UpdateGoalAndAggro();
+        //UpdateGoalAndAggro();
         TryAttackWhenClose();
+
+        HandleState();
+
         //convert to seconds
         //if (!isFrozen)
         //{
-           
 
 
-            //AGGRO LOGIC
+
+        //AGGRO LOGIC
 
 
-            //if (isLit)
-            //{
-            //    enemyRenderer.material.color = Color.yellow;
-            //}
-            //else
-            //{
-            //    enemyRenderer.material.color = startMaterialColor;
-            //}
-
-
-            
+        //if (isLit)
+        //{
+        //    enemyRenderer.material.color = Color.yellow;
         //}
-        
+        //else
+        //{
+        //    enemyRenderer.material.color = startMaterialColor;
+        //}
+
+
+
+        //}
+
+    }
+
+    private void HandleState()
+    {
+        distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+        distanceToLight = lastSeenLightProducer ? Vector3.Distance(transform.position, lastSeenLightProducer.transform.position) : Mathf.Infinity;
+
+        CheckAggroConditions();
+
+        switch (currentState)
+        {
+            case EnemyState.Frozen:
+                agent.isStopped = true;
+                anim.speed = 0;
+                return;
+
+            case EnemyState.ChasePlayer:
+                goal = player;
+                agent.SetDestination(goal.transform.position);
+                agent.isStopped = false;
+                headObject.transform.LookAt(goal.transform);
+                break;
+
+            case EnemyState.InvestigateLight:
+                if (lastSeenLightProducer)
+                {
+                    goal = lastSeenLightProducer;
+                    agent.SetDestination(goal.transform.position);
+                    agent.isStopped = false;
+                    headObject.transform.LookAt(goal.transform);
+                }
+                else
+                {
+                    SetState(EnemyState.Idle);
+                }
+                break;
+
+            case EnemyState.Wander:
+                agent.isStopped = false;
+                break;
+
+            case EnemyState.Idle:
+                agent.isStopped = true;
+                break;
+        }
+
+        if (ShouldFreeze())
+        {
+            SetState(EnemyState.Frozen);
+        }
+        else if (ShouldChasePlayer())
+        {
+            SetState(EnemyState.ChasePlayer);
+        }
+        else if (ShouldInvestigateLight())
+        {
+            SetState(EnemyState.InvestigateLight);
+        }
+        else if (ShouldWander())
+        {
+            SetState(EnemyState.Wander);
+        }
+        else
+        {
+            SetState(EnemyState.Idle);
+        }
+    }
+
+    private bool ShouldFreeze()
+    {
+        return isFrozen;
+    }
+
+    private bool ShouldChasePlayer()
+    {
+        return goal == player;
+    }
+
+    private bool ShouldInvestigateLight()
+    {
+        return goal == lastSeenLightProducer;
+    }
+
+    private bool ShouldWander()
+    {
+        //idk this one yet fam
+        return false;
+    }
+
+    private void SetState(EnemyState newState)
+    {
+        //i dont know if this is how this works ahhhhh!!!
+        if (currentState == newState) return;
+
+        currentState = newState;
+
+        //setup for new state,handled when switch only.. i think
+        switch (newState)
+        {
+            case EnemyState.Frozen:
+                makeBeamGooNormal();
+                agent.isStopped = true;
+                anim.speed = 0;
+                break;
+
+            case EnemyState.ChasePlayer:
+                makeBeamGooNormal();
+                hasAggrod = true;
+                goal = player;
+                aggression = aggroTrigger + 1f;
+                break;
+
+            case EnemyState.InvestigateLight:
+                makeBeamGooSneakyStrong();
+                goal = lastSeenLightProducer;
+                aggression = aggroTrigger + 2f;
+                break;
+
+            case EnemyState.Wander:
+                makeBeamGooSneakyStrong();
+                break;
+
+            case EnemyState.Idle:
+                makeBeamGooSneakyStrong();
+                agent.ResetPath();
+                break;
+        }
+    }
+
+    private void makeBeamGooNormal()
+    {
+        beamChargeRate = normalBeamChargeRateHolder;
+        gooPerHit = normalGooPerHitHolder;
+    }
+
+    private void makeBeamGooSneakyStrong()
+    {
+        beamChargeRate = maxBeamCharge;
+        gooPerHit *= 2;
     }
 
     private void UpdateGlowDecay()
@@ -193,24 +352,39 @@ public class EnemyController : MonoBehaviour
         isBeingBeamed = false;
     }
 
-    private void UpdateGoalAndAggro()
+    private void CheckAggroConditions()
     {
-        distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
-        distanceToLight = lastSeenLightProducer ? Vector3.Distance(transform.position, lastSeenLightProducer.transform.position) : Mathf.Infinity;
-
-        // Default to goal pathing
-        agent.SetDestination(goal.transform.position);
 
         // Automatically aggro player if very close
-        if (distanceToPlayer < stoppingDistance)
+        if (distanceToPlayer < bumpedIntoDistance)
         {
-            AggroToPlayer(aggroTrigger + 1f);
+            SetState(EnemyState.ChasePlayer);
+            return;
+        }
+        else if (distanceToPlayer < enemySightMaxDistance)
+        {
+            // If player is within the vision cone, but not within bumping distance
+            Vector3 directionToPlayer = (player.transform.position - transform.position).normalized;
+            float angleToPlayer = Vector3.Angle(transform.forward, directionToPlayer);
+
+            if (angleToPlayer < enemySightAngle) // e.g., 60f
+            {
+                // Player is within the vision cone
+                aggression += aggroSpeed * Time.deltaTime;
+
+                if (aggression >= aggroTrigger)
+                {
+                    SetState(EnemyState.ChasePlayer);
+                    return;
+                }
+            }
         }
 
         // Aggro light if very close and not already fixated on player
-        if (!hasAggrod && lastSeenLightProducer && distanceToLight < stoppingDistance)
+        if (!hasAggrod && lastSeenLightProducer && distanceToLight < attackDistance)
         {
-            AggroToLight(aggroTrigger + 2f);
+            SetState(EnemyState.InvestigateLight);
+            return;
         }
 
         // Main aggro switching logic
@@ -220,42 +394,46 @@ public class EnemyController : MonoBehaviour
             {
                 if (distanceToPlayer < switchAttentionFromLightToPlayerDistance)
                 {
-                    AggroToPlayer(); // switch to player
+                    SetState(EnemyState.ChasePlayer);
                 }
                 else if (distanceToLight < switchAttentionFromLightToPlayerDistance)
                 {
-                    goal = lastSeenLightProducer;
+                    SetState(EnemyState.InvestigateLight);
                 }
             }
-            else // already aggrod
-            {
-                if (distanceToPlayer > stoppingDistance && distanceToPlayer < enemySightMaxDistance)
-                {
-                    goal = player;
-                }
-            }
+            //else // already aggrod
+            //{
+            //    if (distanceToPlayer > stoppingDistance && distanceToPlayer < enemySightMaxDistance)
+            //    {
+            //        //continue chasing.. this might not be needed
+            //        //code for when they're chasing the player, but they're still in visual range
+            //        //goal = player;
+            //        //Debug.LogError("Hey, you actually needed this! Turn it back on.");
+            //    }
+            //}
 
             // Keep looking at current goal
-            headObject.transform.LookAt(goal.transform);
+            //headObject.transform.LookAt(goal.transform);
         }
         else
         {
             // Calm down and reset goal
             hasAggrod = false;
             goal = originalGoal;
+            SetState(EnemyState.Idle);
         }
 
-        // Decay aggro over time if out of range or not lit
+        // Decay aggro over time if out of range or not lit... also might not need this below if statement at all
         if (!isLit && (distanceToPlayer > enemySightMaxDistance || (!hasAggrod && distanceToLight > enemySightMaxDistance)))
         {
             aggression = Mathf.Max(aggression - aggroDecay * Time.deltaTime, minAggro);
         }
-
         // If lit but player is far, return to light
         else if (isLit && hasAggrod && distanceToPlayer > enemySightMaxDistance / 4f)
         {
             goal = lastSeenLightProducer;
             hasAggrod = false;
+            SetState(EnemyState.InvestigateLight);
         }
 
 
@@ -352,27 +530,27 @@ public class EnemyController : MonoBehaviour
         */
     }
 
-    private void AggroToPlayer(float forceAggro = -1f)
-    {
-        hasAggrod = true;
-        goal = player;
-        if (forceAggro > 0f)
-            aggression = Mathf.Max(aggression, forceAggro);
-    }
+    //private void AggroToPlayer(float forceAggro = -1f)
+    //{
+    //    hasAggrod = true;
+    //    goal = player;
+    //    if (forceAggro > 0f)
+    //        aggression = Mathf.Max(aggression, forceAggro);
+    //}
 
-    private void AggroToLight(float forceAggro = -1f)
-    {
-        goal = lastSeenLightProducer;
-        if (forceAggro > 0f)
-            aggression = Mathf.Max(aggression, forceAggro);
-    }
+    //private void AggroToLight(float forceAggro = -1f) 
+    //{
+    //    goal = lastSeenLightProducer;
+    //    if (forceAggro > 0f)
+    //        aggression = Mathf.Max(aggression, forceAggro);
+    //}
 
 
     private void TryAttackWhenClose()
     {
         bool closeToGoal =
-            (goal == player && distanceToPlayer <= stoppingDistance ||
-            goal != originalGoal && goal == lastSeenLightProducer && distanceToLight <= stoppingDistance);
+            (goal == player && distanceToPlayer <= attackDistance ||
+            goal != originalGoal && goal == lastSeenLightProducer && distanceToLight <= attackDistance);
 
 
         if (closeToGoal)
@@ -395,16 +573,16 @@ public class EnemyController : MonoBehaviour
         {
             //draw stopping distance (when enemy fully aggros)
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, stoppingDistance);
+            Gizmos.DrawWireSphere(transform.position, bumpedIntoDistance);
 
             //draw max sight/aggression decay range
             Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(transform.position, enemySightMaxDistance);
+            Gizmos.DrawWireSphere(transform.position, attackDistance);
 
             //draw light producer line if one was recently seen
             if (lastSeenLightProducer != null)
             {
-                Gizmos.color = Color.cyan;
+                Gizmos.color = Color.white;
                 Gizmos.DrawLine(transform.position, lastSeenLightProducer.transform.position);
             }
 
@@ -421,6 +599,38 @@ public class EnemyController : MonoBehaviour
                 Gizmos.color = Color.green;
                 Gizmos.DrawLine(transform.position, goal.transform.position);
                 Gizmos.DrawSphere(goal.transform.position, 0.25f);
+            }
+
+            //this part I copied and pasted, unsure about it:
+            // Vision cone settings
+            Gizmos.color = Color.cyan;
+            int coneSegments = 20;
+            float angle = enemySightAngle; // Half-angle of vision cone, so total FOV is 120° if 60°
+            float radius = enemySightMaxDistance;
+
+            Vector3 forward = transform.forward;
+            Quaternion leftRayRotation = Quaternion.AngleAxis(-angle, Vector3.up);
+            Quaternion rightRayRotation = Quaternion.AngleAxis(angle, Vector3.up);
+
+            Vector3 leftRay = leftRayRotation * forward * radius;
+            Vector3 rightRay = rightRayRotation * forward * radius;
+
+            Vector3 origin = transform.position;
+
+            // Draw left and right bounds
+            Gizmos.DrawLine(origin, origin + leftRay);
+            Gizmos.DrawLine(origin, origin + rightRay);
+
+            // Draw arc between the bounds
+            Vector3 previousPoint = origin + leftRay;
+            for (int i = 1; i <= coneSegments; i++)
+            {
+                float t = (float)i / coneSegments;
+                float currentAngle = Mathf.Lerp(-angle, angle, t);
+                Quaternion segmentRotation = Quaternion.AngleAxis(currentAngle, Vector3.up);
+                Vector3 currentPoint = origin + (segmentRotation * forward * radius);
+                Gizmos.DrawLine(previousPoint, currentPoint);
+                previousPoint = currentPoint;
             }
         }
     }
@@ -536,25 +746,25 @@ public class EnemyController : MonoBehaviour
         isLit = false;
     }
 
-    public void TakeDamage(float damageAmtReceived)
-    {
-        if(isFrozen) { return; }
+    //public void TakeDamage(float damageAmtReceived)
+    //{
+    //    if(isFrozen) { return; }
 
-        health -= damageAmtReceived;
+    //    health -= damageAmtReceived;
 
-        if (health <= 0)
-        {
-            //if (player.TryGetComponent<PlayerController>(out PlayerController T))
-            //{
-            //    T.killcount++;
-            //}
+    //    if (health <= 0)
+    //    {
+    //        //if (player.TryGetComponent<PlayerController>(out PlayerController T))
+    //        //{
+    //        //    T.killcount++;
+    //        //}
 
-            DropItem(specialCanisterRarity, blueCanister);
-            Die(blueCanister);
-        }
+    //        DropItem(specialCanisterRarity, blueCanister);
+    //        Die(blueCanister);
+    //    }
 
-        aggression = maxAggro;
-    }
+    //    aggression = maxAggro;
+    //}
 
     //this is replacing health, maybe
     public void ApplyBeam(float deltaTime)
@@ -576,6 +786,8 @@ public class EnemyController : MonoBehaviour
             if(!isFrozen) { DropItem(specialCanisterRarity, blueCanister); }
             Die(blueCanister);
         }
+
+        SetState(EnemyState.ChasePlayer);
     }
 
     private void UpdateGlow(float glowChargePercent) //was glow percent before when just visual
@@ -606,6 +818,8 @@ public class EnemyController : MonoBehaviour
         {
             gooDecayCoroutineHolder = StartCoroutine(GooDecay());
         }
+
+        SetState(EnemyState.ChasePlayer);
     }
 
     private void UpdateGooMoveSpeed()
@@ -615,10 +829,8 @@ public class EnemyController : MonoBehaviour
 
         if (newSpeed <= .01f)
         {
-            newSpeed = 0f;
             isFrozen = true;
             gooDecayCoroutineHolder = null;
-            agent.isStopped = true;
 
             DropItem(specialCanisterRarity, yellowCanister);
             Die(yellowCanister);
@@ -707,7 +919,7 @@ public class EnemyController : MonoBehaviour
                 yield return new WaitForSeconds(attackWindupTime);
 
                 //this should maybe be invoked with a delay matching the length of the attack animation
-                if (canAttack && goal == player && distanceToPlayer <= stoppingDistance)
+                if (canAttack && goal == player && distanceToPlayer <= attackDistance)
                 {                    
                     if (player.TryGetComponent<PlayerController>(out PlayerController T))
                     {
@@ -730,7 +942,7 @@ public class EnemyController : MonoBehaviour
     {
         aggroNumDEBUG.text = "Aggro: " + aggression.ToString();
         //healthNumDEBUG.text = "Health: " + health.ToString();
-        healthSlider.value = health;
+        //healthSlider.value = health;
     }
 
     //private void OnTriggerExit(Collider other) //this doesn't fire when the flashlight is turned off
