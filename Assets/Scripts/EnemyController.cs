@@ -827,6 +827,8 @@ public class EnemyController : MonoBehaviour
 
     private void UpdateGooMoveSpeed()
     {
+        if(isFrozen) { return; }
+
         float gooRatio = gooAmount / maxGooAmount;
         float newSpeed = maxSpeed * (1f - gooRatio);
 
