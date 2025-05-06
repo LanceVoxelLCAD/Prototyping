@@ -106,7 +106,7 @@
 	</object>
 	<object class="EventMixerGroup" id="{d6b25f2c-0601-468d-8992-fb0f54a76210}">
 		<property name="volume">
-			<value>3</value>
+			<value>6.5</value>
 		</property>
 		<property name="name">
 			<value>Audio 1</value>
@@ -123,10 +123,10 @@
 	</object>
 	<object class="LoopRegion" id="{113a6d87-f72e-4a89-b15b-9045e7ca3b1f}">
 		<property name="position">
-			<value>0</value>
+			<value>0.54000000000000004</value>
 		</property>
 		<property name="length">
-			<value>2</value>
+			<value>1.3999999999999999</value>
 		</property>
 		<relationship name="timeline">
 			<destination>{47894d40-031b-4033-a6b0-01bebcade15e}</destination>
@@ -147,7 +147,7 @@
 			<value>pitch</value>
 		</property>
 		<property name="amount">
-			<value>19</value>
+			<value>4.5</value>
 		</property>
 	</object>
 	<object class="SingleSound" id="{c8533382-4ffd-4a01-83f8-530508c2a7d5}">

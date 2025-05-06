@@ -16,6 +16,13 @@ public class GooGun : MonoBehaviour
     public GameObject burnMarkPrefab;
     public float burnDuration = 5f;
 
+    [Tooltip("Controls the scale of burn mark decals")]
+    public Vector3 decalScale = new Vector3(1f, 1f, 1f);
+
+    [Range(0f, 1f)]
+    [Tooltip("Opacity of the burn mark (0 = transparent, 1 = fully visible)")]
+    public float decalOpacity = 1f;
+
     private EventInstance beamImpactInstance;
     private bool beamImpactSoundPlaying = false;
 
@@ -82,6 +89,7 @@ public class GooGun : MonoBehaviour
 
     private void Start()
     {
+
         player = GameObject.Find("Player");
         playCont = player.GetComponent<PlayerController>();
         playCont.currStaMana = playCont.maxStaMana;
@@ -104,7 +112,7 @@ public class GooGun : MonoBehaviour
     void LateUpdate()
     {
         if (MenuPause.IsPaused)
-            return; // 🔒 Stop all gun behavior while paused
+            return; // No gun on pause
 
         if (Input.GetKeyDown(KeyCode.C) || Input.GetMouseButtonDown(1) || Input.GetMouseButtonUp(1))
         {
@@ -182,7 +190,7 @@ public class GooGun : MonoBehaviour
     {
         beamLine.enabled = false;
         if (beamParticle.isPlaying) { beamParticle.Stop(); }
-        StopBeamSound(); // <- Ensure sound always stops with the beam
+        StopBeamSound(); //please stop the musik
         StopBeamSound();
         StopBeamImpactSound();
     }
@@ -298,12 +306,26 @@ public class GooGun : MonoBehaviour
         if (burnMarkPrefab == null) return;
 
         Quaternion decalRotation = Quaternion.FromToRotation(Vector3.forward, hit.normal);
-        GameObject burnMark = Instantiate(burnMarkPrefab, hit.point + hit.normal * 0.01f, decalRotation);
+        GameObject burnMark = Instantiate(
+            burnMarkPrefab,
+            hit.point + hit.normal * 0.01f,
+            decalRotation
+        );
+
+        burnMark.transform.SetParent(hit.collider.transform); // be sticky
+        burnMark.transform.localScale = decalScale;           // apply scale here
+
+        // Set decal opacity if a renderer + material exists
+        Renderer decalRenderer = burnMark.GetComponent<Renderer>();
+        if (decalRenderer != null && decalRenderer.material.HasProperty("_Color"))
+        {
+            Color color = decalRenderer.material.color;
+            color.a = decalOpacity;
+            decalRenderer.material.color = color;
+        }
 
 
-        burnMark.transform.SetParent(hit.collider.transform); // moves with surface
-
-        Destroy(burnMark, burnDuration); // Cleanup after time
+        Destroy(burnMark, burnDuration); // begone thot
     }
 
 
