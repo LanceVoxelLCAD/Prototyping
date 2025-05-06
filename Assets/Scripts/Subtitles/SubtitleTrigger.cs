@@ -15,23 +15,28 @@ public class SubtitleTrigger : MonoBehaviour
     public List<EventReference> voiceLineEvents;
     private EventReference evt;
 
+    [Header("Event After Sequence")]
+    public UnityEngine.Events.UnityEvent onSequenceComplete;
+
     private bool hasTriggered = false;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (!hasTriggered && other.CompareTag("Player"))
         {
+            hasTriggered = true;
             //StartCoroutine(PlaySubtitlesSequentially());
-            SubtitleManager.Instance?.PlaySubtitleSequence(subtitleLines);
+            //SubtitleManager.Instance?.PlaySubtitleSequence(subtitleLines);
+            SubtitleManager.Instance?.PlaySubtitleSequence(subtitleLines, OnSubtitlesComplete);
+            PlayVoiceLines();
 
-            foreach (var evt in voiceLineEvents)
-            {
-                PlayVoiceLine(evt);
-
-                if (destroyAfterUse) { Destroy(gameObject); }
-            }
+            //if (destroyAfterUse) { Destroy(gameObject); }
         }
-        void PlayVoiceLine(EventReference evt)
+    }
+
+    private void PlayVoiceLines()
+    {
+        foreach (var evt in voiceLineEvents)
         {
             if (!evt.IsNull)
             {
@@ -40,6 +45,11 @@ public class SubtitleTrigger : MonoBehaviour
         }
     }
 
+    private void OnSubtitlesComplete()
+    {
+        onSequenceComplete?.Invoke();
+        if (destroyAfterUse) Destroy(gameObject);
+    }
 }
     //private IEnumerator PlaySubtitlesSequentially()
     //{

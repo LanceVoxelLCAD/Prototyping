@@ -74,13 +74,13 @@ public class SubtitleManager : MonoBehaviour
         subtitleTextContainer.gameObject.SetActive(false);
     }
 
-    public void PlaySubtitleSequence(List<SubtitleLine> lines)
+    public void PlaySubtitleSequence(List<SubtitleLine> lines, System.Action onComplete = null)
     {
         if (currentCoroutine != null) { StopCoroutine(currentCoroutine); }
-        currentCoroutine = StartCoroutine(DisplaySubtitleSequence(lines));
+        currentCoroutine = StartCoroutine(DisplaySubtitleSequence(lines, onComplete));
     }
 
-    private System.Collections.IEnumerator DisplaySubtitleSequence(List<SubtitleLine> lines)
+    private System.Collections.IEnumerator DisplaySubtitleSequence(List<SubtitleLine> lines, System.Action onComplete)
     {
         foreach (var line in lines)
         {
@@ -104,6 +104,8 @@ public class SubtitleManager : MonoBehaviour
                 Debug.LogWarning($"Subtitle ID not found: {line.id}");
             }
         }
+
+        onComplete?.Invoke();
     }
 
     public SubtitleData GetSubtitleData(string id)
