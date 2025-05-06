@@ -21,6 +21,7 @@ public class EnemyController : MonoBehaviour
     public EventReference ambientLoopEvent;
     public EventReference deathSound;
     private EventInstance ambientInstance;
+    public EventReference freezeSound;
 
 
     public NavMeshAgent agent;
@@ -879,13 +880,17 @@ public class EnemyController : MonoBehaviour
 
     private void UpdateGooMoveSpeed()
     {
-        if(isFrozen) { return; }
 
         float gooRatio = gooAmount / maxGooAmount;
         float newSpeed = maxSpeed * (1f - gooRatio);
 
         if (newSpeed <= .01f)
         {
+            if (!freezeSound.IsNull)
+            {
+                RuntimeManager.PlayOneShot(freezeSound, transform.position); // Only plays ONCE now
+            }
+
             isFrozen = true;
             gooDecayCoroutineHolder = null;
 

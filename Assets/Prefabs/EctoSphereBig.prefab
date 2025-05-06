@@ -205,6 +205,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   growTime: 0.3
+  impactSound:
+    Guid:
+      Data1: -2028609623
+      Data2: 1207653979
+      Data3: 346957229
+      Data4: -657777880
+    Path: event:/Weapon/Platform Landing
+  destroySound:
+    Guid:
+      Data1: -928021138
+      Data2: 1154409106
+      Data3: 40248972
+      Data4: 1163293472
+    Path: event:/Weapon/Platform Destroy
 --- !u!65 &4251945154184162357
 BoxCollider:
   m_ObjectHideFlags: 0

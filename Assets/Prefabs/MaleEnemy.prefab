@@ -1635,6 +1635,13 @@ MonoBehaviour:
       Data3: -1983051112
       Data4: 1389632780
     Path: event:/Enemy/Kill Enemy
+  freezeSound:
+    Guid:
+      Data1: -654460216
+      Data2: 1073958874
+      Data3: -1150861650
+      Data4: 110172512
+    Path: event:/Enemy/Enemy Freeze
   agent: {fileID: 0}
   mask:
     serializedVersion: 2

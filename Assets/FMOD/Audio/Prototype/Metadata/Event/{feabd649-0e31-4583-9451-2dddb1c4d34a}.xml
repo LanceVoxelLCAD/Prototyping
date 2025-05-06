@@ -50,6 +50,9 @@
 		</relationship>
 	</object>
 	<object class="MixerInput" id="{9cbfc972-68dc-4994-b7bd-e10d8755fd77}">
+		<relationship name="masters">
+			<destination>{5f31e363-2611-413e-8a0b-131a5f5fc288}</destination>
+		</relationship>
 		<relationship name="effectChain">
 			<destination>{d9025869-f079-4855-8102-99df5547a3ee}</destination>
 		</relationship>
@@ -124,6 +127,9 @@
 		</relationship>
 	</object>
 	<object class="MultiSound" id="{38cacb20-c042-467c-b186-326da9b894dc}">
+		<property name="volume">
+			<value>10</value>
+		</property>
 		<property name="looping">
 			<value>true</value>
 		</property>
@@ -137,9 +143,6 @@
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{35951e4d-3d2b-41e7-a10d-6a9e3be50096}">
-		<property name="volume">
-			<value>5</value>
-		</property>
 		<property name="name">
 			<value>Audio 1</value>
 		</property>
@@ -157,6 +160,9 @@
 		<property name="start">
 			<value>1</value>
 		</property>
+		<property name="volume">
+			<value>10</value>
+		</property>
 		<property name="pitch">
 			<value>3.79999995</value>
 		</property>
@@ -173,9 +179,6 @@
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{b98639b2-e3f1-4552-9472-f62105af1472}">
-		<property name="volume">
-			<value>5</value>
-		</property>
 		<property name="name">
 			<value>Audio 2</value>
 		</property>
@@ -246,7 +249,14 @@
 			<destination>{e9b5e5a5-87b4-4ccc-b253-1e3a0ef1d03d}</destination>
 		</relationship>
 	</object>
-	<object class="MixerBusPanner" id="{1413def3-bbbb-4388-8c66-b5ecf6d05374}" />
+	<object class="MixerBusPanner" id="{1413def3-bbbb-4388-8c66-b5ecf6d05374}">
+		<property name="surroundPanDirection">
+			<value>114.469238</value>
+		</property>
+		<property name="surroundPanExtent">
+			<value>357.326477</value>
+		</property>
+	</object>
 	<object class="SingleSound" id="{57b8adbd-46ed-4ee7-a276-d6f195122336}">
 		<relationship name="audioFile">
 			<destination>{1eb19a3c-89fb-41ec-8c56-c469cd7b6f41}</destination>

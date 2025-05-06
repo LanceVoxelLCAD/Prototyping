@@ -6361,6 +6361,13 @@ MonoBehaviour:
       Data3: -1591825769
       Data4: -1986253878
     Path: event:/Weapon/Light Beam
+  modeSwitchSound:
+    Guid:
+      Data1: -1069205305
+      Data2: 1237821451
+      Data3: 289053069
+      Data4: -1678828984
+    Path: event:/Weapon/Switching Modes
   beamImpactLoopSound:
     Guid:
       Data1: 2010068037

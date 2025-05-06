@@ -10,6 +10,8 @@ public class GooGun : MonoBehaviour
     [Header("FMOD Events")]
     public EventReference gooFireSound;
     public EventReference beamLoopSound;
+    public EventReference modeSwitchSound;
+
 
     [Header("FMOD Impact Loop")]
     public EventReference beamImpactLoopSound;
@@ -147,6 +149,8 @@ public class GooGun : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.C) || Input.GetMouseButtonDown(1) || Input.GetMouseButtonUp(1))
         {
             firingModeBlue = !firingModeBlue;
+
+            RuntimeManager.PlayOneShot(modeSwitchSound, firePoint.position);
 
             var colorOverLifetime = gunModeParticles.colorOverLifetime;
 

@@ -1,10 +1,15 @@
 using UnityEngine;
+using FMODUnity;
 
 public class GooProjectile : MonoBehaviour
 {
     public GameObject gooPlacedPrefab;
     public float lifetime = 5f;
     public float spawnOffset = .3f;
+
+    [Header("FMOD Events")]
+    public EventReference impactSound;
+    public EventReference destroySound;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -35,6 +40,11 @@ public class GooProjectile : MonoBehaviour
         }
         else if (collision.gameObject.tag != "GhostFoam") //this could also be a layer thing.
         {
+            if (!impactSound.IsNull)
+            {
+                RuntimeManager.PlayOneShot(impactSound, transform.position);
+            }
+
             //Quaternion gooRotation = Quaternion.LookRotation(contact.normal);
             Vector3 spawnPosition = contact.point + (contact.normal * spawnOffset);
 

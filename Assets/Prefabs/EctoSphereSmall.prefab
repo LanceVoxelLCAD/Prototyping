@@ -152,3 +152,17 @@ MonoBehaviour:
   gooPlacedPrefab: {fileID: 8772396109635877265, guid: 7afffcc797b0e034686eb6f3b789b0f6, type: 3}
   lifetime: 5
   spawnOffset: 0.35
+  impactSound:
+    Guid:
+      Data1: -2028609623
+      Data2: 1207653979
+      Data3: 346957229
+      Data4: -657777880
+    Path: event:/Weapon/Platform Landing
+  destroySound:
+    Guid:
+      Data1: -928021138
+      Data2: 1154409106
+      Data3: 40248972
+      Data4: 1163293472
+    Path: event:/Weapon/Platform Destroy

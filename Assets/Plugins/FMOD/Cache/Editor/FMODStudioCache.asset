@@ -42,10 +42,10 @@ MonoBehaviour:
   Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638821319574430298
+  lastModified: 638821366277270891
   FileSizes:
   - Name: Desktop
-    Value: 1448
+    Value: 1706
   Exists: 1
 --- !u!114 &-8566869364299892437
 MonoBehaviour:
@@ -157,11 +157,38 @@ MonoBehaviour:
   Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Player.bank
   Name: Player
   StudioPath: bank:/Player
-  lastModified: 638820834480886304
+  lastModified: 638821359264027331
   FileSizes:
   - Name: Desktop
-    Value: 710880
+    Value: 710944
   Exists: 1
+--- !u!114 &-6568232236672154304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Enemy/Enemy Freeze
+  m_EditorClassIdentifier: 
+  Path: event:/Enemy/Enemy Freeze
+  Guid:
+    Data1: -654460216
+    Data2: 1073958874
+    Data3: -1150861650
+    Data4: 110172512
+  Banks:
+  - {fileID: -6156058407573203072}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 3213
 --- !u!114 &-6496557029928723640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -260,10 +287,10 @@ MonoBehaviour:
   Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Enemy.bank
   Name: Enemy
   StudioPath: bank:/Enemy
-  lastModified: 638821347915744551
+  lastModified: 638821366282136136
   FileSizes:
   - Name: Desktop
-    Value: 750336
+    Value: 805888
   Exists: 1
 --- !u!114 &-6148148921315140639
 MonoBehaviour:
@@ -408,10 +435,10 @@ MonoBehaviour:
   Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638821319574445713
+  lastModified: 638821366277291364
   FileSizes:
   - Name: Desktop
-    Value: 2270
+    Value: 2416
   Exists: 1
 --- !u!114 &-4431472191001779674
 MonoBehaviour:
@@ -510,6 +537,33 @@ MonoBehaviour:
   - Name: Desktop
     Value: 1408
   Exists: 1
+--- !u!114 &-2895847019904874699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Weapon/Platform Landing
+  m_EditorClassIdentifier: 
+  Path: event:/Weapon/Platform Landing
+  Guid:
+    Data1: -2028609623
+    Data2: 1207653979
+    Data3: 346957229
+    Data4: -657777880
+  Banks:
+  - {fileID: 1791864180212617129}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 848
 --- !u!114 &-2887128020423659721
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -537,6 +591,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 10562
+--- !u!114 &-2809250935073249201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Weapon/Platform Destroy
+  m_EditorClassIdentifier: 
+  Path: event:/Weapon/Platform Destroy
+  Guid:
+    Data1: -928021138
+    Data2: 1154409106
+    Data3: 40248972
+    Data4: 1163293472
+  Banks:
+  - {fileID: 1791864180212617129}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 848
 --- !u!114 &-2717814326996488219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -807,13 +888,16 @@ MonoBehaviour:
   - {fileID: -6839134074746918632}
   - {fileID: -451535835495609820}
   - {fileID: -2717814326996488219}
+  - {fileID: -6568232236672154304}
+  - {fileID: -2809250935073249201}
+  - {fileID: -2895847019904874699}
   EditorParameters: []
   MasterBanks:
   - {fileID: -8932181533296066825}
   StringsBanks:
   - {fileID: -4589439008883423445}
   cacheVersion: 131847
-  cacheTime: 638821347915744551
+  cacheTime: 638821377293652842
   SerializableEventsDict:
   - key: event:/Music/LoopingAmbient
     index: 0
@@ -855,6 +939,12 @@ MonoBehaviour:
     index: 18
   - key: event:/Tutorial/Trying Again
     index: 19
+  - key: event:/Enemy/Enemy Freeze
+    index: 20
+  - key: event:/Weapon/Platform Destroy
+    index: 21
+  - key: event:/Weapon/Platform Landing
+    index: 22
 --- !u!114 &16148734274577184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1020,10 +1110,10 @@ MonoBehaviour:
   Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Weapon.bank
   Name: Weapon
   StudioPath: bank:/Weapon
-  lastModified: 638820839525355995
+  lastModified: 638821377293652842
   FileSizes:
   - Name: Desktop
-    Value: 270688
+    Value: 290720
   Exists: 1
 --- !u!114 &2573899681913500042
 MonoBehaviour:
@@ -1203,10 +1293,10 @@ MonoBehaviour:
   Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Tutorial.bank
   Name: Tutorial
   StudioPath: bank:/Tutorial
-  lastModified: 638821332819857368
+  lastModified: 638821359265801098
   FileSizes:
   - Name: Desktop
-    Value: 2114112
+    Value: 2114144
   Exists: 1
 --- !u!114 &7078711247186150864
 MonoBehaviour:
@@ -1325,10 +1415,10 @@ MonoBehaviour:
   Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Background.bank
   Name: Background
   StudioPath: bank:/Background
-  lastModified: 638821333172682688
+  lastModified: 638821359264904900
   FileSizes:
   - Name: Desktop
-    Value: 4696864
+    Value: 4696896
   Exists: 1
 --- !u!114 &8200553803901376030
 MonoBehaviour:
