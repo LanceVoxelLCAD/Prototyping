@@ -6384,7 +6384,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   staManaBeamDrain: 1
-  staManaGooCost: 6
+  staManaGooCost: 8
   player: {fileID: 0}
   staManaSlider: {fileID: 0}
   beamLine: {fileID: 2082917754450752416}

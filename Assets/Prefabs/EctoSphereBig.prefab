@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 3947782270021044198}
   - component: {fileID: 2337570480089164170}
   - component: {fileID: 4251945154184162357}
+  - component: {fileID: 7795889148200528738}
   m_Layer: 0
   m_Name: EctoSphereBig
   m_TagString: GhostFoam
@@ -225,3 +226,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1.0000001, z: 1}
   m_Center: {x: 0.0000019073486, y: -0.00000023841858, z: 0.0000019073486}
+--- !u!208 &7795889148200528738
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8772396109635877265}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
