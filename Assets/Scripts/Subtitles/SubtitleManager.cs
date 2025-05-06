@@ -19,24 +19,24 @@ public class SubtitleManager : MonoBehaviour
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
 
-        LoadSubtitlesFromCSV("Subtitles/tutorial_subtitles");
+        LoadSubtitlesFromTSV("Subtitles/tutorial_subtitles");
     }
 
-    private void LoadSubtitlesFromCSV(string path)
+    private void LoadSubtitlesFromTSV(string path)
     {
-        TextAsset csvFile = Resources.Load<TextAsset>(path);
-        if (!csvFile)
+        TextAsset tsvFile = Resources.Load<TextAsset>(path);
+        if (!tsvFile)
         {
-            Debug.LogError("Subtitle CSV not found!");
+            Debug.LogError("Subtitle TSV not found!");
             return;
         }
 
-        var lines = csvFile.text.Split('\n');
+        var lines = tsvFile.text.Split('\n');
 
         for (int i = 1; i < lines.Length; i++) // skip header
         {
             if (string.IsNullOrWhiteSpace(lines[i])) continue;
-            var cells = lines[i].Split(',');
+            var cells = lines[i].Split('\t');
 
             var data = new SubtitleData
             {
