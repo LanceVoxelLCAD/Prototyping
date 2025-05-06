@@ -107828,7 +107828,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   goal: {fileID: 0}
-  player: {fileID: 0}
   agent: {fileID: 2079013597}
   mask:
     serializedVersion: 2
@@ -107847,7 +107846,6 @@ MonoBehaviour:
   lastSeenLightProducer: {fileID: 0}
   headObject: {fileID: 2079013593}
   deathParticle: {fileID: 0}
-  distanceFactor: 0
   attackDamage: 20
   aggression: 0
   lastAggression: 0
