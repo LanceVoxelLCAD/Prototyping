@@ -262,6 +262,7 @@ MonoBehaviour:
   - Background
   - Enemy
   - Player
+  - Tutorial
   - UI Sounds
   - Weapon
   BanksToLoad: []

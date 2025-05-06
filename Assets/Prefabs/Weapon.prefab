@@ -6349,29 +6349,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gooFireSound:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: 37903751
+      Data2: 1341880260
+      Data3: -529112956
+      Data4: 588033043
+    Path: event:/Weapon/Gunshot
   beamLoopSound:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -113402824
+      Data2: 1309484831
+      Data3: -1591825769
+      Data4: -1986253878
+    Path: event:/Weapon/Light Beam
   beamImpactLoopSound:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  burnMarkPrefab: {fileID: 0}
+      Data1: 2010068037
+      Data2: 1196120599
+      Data3: -537036910
+      Data4: 1789882489
+    Path: event:/Weapon/Light Beam Impact
+  burnMarkPrefab: {fileID: 8832645798729027948, guid: 0457d4bf8c1514f4cb6f7d816c243a67, type: 3}
   burnDuration: 5
-  decalScale: {x: 1, y: 1, z: 1}
-  decalOpacity: 1
+  decalScale: {x: 0.15, y: 0.15, z: 0.15}
+  decalOpacity: 0.657
   gooProjectilePrefab: {fileID: 8772396109635877265, guid: aa52e7b2890cbdb4a88ae9dfeffa4786, type: 3}
   firePoint: {fileID: 8124650964907916214}
   launchForce: 20

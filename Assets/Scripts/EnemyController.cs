@@ -21,8 +21,6 @@ public class EnemyController : MonoBehaviour
     public EventReference ambientLoopEvent;
     public EventReference deathSound;
     private EventInstance ambientInstance;
-    //public EventReference aggressionSoundEvent;
-    //private EventInstance aggressionInstance;
 
 
     public NavMeshAgent agent;
@@ -147,12 +145,13 @@ public class EnemyController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        //if (!ambientLoopEvent.IsNull)
-        //{
-        //ggressionInstance = RuntimeManager.CreateInstance(aggressionSoundEvent);
-        //aggressionInstance.set3DAttributes(RuntimeUtils.To3DAttributes(gameObject));
-        //aggressionInstance.start();
-        
+        if (!ambientLoopEvent.IsNull)
+        {
+            ambientInstance = RuntimeManager.CreateInstance(ambientLoopEvent);
+            ambientInstance.set3DAttributes(RuntimeUtils.To3DAttributes(gameObject));
+            ambientInstance.start();
+        }
+
         //find the goal (must be in root hierarchy)
         //goal = GameObject.Find("Goal");
         goal = gameObject; //stop looking for anything //allows for wandering
