@@ -1,8 +1,5 @@
 triggerID	subtitledText	displayDuration
-intro1	Hey! Welcome back!	6
-intro1a	So, you’re half dead.	6
-intro1b	If you look to your left - ah, your other left - Yeah, sure - You’ll see your body. Looks pretty dead, right?	2
-intro1c	 But no worries - you’re only half dead. And if you do one little thing for us, as easy as changing a lightbulb, we’ll get you back in your meatsuit in a jiff.	2
+intro1	Hey! Welcome back! So, you’re half dead. If you look to your left - ah, your other left - Yeah, sure - You’ll see your body. Looks pretty dead, right? But no worries - you’re only half dead. And if you do one little thing for us, as easy as changing a lightbulb, we’ll get you back in your meatsuit in a jiff.	6
 intro2	Let’s start by walking around, yeah? See, dying - or half dying - tends to do a number on.. Well.. everything. Your body and mind, yadda yadda. You - You do remember how to walk, right?	6
 intro3	Great. Great. Now, how about jumping. There’s a little obstacle in front of you. Jump over that.	6
 intro4	Good job! See? You’ve got this. So, this is a hallway - you remember those, right? They’re pretty long.	6
