@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="AudioFile" id="{fbe86ca4-baa5-4a1a-a0b1-f01af376bb2d}">
+		<property name="assetPath">
+			<value>Voices - Essentials/Voice_Male/Voice_Male_Jump&amp;Land/Voice_Male_V2_Jump_Mono_03.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>1</value>
+		</property>
+		<property name="length">
+			<value>0.32883333333333331</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{458b073d-971b-4492-acf2-af40bab90cad}</destination>
+		</relationship>
+	</object>
+</objects>

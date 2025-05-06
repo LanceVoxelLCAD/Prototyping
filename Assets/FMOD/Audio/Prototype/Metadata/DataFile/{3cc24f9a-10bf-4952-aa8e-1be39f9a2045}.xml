@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="DataFile" id="{3cc24f9a-10bf-4952-aa8e-1be39f9a2045}">
+		<property name="assetPath">
+			<value>Voices - Essentials/Voice_Male/Voice_Male_Jump&amp;Land/Voice_Male_V2_Jump_Mono_01.wav.meta</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{458b073d-971b-4492-acf2-af40bab90cad}</destination>
+		</relationship>
+	</object>
+</objects>

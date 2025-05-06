@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="AudioFile" id="{b6ea7970-3c6e-4ba2-bf57-92587fafd797}">
+		<property name="assetPath">
+			<value>Voices - Essentials/Voice_Female/Voice_Female_Jump&amp;Land/Voice_Female_V1_Land_Mono_09.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>1</value>
+		</property>
+		<property name="length">
+			<value>0.28441666666666665</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{458b073d-971b-4492-acf2-af40bab90cad}</destination>
+		</relationship>
+	</object>
+</objects>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="EncodableAsset" id="{e90b74f4-b162-4919-ae92-d3bdfe4c606f}">
+		<property name="assetPath">
+			<value>Voices - Essentials/Voice_Female/Voice_Female_Pain/</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{458b073d-971b-4492-acf2-af40bab90cad}</destination>
+		</relationship>
+	</object>
+</objects>

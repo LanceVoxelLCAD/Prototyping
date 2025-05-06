@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="DataFile" id="{9672466f-013a-43e5-93e4-731d0d434a51}">
+		<property name="assetPath">
+			<value>Voices - Essentials/Voice_Female/Voice_Female_Pain/Voice_Female_V2_Pain_Mono_05.wav.meta</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{458b073d-971b-4492-acf2-af40bab90cad}</destination>
+		</relationship>
+	</object>
+</objects>
