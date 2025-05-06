@@ -42,7 +42,7 @@ MonoBehaviour:
   Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638820719446257018
+  lastModified: 638820834472574764
   FileSizes:
   - Name: Desktop
     Value: 1448
@@ -129,10 +129,10 @@ MonoBehaviour:
   Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Player.bank
   Name: Player
   StudioPath: bank:/Player
-  lastModified: 638820767383622995
+  lastModified: 638820834480886304
   FileSizes:
   - Name: Desktop
-    Value: 459904
+    Value: 710880
   Exists: 1
 --- !u!114 &-6496557029928723640
 MonoBehaviour:
@@ -217,6 +217,26 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &-6156058407573203072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Enemy.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Enemy.bank
+  Name: Enemy
+  StudioPath: bank:/Enemy
+  lastModified: 638820834487768085
+  FileSizes:
+  - Name: Desktop
+    Value: 358880
+  Exists: 1
 --- !u!114 &-5373438929568969882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -336,10 +356,10 @@ MonoBehaviour:
   Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638820719446273266
+  lastModified: 638820834472595011
   FileSizes:
   - Name: Desktop
-    Value: 1622
+    Value: 1992
   Exists: 1
 --- !u!114 &-4431472191001779674
 MonoBehaviour:
@@ -414,6 +434,33 @@ MonoBehaviour:
   - Name: Desktop
     Value: 1408
   Exists: 1
+--- !u!114 &-2887128020423659721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Player/You Died Screen
+  m_EditorClassIdentifier: 
+  Path: event:/Player/You Died Screen
+  Guid:
+    Data1: -636186368
+    Data2: 1112088733
+    Data3: 125537426
+    Data4: -1000523877
+  Banks:
+  - {fileID: -6699971391496990307}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 10562
 --- !u!114 &-2407002830436879666
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -441,6 +488,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 155846
+--- !u!114 &-2009778359025979832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Enemy/Kill Enemy
+  m_EditorClassIdentifier: 
+  Path: event:/Enemy/Kill Enemy
+  Guid:
+    Data1: 1079244589
+    Data2: 1167010979
+    Data3: -1983051112
+    Data4: 1389632780
+  Banks:
+  - {fileID: -6156058407573203072}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4245
 --- !u!114 &-1852044511870340445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -488,6 +562,30 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 2000
+--- !u!114 &-879015735968327037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Enemy Ambient/VoiceGender
+  m_EditorClassIdentifier: 
+  Name: VoiceGender
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 2184116879
+    data2: 1638635148
+  Type: 1
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &-823911880268201621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -554,6 +652,7 @@ MonoBehaviour:
   - {fileID: -6699971391496990307}
   - {fileID: -8566869364299892437}
   - {fileID: 1791864180212617129}
+  - {fileID: -6156058407573203072}
   EditorEvents:
   - {fileID: -2407002830436879666}
   - {fileID: 3683469652473326158}
@@ -566,13 +665,19 @@ MonoBehaviour:
   - {fileID: -5302839029593192091}
   - {fileID: -3462622471376659825}
   - {fileID: -6446337053515538618}
+  - {fileID: -2009778359025979832}
+  - {fileID: 47109137109032717}
+  - {fileID: -2887128020423659721}
+  - {fileID: 1517176845044965121}
+  - {fileID: 4805488138158150387}
+  - {fileID: 4817105071961026054}
   EditorParameters: []
   MasterBanks:
   - {fileID: -8932181533296066825}
   StringsBanks:
   - {fileID: -4589439008883423445}
   cacheVersion: 131847
-  cacheTime: 638820767383622995
+  cacheTime: 638820839525355995
   SerializableEventsDict:
   - key: event:/Music/LoopingAmbient
     index: 0
@@ -596,6 +701,18 @@ MonoBehaviour:
     index: 9
   - key: event:/Player/Hurt
     index: 10
+  - key: event:/Enemy/Kill Enemy
+    index: 11
+  - key: event:/Enemy/Enemy Ambient
+    index: 12
+  - key: event:/Player/You Died Screen
+    index: 13
+  - key: event:/Weapon/Red Canister
+    index: 14
+  - key: event:/Weapon/Yellow Canister
+    index: 15
+  - key: event:/Weapon/Switching Modes
+    index: 16
 --- !u!114 &16148734274577184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -616,6 +733,34 @@ MonoBehaviour:
   - Name: Desktop
     Value: 27328
   Exists: 1
+--- !u!114 &47109137109032717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Enemy/Enemy Ambient
+  m_EditorClassIdentifier: 
+  Path: event:/Enemy/Enemy Ambient
+  Guid:
+    Data1: -22292919
+    Data2: 1166216753
+    Data3: -584232556
+    Data4: 1255392433
+  Banks:
+  - {fileID: -6156058407573203072}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters:
+  - {fileID: -879015735968327037}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 23484
 --- !u!114 &439442277506528989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -664,6 +809,33 @@ MonoBehaviour:
   IsGlobal: 0
   Labels: []
   Exists: 1
+--- !u!114 &1517176845044965121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Weapon/Red Canister
+  m_EditorClassIdentifier: 
+  Path: event:/Weapon/Red Canister
+  Guid:
+    Data1: -1723641297
+    Data2: 1197465177
+    Data3: 1416503227
+    Data4: 848774661
+  Banks:
+  - {fileID: 1791864180212617129}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 980
 --- !u!114 &1700295307051285259
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -706,10 +878,10 @@ MonoBehaviour:
   Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Weapon.bank
   Name: Weapon
   StudioPath: bank:/Weapon
-  lastModified: 638820613916582971
+  lastModified: 638820839525355995
   FileSizes:
   - Name: Desktop
-    Value: 219168
+    Value: 270688
   Exists: 1
 --- !u!114 &2573899681913500042
 MonoBehaviour:
@@ -788,10 +960,65 @@ MonoBehaviour:
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
-  Parameters: []
+  Parameters:
+  - {fileID: 7765674637123323787}
   MinDistance: 1
   MaxDistance: 20
   Length: 2000
+--- !u!114 &4805488138158150387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Weapon/Yellow Canister
+  m_EditorClassIdentifier: 
+  Path: event:/Weapon/Yellow Canister
+  Guid:
+    Data1: 206006619
+    Data2: 1259110096
+    Data3: -1762960983
+    Data4: 1904680086
+  Banks:
+  - {fileID: 1791864180212617129}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1608
+--- !u!114 &4817105071961026054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Weapon/Switching Modes
+  m_EditorClassIdentifier: 
+  Path: event:/Weapon/Switching Modes
+  Guid:
+    Data1: -1069205305
+    Data2: 1237821451
+    Data3: 289053069
+    Data4: -1678828984
+  Banks:
+  - {fileID: 1791864180212617129}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 250
 --- !u!114 &5074165805445015329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -873,6 +1100,30 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 155846
+--- !u!114 &7765674637123323787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Walking/Material
+  m_EditorClassIdentifier: 
+  Name: Material
+  StudioPath: 
+  Min: 0
+  Max: 3
+  Default: 0
+  ID:
+    data1: 3982025953
+    data2: 2886908168
+  Type: 1
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &7791189279759607417
 MonoBehaviour:
   m_ObjectHideFlags: 0

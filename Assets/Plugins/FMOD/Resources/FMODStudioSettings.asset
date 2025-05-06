@@ -260,6 +260,7 @@ MonoBehaviour:
   - Master
   Banks:
   - Background
+  - Enemy
   - Player
   - UI Sounds
   - Weapon

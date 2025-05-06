@@ -30,6 +30,9 @@ public class PlayerController : MonoBehaviour
     public EventReference landEvent;
     private bool wasGroundedLastFrame = false;
 
+    [Header("Canister Sounds")]
+    public EventReference redCanisterSound;
+    public EventReference yellowCanisterSound;
 
     [Header("Move")]
     public float walkSpeed = 3f;
@@ -112,8 +115,21 @@ public class PlayerController : MonoBehaviour
         AimingRay();
         ManageHealth();
 
-        if (Input.GetKeyDown(KeyCode.H)) { UseRedCanister(); }
-        if (Input.GetKeyDown(KeyCode.R)) { UseYellowCanister(); }
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+
+            UseRedCanister();
+            if (!redCanisterSound.IsNull);
+            RuntimeManager.PlayOneShot(redCanisterSound, transform.position);
+        }
+
+
+        if (Input.GetKeyDown(KeyCode.R)) 
+        { 
+            UseYellowCanister();
+            if (!yellowCanisterSound.IsNull)
+                RuntimeManager.PlayOneShot(yellowCanisterSound, transform.position);
+        }
 
         //ManageFood();
         //Hotbar(scrollInput);

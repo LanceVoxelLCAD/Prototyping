@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="EncodableAsset" id="{9fee17b5-927e-4857-9147-f4468a555a14}">
+		<property name="assetPath">
+			<value>GDC2024/Sonniss.com-GDC2024-GameAudioBundle9of9/UberDuo - Inhale – Owen – Character Playset/</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{458b073d-971b-4492-acf2-af40bab90cad}</destination>
+		</relationship>
+	</object>
+</objects>

@@ -18,6 +18,7 @@ public class GooGun : MonoBehaviour
     public GameObject burnMarkPrefab;
     public float burnDuration = 5f;
 
+
     [Tooltip("Controls the scale of burn mark decals")]
     public Vector3 decalScale = new Vector3(1f, 1f, 1f);
 

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="AudioFile" id="{b77a0f00-b66f-4f14-add5-407d12e277ea}">
+		<property name="assetPath">
+			<value>GDC2024/Sonniss.com-GDC2024-GameAudioBundle6of9/Rescopic Sound - Sci-Fi Energy Weapons/SCIWeap_Reload Compact O 01_RSCPC_SFEW.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>96</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>1.7706666666666666</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{458b073d-971b-4492-acf2-af40bab90cad}</destination>
+		</relationship>
+	</object>
+</objects>

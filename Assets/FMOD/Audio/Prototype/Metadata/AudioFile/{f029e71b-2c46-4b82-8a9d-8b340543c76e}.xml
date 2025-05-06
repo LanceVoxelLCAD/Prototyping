@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.03.00">
 	<object class="AudioFile" id="{f029e71b-2c46-4b82-8a9d-8b340543c76e}">
 		<property name="assetPath">
-			<value>616843__trp__sizzles-burning-water-hair-various-2012 - Trimmed.wav</value>
+			<value>Light Gun/616843__trp__sizzles-burning-water-hair-various-2012 - Trimmed.wav</value>
 		</property>
 		<property name="frequencyInKHz">
 			<value>48</value>
