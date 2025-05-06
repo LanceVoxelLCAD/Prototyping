@@ -15,4 +15,8 @@ public class ControlsText : MonoBehaviour
         controlsText.text = "Jump with Space";
     }
 
+    public void onRun()
+    {
+        controlsText.text = "Run with Shift";
+    }
 }
