@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6090315934212482716}
   - component: {fileID: 2657921189884580661}
   - component: {fileID: 8070324245264594567}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SubtitleTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -126,3 +126,4 @@ MonoBehaviour:
   - id: intro1
     overrideDurationEnabled: 1
     customDuration: 6
+  voiceLineEvents: []
