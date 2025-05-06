@@ -71,4 +71,47 @@ public class SubtitleManager : MonoBehaviour
         subtitleText.text = "";
         subtitleTextContainer.gameObject.SetActive(false);
     }
+
+    public void PlaySubtitleSequence(List<string> ids)
+    {
+        if (currentCoroutine != null)
+            StopCoroutine(currentCoroutine);
+
+        currentCoroutine = StartCoroutine(DisplaySubtitleSequence(ids));
+    }
+
+    private System.Collections.IEnumerator DisplaySubtitleSequence(List<string> ids)
+    {
+        foreach (string id in ids)
+        {
+            if (subtitleLookup.TryGetValue(id, out SubtitleData data))
+            {
+                subtitleText.text = data.subtitleText;
+                subtitleTextContainer.gameObject.SetActive(true);
+
+                yield return new WaitForSeconds(data.displayDuration);
+
+                subtitleText.text = "";
+                subtitleTextContainer.gameObject.SetActive(false);
+
+                // small delay between subtitles
+                yield return new WaitForSeconds(0.5f);  // Adjust delay as necessary
+            }
+            else
+            {
+                Debug.LogWarning($"Subtitle ID not found: {id}");
+            }
+        }
+    }
+
+    public SubtitleData GetSubtitleData(string id)
+    {
+        if (subtitleLookup.TryGetValue(id, out SubtitleData data))
+        {
+            return data;
+        }
+
+        Debug.LogWarning($"Subtitle ID not found: {id}");
+        return null;
+    }
 }
