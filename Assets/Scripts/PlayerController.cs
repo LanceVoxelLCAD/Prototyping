@@ -41,6 +41,8 @@ public class PlayerController : MonoBehaviour
 
     private float playerScale = 1.1f;
 
+    private Animator anim;
+
     [Header("Jump")]
     public bool grounded;
     public LayerMask groundMask;
@@ -98,6 +100,8 @@ public class PlayerController : MonoBehaviour
 
         passiveHeal = true; //no more food system
         healthSlider.maxValue = maxHealth;
+
+        anim = GetComponentInChildren<Animator>();
     }
 
     void Update()
@@ -146,6 +150,10 @@ public class PlayerController : MonoBehaviour
             //DetermineForward(forward, right);
             HandleMovement(forward, right, run);
         }
+        else
+        {
+            anim.SetFloat("Speed", 0);
+        }
 
         //left to right visuals
         transform.Rotate(Vector3.up, mouseXInput * turnSpeedSensitivity * Time.deltaTime);
@@ -174,6 +182,15 @@ public class PlayerController : MonoBehaviour
         if (run)
         {
             moveSpeed = runSpeed;
+        }
+
+        if (moveSpeed == walkSpeed)
+        {
+            anim.SetFloat("Speed", 1);
+        }
+        else
+        {
+            anim.SetFloat("Speed", 3);
         }
 
         //float input = Mathf.Max(Mathf.Abs(forward), Mathf.Abs(right));

@@ -14,4 +14,5 @@ public class ControlsText : MonoBehaviour
     {
         controlsText.text = "Jump with Space";
     }
+
 }
