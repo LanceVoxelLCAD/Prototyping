@@ -1,0 +1,74 @@
+using System.Collections.Generic;
+using UnityEngine;
+using TMPro;
+
+public class SubtitleManager : MonoBehaviour
+{
+    //94% stolen, I have 24% of an idea of how this works.
+
+    public static SubtitleManager Instance;
+
+    private Dictionary<string, SubtitleData> subtitleLookup = new();
+
+    public GameObject subtitleTextContainer;  // Assign in inspector
+    public TMP_Text subtitleText; // Assign in inspector
+    private Coroutine currentCoroutine;
+
+    private void Awake()
+    {
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
+
+        LoadSubtitlesFromCSV("Subtitles/tutorial_subtitles");
+    }
+
+    private void LoadSubtitlesFromCSV(string path)
+    {
+        TextAsset csvFile = Resources.Load<TextAsset>(path);
+        if (!csvFile)
+        {
+            Debug.LogError("Subtitle CSV not found!");
+            return;
+        }
+
+        var lines = csvFile.text.Split('\n');
+
+        for (int i = 1; i < lines.Length; i++) // skip header
+        {
+            if (string.IsNullOrWhiteSpace(lines[i])) continue;
+            var cells = lines[i].Split(',');
+
+            var data = new SubtitleData
+            {
+                id = cells[0].Trim(),
+                subtitleText = cells[1].Trim(),
+                displayDuration = float.Parse(cells[2].Trim())
+            };
+
+            subtitleLookup[data.id] = data;
+        }
+    }
+
+    public void PlaySubtitle(string id)
+    {
+        if (!subtitleLookup.TryGetValue(id, out SubtitleData data))
+        {
+            Debug.LogWarning($"Subtitle ID not found: {id}");
+            return;
+        }
+
+        if (currentCoroutine != null) StopCoroutine(currentCoroutine);
+        currentCoroutine = StartCoroutine(DisplaySubtitle(data));
+    }
+
+    private System.Collections.IEnumerator DisplaySubtitle(SubtitleData data)
+    {
+        subtitleText.text = data.subtitleText;
+        subtitleTextContainer.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(data.displayDuration);
+
+        subtitleText.text = "";
+        subtitleTextContainer.gameObject.SetActive(false);
+    }
+}

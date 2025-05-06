@@ -12,7 +12,7 @@ public class EnemyController : MonoBehaviour
     [Header("Hookups")]
     public GameObject goal;
     private GameObject originalGoal;
-    private GameObject player;
+    public GameObject player;
 
     public NavMeshAgent agent;
     public LayerMask mask;
