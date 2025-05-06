@@ -76,9 +76,7 @@ public class SubtitleManager : MonoBehaviour
 
     public void PlaySubtitleSequence(List<SubtitleLine> lines)
     {
-        if (currentCoroutine != null)
-            StopCoroutine(currentCoroutine);
-
+        if (currentCoroutine != null) { StopCoroutine(currentCoroutine); }
         currentCoroutine = StartCoroutine(DisplaySubtitleSequence(lines));
     }
 
@@ -91,7 +89,7 @@ public class SubtitleManager : MonoBehaviour
                 subtitleText.text = data.subtitleText;
                 subtitleTextContainer.gameObject.SetActive(true);
 
-                float duration = (line.customDuration > 0f) ? line.customDuration : data.displayDuration;
+                float duration = line.overrideDurationEnabled ? line.customDuration : data.displayDuration;
 
                 yield return new WaitForSeconds(duration);
 

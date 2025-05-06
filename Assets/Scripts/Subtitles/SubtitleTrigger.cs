@@ -6,8 +6,8 @@ using UnityEngine;
 public class SubtitleTrigger : MonoBehaviour
 {
     //public List<string> subtitleIDs = new();
+    public bool destroyAfterUse = true; 
     public List<SubtitleLine> subtitleLines;
-    public bool destroyAfterUse = true;
 
     private void OnTriggerEnter(Collider other)
     {

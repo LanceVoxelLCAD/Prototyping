@@ -121,3 +121,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f91d6f659438e484c955f43b1d316cc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destroyAfterUse: 1
+  subtitleLines:
+  - id: intro1
+    overrideDurationEnabled: 1
+    customDuration: 6
