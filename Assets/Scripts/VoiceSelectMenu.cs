@@ -7,7 +7,8 @@ public class VoiceSelectionMenu : MonoBehaviour
 {
     public Button maleButton;
     public Button femaleButton;
-    public Button settingsToggleButton; // NEW
+    public Button settingsToggleButton;
+    public Button closeButton;
 
     public GameObject menuUI;
 
@@ -17,9 +18,18 @@ public class VoiceSelectionMenu : MonoBehaviour
     {
         maleButton.onClick.AddListener(() => SelectGender(VoiceGender.Male));
         femaleButton.onClick.AddListener(() => SelectGender(VoiceGender.Female));
-        settingsToggleButton.onClick.AddListener(ToggleMenu); // ← NEW
+        settingsToggleButton.onClick.AddListener(ToggleMenu);
+        closeButton.onClick.AddListener(CloseMenu);
 
         menuUI.SetActive(false); // Hide on start
+    }
+
+    void CloseMenu()
+    {
+        menuUI.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        Time.timeScale = 1f; // Resume game
     }
 
     void SelectGender(VoiceGender gender)

@@ -4,6 +4,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using FMODUnity;
+using FMOD.Studio;
 
 public class PlayerController : MonoBehaviour
 {
@@ -21,6 +23,13 @@ public class PlayerController : MonoBehaviour
     public bool canAttack = true;
     public float attackCooldown = 1f;
     public float killcount = 0f;
+
+    [Header("Audio")]
+    public EventReference hurtEvent;
+    public EventReference jumpEvent;
+    public EventReference landEvent;
+    private bool wasGroundedLastFrame = false;
+
 
     [Header("Move")]
     public float walkSpeed = 3f;
@@ -164,6 +173,44 @@ public class PlayerController : MonoBehaviour
     public void ApplyGravity(bool jump)
     {
         grounded = CheckGrounded();
+
+        // Landing logic — just hit the ground this frame
+        if (grounded && !wasGroundedLastFrame)
+        {
+            if (!landEvent.IsNull)
+            {
+                EventInstance landInstance = RuntimeManager.CreateInstance(landEvent);
+                landInstance.set3DAttributes(RuntimeUtils.To3DAttributes(gameObject));
+                landInstance.setParameterByName("VoiceGender", (int)VoiceSelectionMenu.SelectedVoiceGender); // Optional
+                landInstance.start();
+                landInstance.release();
+            }
+        }
+
+        // Jump logic
+        if (jump && grounded)
+        {
+            if (!jumpEvent.IsNull)
+            {
+                EventInstance jumpInstance = RuntimeManager.CreateInstance(jumpEvent);
+                jumpInstance.set3DAttributes(RuntimeUtils.To3DAttributes(gameObject));
+                jumpInstance.setParameterByName("VoiceGender", (int)VoiceSelectionMenu.SelectedVoiceGender); // Optional
+                jumpInstance.start();
+                jumpInstance.release();
+            }
+
+            fallVelocity.y += Mathf.Sqrt(jumpHeight * -3f * gravity);
+        }
+
+        if (grounded && fallVelocity.y < 0)
+        {
+            fallVelocity.y = 0;
+        }
+
+        fallVelocity.y += gravity * Time.deltaTime;
+        controller.Move(fallVelocity * Time.deltaTime);
+
+        wasGroundedLastFrame = grounded;
 
         //if grounded and falliing
         if (grounded && fallVelocity.y < 0)
@@ -381,6 +428,16 @@ public class PlayerController : MonoBehaviour
     public void TakeDamage(float damageAmtReceived)
     {
         health -= damageAmtReceived;
+
+        // Play hurt sound
+        if (!hurtEvent.IsNull)
+        {
+            EventInstance instance = RuntimeManager.CreateInstance(hurtEvent);
+            instance.set3DAttributes(RuntimeUtils.To3DAttributes(gameObject));
+            instance.setParameterByName("VoiceGender", (int)VoiceSelectionMenu.SelectedVoiceGender); // optional
+            instance.start();
+            instance.release();
+        }
 
         if (health <= 0)
         {
