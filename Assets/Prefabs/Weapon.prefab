@@ -6347,11 +6347,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 463942adc00de8d46a3cf366eaf0fb7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gooFireSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  beamLoopSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  beamImpactLoopSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  burnMarkPrefab: {fileID: 0}
+  burnDuration: 5
+  decalScale: {x: 1, y: 1, z: 1}
+  decalOpacity: 1
   gooProjectilePrefab: {fileID: 8772396109635877265, guid: aa52e7b2890cbdb4a88ae9dfeffa4786, type: 3}
   firePoint: {fileID: 8124650964907916214}
   launchForce: 20
   gooFireCooldown: 0.3
-  beamFireCooldown: 0.4
   arcStrength: 0.1
   beamRange: 8
   firingModeBlue: 1
@@ -6359,7 +6383,7 @@ MonoBehaviour:
   beamMask:
     serializedVersion: 2
     m_Bits: 0
-  staManaBeamDrain: 2
+  staManaBeamDrain: 1
   staManaGooCost: 6
   player: {fileID: 0}
   staManaSlider: {fileID: 0}
@@ -6439,6 +6463,7 @@ MonoBehaviour:
   GreenReticleCircle: {r: 0, g: 0, b: 0, a: 0}
   wholeReticle: {fileID: 0}
   tinyReticle: {fileID: 0}
+  beamParticle: {fileID: 0}
 --- !u!1 &4673839771854154162
 GameObject:
   m_ObjectHideFlags: 0

@@ -33,7 +33,7 @@ public class GooGun : MonoBehaviour
     public Transform firePoint;
     public float launchForce = 20f;
     public float gooFireCooldown = 0.3f;
-    public float beamFireCooldown = 0.4f;
+    //public float beamFireCooldown = 0.4f;
 
     public float arcStrength = .1f;
 

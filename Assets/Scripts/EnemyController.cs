@@ -20,6 +20,8 @@ public class EnemyController : MonoBehaviour
 
     //public TMP_Text healthNumDEBUG;
     public TMP_Text aggroNumDEBUG;
+    public TMP_Text aggroTimeDEBUG;
+    public float estimatedTimeToAggro;
     //public Slider healthSlider;
     public Material startMaterial;
     public Color startMaterialColor;
@@ -39,6 +41,7 @@ public class EnemyController : MonoBehaviour
     public ParticleSystem deathParticle;
 
     private Coroutine attackCoroutine;
+    private float distanceFactor;
 
     [Header("Stats")]
     //public float health = 30f;
@@ -49,7 +52,8 @@ public class EnemyController : MonoBehaviour
     public float switchAttentionFromLightToPlayerDistance;
     public float enemySightAngle = 60f;
     public float enemySightMaxDistance = 30f;
-    public float aggroSpeed = 15f;
+    //public float aggroSpeed = 15f;
+    private float baseAggroSpeed;
     public float aggroDecay = 3f;
     public float aggroTrigger = 100f;
     public float maxAggro = 200f;
@@ -138,7 +142,7 @@ public class EnemyController : MonoBehaviour
         originalGoal = goal;
         player = GameObject.Find("Player");
         agent = GetComponent<NavMeshAgent>();
-        aggression = Random.Range(minAggro, aggroTrigger-1);
+        //aggression = Random.Range(minAggro, aggroTrigger-1);
         //enemyRenderer = GetComponent<Renderer>();
         startMaterialColor = startMaterial.color;
         //health = maxHealth;
@@ -246,26 +250,26 @@ public class EnemyController : MonoBehaviour
                 break;
         }
 
-        if (ShouldFreeze())
-        {
-            SetState(EnemyState.Frozen);
-        }
-        else if (ShouldChasePlayer())
-        {
-            SetState(EnemyState.ChasePlayer);
-        }
-        else if (ShouldInvestigateLight())
-        {
-            SetState(EnemyState.InvestigateLight);
-        }
-        else if (ShouldWander())
-        {
-            SetState(EnemyState.Wander);
-        }
-        else
-        {
-            SetState(EnemyState.Idle);
-        }
+        //if (ShouldFreeze())
+        //{
+        //    SetState(EnemyState.Frozen);
+        //}
+        //else if (ShouldChasePlayer())
+        //{
+        //    SetState(EnemyState.ChasePlayer);
+        //}
+        //else if (ShouldInvestigateLight())
+        //{
+        //    SetState(EnemyState.InvestigateLight);
+        //}
+        //else if (ShouldWander())
+        //{
+        //    SetState(EnemyState.Wander);
+        //}
+        //else
+        //{
+        //    SetState(EnemyState.Idle);
+        //}
     }
 
     private bool ShouldFreeze()
@@ -372,8 +376,31 @@ public class EnemyController : MonoBehaviour
 
             if (angleToPlayer < enemySightAngle) // e.g., 60f
             {
-                // Player is within the vision cone
-                aggression += aggroSpeed * Time.deltaTime;
+                //if within 15% of max sight, maybe make this an exposed inspector variable
+                if ( distanceToPlayer < enemySightMaxDistance * .15f) //if right up on the enemy, instant aggro
+                {
+                    //Debug.LogError("The 10% sight thing got called.");
+                    SetState(EnemyState.ChasePlayer);
+                    return;
+                }
+
+                // player is within the vision cone
+                // some stolen code modified for my purposes:
+
+                // Step 1: Base aggro speed to reach full aggro in 5 seconds at max distance
+                baseAggroSpeed = aggroTrigger / 5f; // e.x. 100 / 5 = 20
+
+                // Step 2: Compute how close the player is (0 = far, 1 = close)
+                float proximity = Mathf.InverseLerp(enemySightMaxDistance, bumpedIntoDistance, distanceToPlayer);
+
+                // Step 3: Scale the aggro speed - fast when close, slow when far
+                float adjustedAggroSpeed = baseAggroSpeed * Mathf.Lerp(1f, 25f, proximity);
+
+                aggression += adjustedAggroSpeed * Time.deltaTime;
+                aggression = Mathf.Min(aggression, maxAggro);
+
+                //DEBUG
+                estimatedTimeToAggro = (aggroTrigger - aggression) / adjustedAggroSpeed;
 
                 if (aggression >= aggroTrigger)
                 {
@@ -384,7 +411,7 @@ public class EnemyController : MonoBehaviour
         }
 
         // Aggro light if very close and not already fixated on player
-        if (!hasAggrod && lastSeenLightProducer && distanceToLight < attackDistance)
+        if (!hasAggrod && lastSeenLightProducer != originalGoal && distanceToLight < attackDistance)
         {
             SetState(EnemyState.InvestigateLight);
             return;
@@ -399,7 +426,7 @@ public class EnemyController : MonoBehaviour
                 {
                     SetState(EnemyState.ChasePlayer);
                 }
-                else if (distanceToLight < switchAttentionFromLightToPlayerDistance)
+                else if (lastSeenLightProducer != originalGoal && distanceToLight < switchAttentionFromLightToPlayerDistance)
                 {
                     SetState(EnemyState.InvestigateLight);
                 }
@@ -574,9 +601,16 @@ public class EnemyController : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         {
-            //draw stopping distance (when enemy fully aggros)
+            //draw line for how close enemy thinks player is
+            Debug.DrawLine(transform.position, player.transform.position, Color.Lerp(Color.blue, Color.red, distanceFactor));
+
+            //draw bumping distance (when enemy fully aggros)
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, bumpedIntoDistance);
+
+            ////draw instant aggro from sight (when enemy fully aggros)
+            //Gizmos.color = Color.black;
+            //Gizmos.DrawWireSphere(transform.position, enemySightMaxDistance * .15f);
 
             //draw max sight/aggression decay range
             Gizmos.color = Color.yellow;
@@ -665,7 +699,7 @@ public class EnemyController : MonoBehaviour
                 if (hit.transform.CompareTag("LightProducer"))
                 {
                     // Increase aggression based on light exposure
-                    aggression = Mathf.Min(aggression + aggroSpeed * Time.deltaTime, maxAggro);
+                    aggression = Mathf.Min(aggression + baseAggroSpeed * Time.deltaTime, maxAggro);
 
                     // Update last seen light source and distance
                     lastSeenLightProducer = hit.transform.gameObject;
@@ -946,6 +980,7 @@ public class EnemyController : MonoBehaviour
     public void EnemyDebugingText()
     {
         aggroNumDEBUG.text = "Aggro: " + aggression.ToString();
+        aggroTimeDEBUG.text = "Aggro Time: " + estimatedTimeToAggro.ToString();
         //healthNumDEBUG.text = "Health: " + health.ToString();
         //healthSlider.value = health;
     }
