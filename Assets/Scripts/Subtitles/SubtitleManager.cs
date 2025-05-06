@@ -14,6 +14,8 @@ public class SubtitleManager : MonoBehaviour
     public TMP_Text subtitleText; // Assign in inspector
     private Coroutine currentCoroutine;
 
+    public float delayBetweenSubtitles = .25f;
+
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -72,34 +74,36 @@ public class SubtitleManager : MonoBehaviour
         subtitleTextContainer.gameObject.SetActive(false);
     }
 
-    public void PlaySubtitleSequence(List<string> ids)
+    public void PlaySubtitleSequence(List<SubtitleLine> lines)
     {
         if (currentCoroutine != null)
             StopCoroutine(currentCoroutine);
 
-        currentCoroutine = StartCoroutine(DisplaySubtitleSequence(ids));
+        currentCoroutine = StartCoroutine(DisplaySubtitleSequence(lines));
     }
 
-    private System.Collections.IEnumerator DisplaySubtitleSequence(List<string> ids)
+    private System.Collections.IEnumerator DisplaySubtitleSequence(List<SubtitleLine> lines)
     {
-        foreach (string id in ids)
+        foreach (var line in lines)
         {
-            if (subtitleLookup.TryGetValue(id, out SubtitleData data))
+            if (subtitleLookup.TryGetValue(line.id, out SubtitleData data))
             {
                 subtitleText.text = data.subtitleText;
                 subtitleTextContainer.gameObject.SetActive(true);
 
-                yield return new WaitForSeconds(data.displayDuration);
+                float duration = (line.customDuration > 0f) ? line.customDuration : data.displayDuration;
+
+                yield return new WaitForSeconds(duration);
 
                 subtitleText.text = "";
                 subtitleTextContainer.gameObject.SetActive(false);
 
                 // small delay between subtitles
-                yield return new WaitForSeconds(0.5f);  // Adjust delay as necessary
+                yield return new WaitForSeconds(delayBetweenSubtitles);
             }
             else
             {
-                Debug.LogWarning($"Subtitle ID not found: {id}");
+                Debug.LogWarning($"Subtitle ID not found: {line.id}");
             }
         }
     }

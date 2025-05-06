@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class SubtitleTrigger : MonoBehaviour
 {
-    public List<string> subtitleIDs = new();
+    //public List<string> subtitleIDs = new();
+    public List<SubtitleLine> subtitleLines;
     public bool destroyAfterUse = true;
 
     private void OnTriggerEnter(Collider other)
@@ -13,7 +14,7 @@ public class SubtitleTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             //StartCoroutine(PlaySubtitlesSequentially());
-            SubtitleManager.Instance?.PlaySubtitleSequence(subtitleIDs);
+            SubtitleManager.Instance?.PlaySubtitleSequence(subtitleLines);
             if (destroyAfterUse) { Destroy(gameObject); }
         }
     }
