@@ -173,6 +173,7 @@ public class PlayerController : MonoBehaviour
     public void ApplyGravity(bool jump)
     {
         grounded = CheckGrounded();
+        wasGroundedLastFrame = grounded;
 
         // Landing logic — just hit the ground this frame
         if (grounded && !wasGroundedLastFrame)
@@ -181,36 +182,11 @@ public class PlayerController : MonoBehaviour
             {
                 EventInstance landInstance = RuntimeManager.CreateInstance(landEvent);
                 landInstance.set3DAttributes(RuntimeUtils.To3DAttributes(gameObject));
-                landInstance.setParameterByName("VoiceGender", (int)VoiceSelectionMenu.SelectedVoiceGender); // Optional
+                landInstance.setParameterByName("VoiceGender", (int)VoiceSelectionMenu.SelectedVoiceGender);
                 landInstance.start();
                 landInstance.release();
             }
         }
-
-        // Jump logic
-        if (jump && grounded)
-        {
-            if (!jumpEvent.IsNull)
-            {
-                EventInstance jumpInstance = RuntimeManager.CreateInstance(jumpEvent);
-                jumpInstance.set3DAttributes(RuntimeUtils.To3DAttributes(gameObject));
-                jumpInstance.setParameterByName("VoiceGender", (int)VoiceSelectionMenu.SelectedVoiceGender); // Optional
-                jumpInstance.start();
-                jumpInstance.release();
-            }
-
-            fallVelocity.y += Mathf.Sqrt(jumpHeight * -3f * gravity);
-        }
-
-        if (grounded && fallVelocity.y < 0)
-        {
-            fallVelocity.y = 0;
-        }
-
-        fallVelocity.y += gravity * Time.deltaTime;
-        controller.Move(fallVelocity * Time.deltaTime);
-
-        wasGroundedLastFrame = grounded;
 
         //if grounded and falliing
         if (grounded && fallVelocity.y < 0)
@@ -222,6 +198,15 @@ public class PlayerController : MonoBehaviour
         {
             //apply upwards gravity, neg * neg number
             fallVelocity.y += Mathf.Sqrt(jumpHeight * -3f * gravity);
+
+            if (!jumpEvent.IsNull)
+            {
+                EventInstance jumpInstance = RuntimeManager.CreateInstance(jumpEvent);
+                jumpInstance.set3DAttributes(RuntimeUtils.To3DAttributes(gameObject));
+                jumpInstance.setParameterByName("VoiceGender", (int)VoiceSelectionMenu.SelectedVoiceGender);
+                jumpInstance.start();
+                jumpInstance.release();
+            }
         }
 
         //applying gravity
