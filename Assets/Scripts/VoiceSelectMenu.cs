@@ -11,6 +11,7 @@ public class VoiceSelectionMenu : MonoBehaviour
     public Button closeButton;
 
     public GameObject menuUI;
+    public GameObject pauseMenuUI;
 
     public static VoiceGender SelectedVoiceGender { get; private set; } = VoiceGender.Male;
 
@@ -26,11 +27,17 @@ public class VoiceSelectionMenu : MonoBehaviour
 
     void CloseMenu()
     {
-        menuUI.SetActive(false);
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-        Time.timeScale = 1f; // Resume game
+        menuUI.SetActive(false);       // Hide voice selection
+        pauseMenuUI.SetActive(true);   // Show pause menu
+
+        // Keep cursor visible and unlocked since we're staying in UI
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        Time.timeScale = 0f; // Still paused
     }
+
+
 
     void SelectGender(VoiceGender gender)
     {

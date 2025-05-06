@@ -2,6 +2,8 @@
 using UnityEngine.UI;
 using FMODUnity;
 using FMOD.Studio;
+using System.Collections;
+
 
 public class GooGun : MonoBehaviour
 {
@@ -107,6 +109,33 @@ public class GooGun : MonoBehaviour
 
         if (tinyReticle.activeSelf) { Destroy(tinyReticle); }
     }
+
+    private IEnumerator FadeAndDestroy(GameObject decal, float duration)
+    {
+        if (decal == null) yield break;
+
+        Renderer renderer = decal.GetComponent<Renderer>();
+        if (renderer == null || !renderer.material.HasProperty("_Color"))
+        {
+            Destroy(decal);
+            yield break;
+        }
+
+        Material mat = renderer.material;
+        Color startColor = mat.color;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            float alpha = Mathf.Lerp(startColor.a, 0f, elapsed / duration);
+            mat.color = new Color(startColor.r, startColor.g, startColor.b, alpha);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        Destroy(decal);
+    }
+
 
     // Update is called once per frame
     void LateUpdate()
@@ -325,7 +354,7 @@ public class GooGun : MonoBehaviour
         }
 
 
-        Destroy(burnMark, burnDuration); // begone thot
+        StartCoroutine(FadeAndDestroy(burnMark, burnDuration)); // begone thot
     }
 
 
