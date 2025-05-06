@@ -119,7 +119,7 @@ public class PlayerController : MonoBehaviour
         {
 
             UseRedCanister();
-            if (!redCanisterSound.IsNull);
+            if (!redCanisterSound.IsNull) ;
             RuntimeManager.PlayOneShot(redCanisterSound, transform.position);
         }
 

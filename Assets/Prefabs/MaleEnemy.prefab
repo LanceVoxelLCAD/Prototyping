@@ -1620,6 +1620,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   goal: {fileID: 0}
+  player: {fileID: 0}
+  ambientLoopEvent:
+    Guid:
+      Data1: -22292919
+      Data2: 1166216753
+      Data3: -584232556
+      Data4: 1255392433
+    Path: event:/Enemy/Enemy Ambient
+  deathSound:
+    Guid:
+      Data1: 1079244589
+      Data2: 1167010979
+      Data3: -1983051112
+      Data4: 1389632780
+    Path: event:/Enemy/Kill Enemy
   agent: {fileID: 0}
   mask:
     serializedVersion: 2
@@ -1644,7 +1659,6 @@ MonoBehaviour:
   switchAttentionFromLightToPlayerDistance: 8
   enemySightAngle: 50
   enemySightMaxDistance: 18
-  aggroSpeed: 1
   aggroDecay: 25
   aggroTrigger: 100
   maxAggro: 200

@@ -42,7 +42,7 @@ MonoBehaviour:
   Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638820834472574764
+  lastModified: 638820872593140847
   FileSizes:
   - Name: Desktop
     Value: 1448
@@ -114,6 +114,34 @@ MonoBehaviour:
   - Name: Desktop
     Value: 119424
   Exists: 1
+--- !u!114 &-6839134074746918632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Enemy/Enemy Aggro
+  m_EditorClassIdentifier: 
+  Path: event:/Enemy/Enemy Aggro
+  Guid:
+    Data1: -1145563211
+    Data2: 1321316227
+    Data3: -1290375489
+    Data4: 808567154
+  Banks:
+  - {fileID: -6156058407573203072}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -4073737693290858300}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &-6699971391496990307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -232,10 +260,10 @@ MonoBehaviour:
   Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Enemy.bank
   Name: Enemy
   StudioPath: bank:/Enemy
-  lastModified: 638820834487768085
+  lastModified: 638820872596304811
   FileSizes:
   - Name: Desktop
-    Value: 358880
+    Value: 750336
   Exists: 1
 --- !u!114 &-5373438929568969882
 MonoBehaviour:
@@ -356,10 +384,10 @@ MonoBehaviour:
   Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638820834472595011
+  lastModified: 638820872593161226
   FileSizes:
   - Name: Desktop
-    Value: 1992
+    Value: 2080
   Exists: 1
 --- !u!114 &-4431472191001779674
 MonoBehaviour:
@@ -382,6 +410,30 @@ MonoBehaviour:
     data1: 2184116879
     data2: 1638635148
   Type: 1
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &-4073737693290858300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Enemy Aggro/Aggression
+  m_EditorClassIdentifier: 
+  Name: Aggression
+  StudioPath: 
+  Min: 0
+  Max: 40
+  Default: 0
+  ID:
+    data1: 3038918353
+    data2: 233277341
+  Type: 0
   IsGlobal: 0
   Labels: []
   Exists: 1
@@ -514,7 +566,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 4245
+  Length: 1364
 --- !u!114 &-1852044511870340445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -671,13 +723,14 @@ MonoBehaviour:
   - {fileID: 1517176845044965121}
   - {fileID: 4805488138158150387}
   - {fileID: 4817105071961026054}
+  - {fileID: -6839134074746918632}
   EditorParameters: []
   MasterBanks:
   - {fileID: -8932181533296066825}
   StringsBanks:
   - {fileID: -4589439008883423445}
   cacheVersion: 131847
-  cacheTime: 638820839525355995
+  cacheTime: 638820872596304811
   SerializableEventsDict:
   - key: event:/Music/LoopingAmbient
     index: 0
@@ -713,6 +766,8 @@ MonoBehaviour:
     index: 15
   - key: event:/Weapon/Switching Modes
     index: 16
+  - key: event:/Enemy/Enemy Aggro
+    index: 17
 --- !u!114 &16148734274577184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -754,7 +809,7 @@ MonoBehaviour:
   Banks:
   - {fileID: -6156058407573203072}
   IsStream: 1
-  Is3D: 0
+  Is3D: 1
   IsOneShot: 0
   Parameters:
   - {fileID: -879015735968327037}

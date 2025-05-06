@@ -6,6 +6,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
+using FMODUnity;
+using FMOD.Studio;
+
 
 public class EnemyController : MonoBehaviour
 {
@@ -13,6 +16,14 @@ public class EnemyController : MonoBehaviour
     public GameObject goal;
     private GameObject originalGoal;
     public GameObject player;
+
+    [Header("Audio")]
+    public EventReference ambientLoopEvent;
+    public EventReference deathSound;
+    private EventInstance ambientInstance;
+    //public EventReference aggressionSoundEvent;
+    //private EventInstance aggressionInstance;
+
 
     public NavMeshAgent agent;
     public LayerMask mask;
@@ -136,6 +147,12 @@ public class EnemyController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        //if (!ambientLoopEvent.IsNull)
+        //{
+        //ggressionInstance = RuntimeManager.CreateInstance(aggressionSoundEvent);
+        //aggressionInstance.set3DAttributes(RuntimeUtils.To3DAttributes(gameObject));
+        //aggressionInstance.start();
+        
         //find the goal (must be in root hierarchy)
         //goal = GameObject.Find("Goal");
         goal = gameObject; //stop looking for anything //allows for wandering
@@ -169,6 +186,7 @@ public class EnemyController : MonoBehaviour
     {
         anim.SetFloat("Speed", agent.velocity.magnitude);
         anim.speed = Mathf.Lerp(1f, 0f, gooAmountPercent); //1 is goo-less, 0 is goo'd
+            ambientInstance.set3DAttributes(RuntimeUtils.To3DAttributes(gameObject));
 
         IsLitTest();
         EnemyDebugingText();
@@ -203,7 +221,7 @@ public class EnemyController : MonoBehaviour
 
 
         //}
-
+       
     }
 
     private void HandleState()
@@ -248,6 +266,7 @@ public class EnemyController : MonoBehaviour
             case EnemyState.Idle:
                 agent.isStopped = true;
                 break;
+
         }
 
         //if (ShouldFreeze())
@@ -918,6 +937,14 @@ public class EnemyController : MonoBehaviour
 
     public void Die(GameObject canister)
     {
+        if (!deathSound.IsNull)
+        {
+            // Play at this position
+            RuntimeManager.PlayOneShot(deathSound, transform.position);
+
+            ambientInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            ambientInstance.release();
+        }
         //turn off coroutine
         StopAllCoroutines();
         //if it was holding a resource, it would just.. deparent it? or actually spawn it?
