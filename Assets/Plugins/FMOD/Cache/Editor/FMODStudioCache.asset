@@ -42,7 +42,7 @@ MonoBehaviour:
   Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638820568211160013
+  lastModified: 638820719446257018
   FileSizes:
   - Name: Desktop
     Value: 1448
@@ -129,10 +129,10 @@ MonoBehaviour:
   Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Player.bank
   Name: Player
   StudioPath: bank:/Player
-  lastModified: 638819829482016030
+  lastModified: 638820767383622995
   FileSizes:
   - Name: Desktop
-    Value: 242528
+    Value: 459904
   Exists: 1
 --- !u!114 &-6496557029928723640
 MonoBehaviour:
@@ -161,6 +161,35 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 2000
+--- !u!114 &-6446337053515538618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Player/Hurt
+  m_EditorClassIdentifier: 
+  Path: event:/Player/Hurt
+  Guid:
+    Data1: -66298688
+    Data2: 1150973868
+    Data3: -1093529671
+    Data4: -1987351390
+  Banks:
+  - {fileID: -6699971391496990307}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 439442277506528989}
+  - {fileID: -5373438929568969882}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &-6414012483668881961
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,6 +214,59 @@ MonoBehaviour:
   Is3D: 0
   IsOneShot: 1
   Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-5373438929568969882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Hurt/VoicePitch
+  m_EditorClassIdentifier: 
+  Name: VoicePitch
+  StudioPath: 
+  Min: -12
+  Max: 12
+  Default: 0
+  ID:
+    data1: 3688724669
+    data2: 171507012
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &-5302839029593192091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Player/Jump
+  m_EditorClassIdentifier: 
+  Path: event:/Player/Jump
+  Guid:
+    Data1: -717789361
+    Data2: 1107363354
+    Data3: -1959067255
+    Data4: -1017255788
+  Banks:
+  - {fileID: -6699971391496990307}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 8200553803901376030}
+  - {fileID: -4922942043296463289}
   MinDistance: 1
   MaxDistance: 20
   Length: 0
@@ -215,6 +297,30 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 2000
+--- !u!114 &-4922942043296463289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Jump/VoicePitch
+  m_EditorClassIdentifier: 
+  Name: VoicePitch
+  StudioPath: 
+  Min: -12
+  Max: 12
+  Default: 0
+  ID:
+    data1: 3688724669
+    data2: 171507012
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &-4589439008883423445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,11 +336,64 @@ MonoBehaviour:
   Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638820568211170432
+  lastModified: 638820719446273266
   FileSizes:
   - Name: Desktop
-    Value: 1416
+    Value: 1622
   Exists: 1
+--- !u!114 &-4431472191001779674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Land/VoiceGender
+  m_EditorClassIdentifier: 
+  Name: VoiceGender
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 2184116879
+    data2: 1638635148
+  Type: 1
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &-3462622471376659825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Player/Land
+  m_EditorClassIdentifier: 
+  Path: event:/Player/Land
+  Guid:
+    Data1: -1827119999
+    Data2: 1109853064
+    Data3: 259224740
+    Data4: -614440717
+  Banks:
+  - {fileID: -6699971391496990307}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -4431472191001779674}
+  - {fileID: 1221993504911524959}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &-3124551359897648918
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -404,13 +563,16 @@ MonoBehaviour:
   - {fileID: 5074165805445015329}
   - {fileID: 3114852278518029877}
   - {fileID: -823911880268201621}
+  - {fileID: -5302839029593192091}
+  - {fileID: -3462622471376659825}
+  - {fileID: -6446337053515538618}
   EditorParameters: []
   MasterBanks:
   - {fileID: -8932181533296066825}
   StringsBanks:
   - {fileID: -4589439008883423445}
   cacheVersion: 131847
-  cacheTime: 638820613916582971
+  cacheTime: 638820767383622995
   SerializableEventsDict:
   - key: event:/Music/LoopingAmbient
     index: 0
@@ -428,6 +590,12 @@ MonoBehaviour:
     index: 6
   - key: event:/Weapon/Light Beam Impact
     index: 7
+  - key: event:/Player/Jump
+    index: 8
+  - key: event:/Player/Land
+    index: 9
+  - key: event:/Player/Hurt
+    index: 10
 --- !u!114 &16148734274577184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -447,6 +615,54 @@ MonoBehaviour:
   FileSizes:
   - Name: Desktop
     Value: 27328
+  Exists: 1
+--- !u!114 &439442277506528989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Hurt/VoiceGender
+  m_EditorClassIdentifier: 
+  Name: VoiceGender
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 2184116879
+    data2: 1638635148
+  Type: 1
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &1221993504911524959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Land/VoicePitch
+  m_EditorClassIdentifier: 
+  Name: VoicePitch
+  StudioPath: 
+  Min: -12
+  Max: 12
+  Default: 0
+  ID:
+    data1: 3688724669
+    data2: 171507012
+  Type: 0
+  IsGlobal: 0
+  Labels: []
   Exists: 1
 --- !u!114 &1700295307051285259
 MonoBehaviour:
@@ -676,6 +892,30 @@ MonoBehaviour:
   FileSizes:
   - Name: Desktop
     Value: 4696864
+  Exists: 1
+--- !u!114 &8200553803901376030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Jump/VoiceGender
+  m_EditorClassIdentifier: 
+  Name: VoiceGender
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 2184116879
+    data2: 1638635148
+  Type: 1
+  IsGlobal: 0
+  Labels: []
   Exists: 1
 --- !u!114 &8595176003585491655
 MonoBehaviour:

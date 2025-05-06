@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -175,7 +175,7 @@ public class PlayerController : MonoBehaviour
         grounded = CheckGrounded();
         wasGroundedLastFrame = grounded;
 
-        // Landing logic — just hit the ground this frame
+        // Landing logic â€” just hit the ground this frame
         if (grounded && !wasGroundedLastFrame)
         {
             if (!landEvent.IsNull)
@@ -183,9 +183,11 @@ public class PlayerController : MonoBehaviour
                 EventInstance landInstance = RuntimeManager.CreateInstance(landEvent);
                 landInstance.set3DAttributes(RuntimeUtils.To3DAttributes(gameObject));
                 landInstance.setParameterByName("VoiceGender", (int)VoiceSelectionMenu.SelectedVoiceGender);
+                landInstance.setParameterByName("VoicePitch", VoiceSelectionMenu.SelectedVoicePitch);
                 landInstance.start();
                 landInstance.release();
             }
+
         }
 
         //if grounded and falliing
@@ -204,9 +206,11 @@ public class PlayerController : MonoBehaviour
                 EventInstance jumpInstance = RuntimeManager.CreateInstance(jumpEvent);
                 jumpInstance.set3DAttributes(RuntimeUtils.To3DAttributes(gameObject));
                 jumpInstance.setParameterByName("VoiceGender", (int)VoiceSelectionMenu.SelectedVoiceGender);
+                jumpInstance.setParameterByName("VoicePitch", VoiceSelectionMenu.SelectedVoicePitch);
                 jumpInstance.start();
                 jumpInstance.release();
             }
+
         }
 
         //applying gravity
@@ -333,8 +337,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // (A green canister will make your TORCH’s resin-due refill faster,
-    //while blue ones will increase your TORCH’s maximum resin-due reservoir.)
+    // (A green canister will make your TORCHâ€™s resin-due refill faster,
+    //while blue ones will increase your TORCHâ€™s maximum resin-due reservoir.)
 
     public void UseGreenCanister()
     {
@@ -419,7 +423,8 @@ public class PlayerController : MonoBehaviour
         {
             EventInstance instance = RuntimeManager.CreateInstance(hurtEvent);
             instance.set3DAttributes(RuntimeUtils.To3DAttributes(gameObject));
-            instance.setParameterByName("VoiceGender", (int)VoiceSelectionMenu.SelectedVoiceGender); // optional
+            instance.setParameterByName("VoiceGender", (int)VoiceSelectionMenu.SelectedVoiceGender);
+            instance.setParameterByName("VoicePitch", VoiceSelectionMenu.SelectedVoicePitch);
             instance.start();
             instance.release();
         }

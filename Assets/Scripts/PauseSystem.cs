@@ -8,9 +8,11 @@ public class MenuPause : MonoBehaviour
     [Header("UI References")]
     public GameObject pauseMenuUI;
     public GameObject settingsMenuUI;
+    public GameObject voiceMenuUI;
     public Button continueButton;
     public Button settingsButton;
     public Button quitButton;
+    public Button voiceButton;
 
     void Start()
     {
@@ -23,6 +25,7 @@ public class MenuPause : MonoBehaviour
         continueButton.onClick.AddListener(Resume);
         settingsButton.onClick.AddListener(OpenSettings);
         quitButton.onClick.AddListener(QuitGame);
+        voiceButton.onClick.AddListener(OpenVoiceSettings);
     }
 
     void Update()
@@ -60,6 +63,12 @@ public class MenuPause : MonoBehaviour
     {
         pauseMenuUI.SetActive(false);
         settingsMenuUI.SetActive(true);
+    }
+
+    void OpenVoiceSettings()
+    {
+        pauseMenuUI.SetActive(false);
+        voiceMenuUI.SetActive(true);
     }
 
     void QuitGame()
