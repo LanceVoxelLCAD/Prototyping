@@ -117,18 +117,19 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.H))
         {
-
-            UseRedCanister();
-            if (!redCanisterSound.IsNull) ;
-            RuntimeManager.PlayOneShot(redCanisterSound, transform.position);
+            if (redCanisterCount > 0 && health < maxHealth)
+            {
+                UseRedCanister();
+            }
         }
 
 
         if (Input.GetKeyDown(KeyCode.R)) 
-        { 
-            UseYellowCanister();
-            if (!yellowCanisterSound.IsNull)
-                RuntimeManager.PlayOneShot(yellowCanisterSound, transform.position);
+        {
+            if (yellowCanisterCount > 0 && currStaMana < maxStaMana)
+            {
+                UseYellowCanister();
+            }
         }
 
         //ManageFood();
@@ -334,23 +335,28 @@ public class PlayerController : MonoBehaviour
 
     public void UseRedCanister()
     {
-        if (redCanisterCount > 0 && health < maxHealth)
+        if (!redCanisterSound.IsNull)
         {
-            health = Mathf.Min(maxHealth, health + redCanisterValue);
-            redCanisterCount--;
-            UpdatePickupUI();
-            StartCoroutine(HealUIEffect());
+            RuntimeManager.PlayOneShot(redCanisterSound, transform.position);
         }
+
+        health = Mathf.Min(maxHealth, health + redCanisterValue);
+        redCanisterCount--;
+        UpdatePickupUI();
+        StartCoroutine(HealUIEffect());
+
     }
 
     public void UseYellowCanister()
     {
-        if (yellowCanisterCount > 0 && currStaMana < maxStaMana )
+        if (!yellowCanisterSound.IsNull)
         {
-            currStaMana = Mathf.Min(maxStaMana, currStaMana + yellowCanisterValue);
-            yellowCanisterCount--;
-            UpdatePickupUI();
+            RuntimeManager.PlayOneShot(yellowCanisterSound, transform.position);
         }
+
+        currStaMana = Mathf.Min(maxStaMana, currStaMana + yellowCanisterValue);
+        yellowCanisterCount--;
+        UpdatePickupUI();
     }
 
     // (A green canister will make your TORCH’s resin-due refill faster,

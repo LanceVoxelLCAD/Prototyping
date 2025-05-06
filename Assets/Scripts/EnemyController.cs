@@ -106,7 +106,7 @@ public class EnemyController : MonoBehaviour
     public float maxBeamCharge = 100f;
     public float currentBeamCharge = 0f;
     public float beamChargeRate = 20f;
-    private bool EnemyUnaware;
+    //private bool EnemyUnaware;
     //private float normalBeamChargeRateHolder;
 
     public float usualGlowItensity = -.1f;
@@ -354,13 +354,13 @@ public class EnemyController : MonoBehaviour
 
     private void makeBeamGooNormal()
     {
-        EnemyUnaware = false;
+        //EnemyUnaware = false;
         gooPerHit = normalGooPerHitHolder;
     }
 
     private void makeBeamGooSneakyStrong()
     {
-        EnemyUnaware = true;
+        //EnemyUnaware = true;
         gooPerHit *= 2;
     }
 
