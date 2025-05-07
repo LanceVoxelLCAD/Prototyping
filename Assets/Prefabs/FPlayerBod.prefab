@@ -430,7 +430,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8417038152571105201}
   - component: {fileID: 6378017025753049372}
-  - component: {fileID: 6677980032854367012}
+  - component: {fileID: 4848538418032480796}
   m_Layer: 0
   m_Name: FPlayerBod
   m_TagString: Untagged
@@ -483,7 +483,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &6677980032854367012
+--- !u!114 &4848538418032480796
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
