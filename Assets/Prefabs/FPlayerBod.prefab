@@ -430,6 +430,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8417038152571105201}
   - component: {fileID: 6378017025753049372}
+  - component: {fileID: 6677980032854367012}
   m_Layer: 0
   m_Name: FPlayerBod
   m_TagString: Untagged
@@ -482,6 +483,25 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6677980032854367012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1008154216167918960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99d0a83ae9d32d041b9470b865e7652c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  footstepSound:
+    Guid:
+      Data1: 870925689
+      Data2: 1185099618
+      Data3: 446512013
+      Data4: -1293852257
+    Path: event:/Player/Walking
 --- !u!1 &1095094767437037715
 GameObject:
   m_ObjectHideFlags: 0

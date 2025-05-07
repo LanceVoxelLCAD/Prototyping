@@ -1660,6 +1660,8 @@ MonoBehaviour:
   lastSeenLightProducer: {fileID: 0}
   headObject: {fileID: 382477327201543995}
   deathParticle: {fileID: 4907179594118903495, guid: e60687c2fb42a994abaa8532df74b5e0, type: 3}
+  killedDummiesTrigger: {fileID: 0}
+  isPassive: 0
   attackDamage: 8
   aggression: 0
   lastAggression: 0
@@ -2246,7 +2248,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6838673415722464049
 Transform:
   m_ObjectHideFlags: 0

@@ -8,6 +8,7 @@ using UnityEngine.AI;
 using UnityEngine.UI;
 using FMODUnity;
 using FMOD.Studio;
+using UnityEngine.Events;
 
 
 public class EnemyController : MonoBehaviour
@@ -16,6 +17,9 @@ public class EnemyController : MonoBehaviour
     public GameObject goal;
     private GameObject originalGoal;
     public GameObject player;
+
+    [Header("Events")]
+    public UnityEvent onDeath;
 
     [Header("Audio")]
     public EventReference ambientLoopEvent;
@@ -53,7 +57,10 @@ public class EnemyController : MonoBehaviour
     private Coroutine attackCoroutine;
     private float distanceFactor;
 
+    //public GameObject killedDummiesTrigger;
+
     [Header("Stats")]
+    public bool isPassive = false;
     //public float health = 30f;
     //public float maxHealth = 30f;
     public float attackDamage = 5f;
@@ -229,7 +236,7 @@ public class EnemyController : MonoBehaviour
         distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
         distanceToLight = lastSeenLightProducer ? Vector3.Distance(transform.position, lastSeenLightProducer.transform.position) : Mathf.Infinity;
 
-        CheckAggroConditions();
+        if (!isPassive) { CheckAggroConditions(); }
 
         switch (currentState)
         {
@@ -384,7 +391,7 @@ public class EnemyController : MonoBehaviour
         // Automatically aggro player if very close
         if (distanceToPlayer < bumpedIntoDistance)
         {
-            SetState(EnemyState.ChasePlayer);
+            if (!isPassive) { SetState(EnemyState.ChasePlayer); }
             return;
         }
         else if (distanceToPlayer < enemySightMaxDistance)
@@ -399,7 +406,7 @@ public class EnemyController : MonoBehaviour
                 if ( distanceToPlayer < enemySightMaxDistance * .15f) //if right up on the enemy, instant aggro
                 {
                     //Debug.LogError("The 10% sight thing got called.");
-                    SetState(EnemyState.ChasePlayer);
+                    if (!isPassive) { SetState(EnemyState.ChasePlayer); }
                     return;
                 }
 
@@ -423,7 +430,7 @@ public class EnemyController : MonoBehaviour
 
                 if (aggression >= aggroTrigger)
                 {
-                    SetState(EnemyState.ChasePlayer);
+                    if (!isPassive) { SetState(EnemyState.ChasePlayer); }
                     return;
                 }
             }
@@ -443,7 +450,7 @@ public class EnemyController : MonoBehaviour
             {
                 if (distanceToPlayer < switchAttentionFromLightToPlayerDistance)
                 {
-                    SetState(EnemyState.ChasePlayer);
+                    if (!isPassive) { SetState(EnemyState.ChasePlayer); }
                 }
                 else if (lastSeenLightProducer != originalGoal && distanceToLight < switchAttentionFromLightToPlayerDistance)
                 {
@@ -843,7 +850,7 @@ public class EnemyController : MonoBehaviour
             Die(blueCanister);
         }
 
-        SetState(EnemyState.ChasePlayer);
+        if (!isPassive) { SetState(EnemyState.ChasePlayer); }
     }
 
     private void UpdateGlow(float glowChargePercent) //was glow percent before when just visual
@@ -875,7 +882,7 @@ public class EnemyController : MonoBehaviour
             gooDecayCoroutineHolder = StartCoroutine(GooDecay());
         }
 
-        SetState(EnemyState.ChasePlayer);
+        if (!isPassive) { SetState(EnemyState.ChasePlayer); }
     }
 
     private void UpdateGooMoveSpeed()
@@ -941,6 +948,12 @@ public class EnemyController : MonoBehaviour
 
     public void Die(GameObject canister)
     {
+        //if (isPassive)
+        //{
+        //    killedDummiesTrigger.SetActive(true);
+        //}
+        onDeath?.Invoke();
+
         if (!deathSound.IsNull)
         {
             // Play at this position
