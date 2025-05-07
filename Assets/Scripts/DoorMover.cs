@@ -11,6 +11,7 @@ public class DoorMover : MonoBehaviour
     private Vector3 targetPosition;
     private bool isMoving = false;
 
+
     public void Move()
     {
         if (!isMoving)

@@ -12,14 +12,12 @@ public class GooGun : MonoBehaviour
     public EventReference beamLoopSound;
     public EventReference modeSwitchSound;
 
-
     [Header("FMOD Impact Loop")]
     public EventReference beamImpactLoopSound;
 
     [Header("Impact Effects")]
     public GameObject burnMarkPrefab;
     public float burnDuration = 5f;
-
 
     [Tooltip("Controls the scale of burn mark decals")]
     public Vector3 decalScale = new Vector3(1f, 1f, 1f);
@@ -92,6 +90,8 @@ public class GooGun : MonoBehaviour
 
     public ParticleSystem beamParticle;
 
+    public GameObject gunCntrlsTutorialText;
+
     private void Start()
     {
 
@@ -111,6 +111,8 @@ public class GooGun : MonoBehaviour
         wholeReticle.SetActive(true);
 
         if (tinyReticle.activeSelf) { Destroy(tinyReticle); }
+
+        gunCntrlsTutorialText.SetActive(true);
     }
 
     private IEnumerator FadeAndDestroy(GameObject decal, float duration)

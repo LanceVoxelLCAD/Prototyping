@@ -19,4 +19,14 @@ public class ControlsText : MonoBehaviour
     {
         controlsText.text = "Run with Shift";
     }
+
+    public void onGunBeam()
+    {
+        controlsText.text = "Fire Beam with Left Mouse";
+    }
+
+    public void onGunFoam()
+    {
+        controlsText.text = "Switch Firing Modes With C<br>or quick switch with Right Mouse, then Left Mouse";
+    }
 }
