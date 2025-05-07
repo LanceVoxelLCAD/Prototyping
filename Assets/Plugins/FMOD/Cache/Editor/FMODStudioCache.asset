@@ -42,7 +42,7 @@ MonoBehaviour:
   Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638821449696161175
+  lastModified: 638821540050773532
   FileSizes:
   - Name: Desktop
     Value: 1706
@@ -157,7 +157,7 @@ MonoBehaviour:
   Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Player.bank
   Name: Player
   StudioPath: bank:/Player
-  lastModified: 638821528495415034
+  lastModified: 638821541272212796
   FileSizes:
   - Name: Desktop
     Value: 562720
@@ -435,7 +435,7 @@ MonoBehaviour:
   Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638821449696181370
+  lastModified: 638821540050794539
   FileSizes:
   - Name: Desktop
     Value: 2376
@@ -897,7 +897,7 @@ MonoBehaviour:
   StringsBanks:
   - {fileID: -4589439008883423445}
   cacheVersion: 131847
-  cacheTime: 638821528495864417
+  cacheTime: 638821541272212796
   SerializableEventsDict:
   - key: event:/Music/LoopingAmbient
     index: 0
@@ -1390,7 +1390,7 @@ MonoBehaviour:
   Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Background.bank
   Name: Background
   StudioPath: bank:/Background
-  lastModified: 638821528495864417
+  lastModified: 638821540051250068
   FileSizes:
   - Name: Desktop
     Value: 4696896
