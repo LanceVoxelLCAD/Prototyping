@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
     public EventReference jumpEvent;
     public EventReference landEvent;
     private bool wasGroundedLastFrame = false;
+    public EventReference footstepSound;
 
     [Header("Canister Sounds")]
     public EventReference redCanisterSound;
@@ -172,6 +173,14 @@ public class PlayerController : MonoBehaviour
         //    torchLightCone.SetActive(!torchLightCone.gameObject.activeSelf);
         //}
 
+    }
+
+    public void PlayFootstep()
+    {
+        if (!footstepSound.IsNull)
+        {
+            RuntimeManager.PlayOneShot(footstepSound, transform.position);
+        }
     }
 
     public void HandleMovement(float forward, float right, bool run)

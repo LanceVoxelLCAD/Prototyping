@@ -103,6 +103,13 @@ MonoBehaviour:
       Data3: 259224740
       Data4: -614440717
     Path: event:/Player/Land
+  footstepSound:
+    Guid:
+      Data1: 870925689
+      Data2: 1185099618
+      Data3: 446512013
+      Data4: -1293852257
+    Path: event:/Player/Walking
   redCanisterSound:
     Guid:
       Data1: -1723641297

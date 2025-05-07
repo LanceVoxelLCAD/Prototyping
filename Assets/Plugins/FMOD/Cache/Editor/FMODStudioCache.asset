@@ -42,7 +42,7 @@ MonoBehaviour:
   Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638821366277270891
+  lastModified: 638821449696161175
   FileSizes:
   - Name: Desktop
     Value: 1706
@@ -157,10 +157,10 @@ MonoBehaviour:
   Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Player.bank
   Name: Player
   StudioPath: bank:/Player
-  lastModified: 638821359264027331
+  lastModified: 638821478498825657
   FileSizes:
   - Name: Desktop
-    Value: 710944
+    Value: 562720
   Exists: 1
 --- !u!114 &-6568232236672154304
 MonoBehaviour:
@@ -435,10 +435,10 @@ MonoBehaviour:
   Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638821366277291364
+  lastModified: 638821449696181370
   FileSizes:
   - Name: Desktop
-    Value: 2416
+    Value: 2376
   Exists: 1
 --- !u!114 &-4431472191001779674
 MonoBehaviour:
@@ -897,7 +897,7 @@ MonoBehaviour:
   StringsBanks:
   - {fileID: -4589439008883423445}
   cacheVersion: 131847
-  cacheTime: 638821377293652842
+  cacheTime: 638821478498825657
   SerializableEventsDict:
   - key: event:/Music/LoopingAmbient
     index: 0
@@ -1192,11 +1192,10 @@ MonoBehaviour:
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
-  Parameters:
-  - {fileID: 7765674637123323787}
+  Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 2000
+  Length: 250
 --- !u!114 &4805488138158150387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1372,30 +1371,6 @@ MonoBehaviour:
   ID:
     data1: 1114836988
     data2: 2407436901
-  Type: 1
-  IsGlobal: 0
-  Labels: []
-  Exists: 1
---- !u!114 &7765674637123323787
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/Walking/Material
-  m_EditorClassIdentifier: 
-  Name: Material
-  StudioPath: 
-  Min: 0
-  Max: 3
-  Default: 0
-  ID:
-    data1: 3982025953
-    data2: 2886908168
   Type: 1
   IsGlobal: 0
   Labels: []
