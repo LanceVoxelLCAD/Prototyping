@@ -157,7 +157,7 @@ MonoBehaviour:
   Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Player.bank
   Name: Player
   StudioPath: bank:/Player
-  lastModified: 638821478498825657
+  lastModified: 638821498265148976
   FileSizes:
   - Name: Desktop
     Value: 562720
@@ -897,7 +897,7 @@ MonoBehaviour:
   StringsBanks:
   - {fileID: -4589439008883423445}
   cacheVersion: 131847
-  cacheTime: 638821478498825657
+  cacheTime: 638821498265148976
   SerializableEventsDict:
   - key: event:/Music/LoopingAmbient
     index: 0
