@@ -78,6 +78,17 @@ public class VoiceSelectionMenu : MonoBehaviour
         Debug.Log("Selected Voice: " + gender);
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            if (menuUI.activeSelf)
+            {
+                CloseMenu();
+            }
+        }
+    }
+
     void ToggleMenu()
     {
         bool isActive = menuUI.activeSelf;

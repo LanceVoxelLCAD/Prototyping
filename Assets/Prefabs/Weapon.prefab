@@ -6378,7 +6378,7 @@ MonoBehaviour:
   burnMarkPrefab: {fileID: 8832645798729027948, guid: 0457d4bf8c1514f4cb6f7d816c243a67, type: 3}
   burnDuration: 5
   decalScale: {x: 0.15, y: 0.15, z: 0.15}
-  decalOpacity: 0.657
+  decalOpacity: 0.25
   gooProjectilePrefab: {fileID: 8772396109635877265, guid: aa52e7b2890cbdb4a88ae9dfeffa4786, type: 3}
   firePoint: {fileID: 8124650964907916214}
   launchForce: 20
@@ -6471,6 +6471,7 @@ MonoBehaviour:
   wholeReticle: {fileID: 0}
   tinyReticle: {fileID: 0}
   beamParticle: {fileID: 0}
+  gunCntrlsTutorialText: {fileID: 0}
 --- !u!1 &4673839771854154162
 GameObject:
   m_ObjectHideFlags: 0
