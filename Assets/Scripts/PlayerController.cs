@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour
     public EventReference landEvent;
     private bool wasGroundedLastFrame = false;
     public EventReference footstepSound;
+    private GooGun gooGun;
 
     [Header("Canister Sounds")]
     public EventReference redCanisterSound;
@@ -103,6 +104,12 @@ public class PlayerController : MonoBehaviour
         healthSlider.maxValue = maxHealth;
 
         anim = GetComponentInChildren<Animator>();
+
+        if (weapon != null)
+        {
+            // if GooGun is on the weapon object:
+            gooGun = weapon.GetComponent<GooGun>();
+        }
     }
 
     void Update()
@@ -479,6 +486,7 @@ public class PlayerController : MonoBehaviour
 
         if (health <= 0)
         {
+            if (gooGun != null) gooGun.HandlePlayerDeath();
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             //Destroy(gameObject);
         }

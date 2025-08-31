@@ -28,9 +28,11 @@ public class GooGun : MonoBehaviour
 
     private EventInstance beamImpactInstance;
     private bool beamImpactSoundPlaying = false;
+    private bool lastPaused = false;
 
     private EventInstance beamInstance;
     private bool beamSoundPlaying = false;
+    private bool playerIsDead = false;
 
     public GameObject gooProjectilePrefab;
     public Transform firePoint;
@@ -145,8 +147,23 @@ public class GooGun : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
+        // Already dead? do nothing.
+        if (playerIsDead) return;
+
         if (MenuPause.IsPaused)
-            return; // No gun on pause
+        //return; // No gun on pause
+        {
+            if (!lastPaused)
+            {
+                ForceStopBeamImmediate(); // stop loops once when pause is entered
+                lastPaused = true;
+            }
+            return; // block firing while paused
+        }
+        else if (lastPaused)
+        {
+            lastPaused = false; // just unpaused
+        }
 
         if (Input.GetKeyDown(KeyCode.C) || Input.GetMouseButtonDown(1) || Input.GetMouseButtonUp(1))
         {
@@ -175,6 +192,7 @@ public class GooGun : MonoBehaviour
 
                 hudBars.sprite = greenHudBars;
                 centerReticle.color = GreenReticleCircle;
+
             }
         }
 
@@ -229,6 +247,37 @@ public class GooGun : MonoBehaviour
         StopBeamSound(); //please stop the musik
         StopBeamSound();
         StopBeamImpactSound();
+    }
+
+    private void ForceStopBeamImmediate()
+    {
+        // visuals
+        beamLine.enabled = false;
+        if (beamParticle.isPlaying) beamParticle.Stop();
+
+        // audio IMMEDIATE stops
+        if (beamSoundPlaying && beamInstance.isValid())
+        {
+            beamInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            beamInstance.release();
+            beamSoundPlaying = false;
+        }
+
+        if (beamImpactSoundPlaying && beamImpactInstance.isValid())
+        {
+            beamImpactInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            beamImpactInstance.release();
+            beamImpactSoundPlaying = false;
+        }
+    }
+
+    public void HandlePlayerDeath()
+    {
+        if (playerIsDead) return;
+        playerIsDead = true;
+
+        // Cut audio/visuals immediately
+        ForceStopBeamImmediate();
     }
 
     void StartBeamSound()
