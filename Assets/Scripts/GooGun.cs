@@ -44,6 +44,8 @@ public class GooGun : MonoBehaviour
 
     public float beamRange = 8f;
 
+    public bool playAwakeText = false;
+
     private float lastGooFireTime;
     private float lastBeamFireTime;
     Vector3 targetingPt;
@@ -114,7 +116,7 @@ public class GooGun : MonoBehaviour
 
         if (tinyReticle.activeSelf) { Destroy(tinyReticle); }
 
-        gunCntrlsTutorialText.SetActive(true);
+        if (playAwakeText) { gunCntrlsTutorialText.SetActive(true); }
     }
 
     private IEnumerator FadeAndDestroy(GameObject decal, float duration)

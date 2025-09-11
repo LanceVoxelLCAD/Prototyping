@@ -1621,6 +1621,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   goal: {fileID: 0}
   player: {fileID: 0}
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
   ambientLoopEvent:
     Guid:
       Data1: -22292919
@@ -1660,7 +1663,6 @@ MonoBehaviour:
   lastSeenLightProducer: {fileID: 0}
   headObject: {fileID: 382477327201543995}
   deathParticle: {fileID: 4907179594118903495, guid: e60687c2fb42a994abaa8532df74b5e0, type: 3}
-  killedDummiesTrigger: {fileID: 0}
   isPassive: 0
   attackDamage: 8
   aggression: 0
