@@ -42,6 +42,7 @@ public class PlayerController : MonoBehaviour
     public float turnSpeedSensitivity = 2500f;
 
     private float playerScale = 1.1f;
+    private Vector3 currMoveVelocity;
 
     private Animator anim;
 
@@ -144,31 +145,11 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        //ManageFood();
-        //Hotbar(scrollInput);
+        HandleMovement(forward, right, run);
 
-        //if (killcountTextUI != null)
-        //{
-        //    string displayedKillcount = killcount.ToString("F0");
-        //    killcountTextUI.text = "Killcount: " + killcount;
-        //}
-
-        if (forward != 0 || right != 0) //only update movement if pressing something
-        {
-            //DetermineForward(forward, right);
-            HandleMovement(forward, right, run);
-        }
-        else
-        {
-            anim.SetFloat("Speed", 0);
-        }
 
         //left to right visuals
         transform.Rotate(Vector3.up, mouseXInput * turnSpeedSensitivity * Time.deltaTime);
-
-        //torchRot.x += verticalLookSpeed * mouseYInput * -1 * Time.deltaTime;
-        //torchRot.x = Mathf.Clamp(torchRot.x, -80, 80);
-        //torch.transform.localEulerAngles = torchRot;
 
         //up and down visuals
         eyesRot.x += verticalLookSpeed * mouseYInput * -1 * Time.deltaTime;
@@ -194,30 +175,37 @@ public class PlayerController : MonoBehaviour
     {
         //only moving forward.. so this is ONLY speed for the mathf stuff
 
-        float moveSpeed = walkSpeed;
-        if (run)
-        {
-            moveSpeed = runSpeed;
-        }
+        //float moveSpeed = walkSpeed;
+        //if (run)
+        //{
+        //    moveSpeed = runSpeed;
+        //}
 
-        if (moveSpeed == walkSpeed)
-        {
-            anim.SetFloat("Speed", 1);
-        }
-        else
-        {
-            anim.SetFloat("Speed", 3);
-        }
+        //if (moveSpeed == walkSpeed)
+        //{
+        //    anim.SetFloat("Speed", 1);
+        //}
+        //else
+        //{
+        //    anim.SetFloat("Speed", 3);
+        //}
 
-        //float input = Mathf.Max(Mathf.Abs(forward), Mathf.Abs(right));
-        //controller.Move(input * transform.forward * moveSpeed * Time.deltaTime);
-        Vector3 moving = new Vector3(right, 0, forward);
+        //cleaner internet code
+        float targetMoveSpeed = run ? runSpeed : walkSpeed;
 
-        moving = transform.TransformDirection(moving);
+        Vector3 inputDir = new Vector3(right, 0, forward).normalized;
+        Vector3 targetVelocity = transform.TransformDirection(inputDir) * targetMoveSpeed;
 
-        controller.Move(moving * Time.deltaTime * moveSpeed);
+        currMoveVelocity = Vector3.Lerp(currMoveVelocity, targetVelocity, 0.4f); //.2-.3 is "FPS standard" but it feels too slidy
+        controller.Move(currMoveVelocity * Time.deltaTime);
+        anim.SetFloat("Speed", targetVelocity.magnitude > 0 ? (run ? 3 : 1) : 0);
 
-        //transform.Rotate(0, mouseXInput, 0);
+        //Vector3 moving = new Vector3(right, 0, forward);
+
+        //moving = transform.TransformDirection(moving);
+
+        //controller.Move(moving * Time.deltaTime * targetMoveSpeed);
+
     }
 
     public void ApplyGravity(bool jump)
