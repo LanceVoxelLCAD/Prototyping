@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
     public EventReference hurtEvent;
     public EventReference jumpEvent;
     public EventReference landEvent;
-    private bool wasGroundedLastFrame = false;
+    //private bool wasGroundedLastFrame = false;
     public EventReference footstepSound;
     private GooGun gooGun;
 
@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
     public float runSpeed = 6f;
     public float turnSpeedSensitivity = 2500f;
 
-    private float playerScale = 1.1f;
+    //private float playerScale = 1.1f;
     private Vector3 currMoveVelocity;
 
     private Animator anim;
@@ -50,8 +50,15 @@ public class PlayerController : MonoBehaviour
     public bool grounded;
     public LayerMask groundMask;
     public Vector3 fallVelocity;
-    public float gravity = -9.81f;
+    //public float gravity = -9.81f;
     public float jumpHeight = 1f;
+    private float gravityUp = -20f;
+    private float gravityDown = -40f;
+    private float coyoteTime = 0.1f;
+    private float jumpBufferTime = 0.1f;
+
+    private float coyoteTimeCounter;
+    private float jumpBufferCounter;
 
     [Header("Flashlight")]
     public GameObject torch;
@@ -211,33 +218,33 @@ public class PlayerController : MonoBehaviour
     public void ApplyGravity(bool jump)
     {
         grounded = CheckGrounded();
-        wasGroundedLastFrame = grounded;
 
-        // Landing logic — just hit the ground this frame
-        if (grounded && !wasGroundedLastFrame)
+        //STOP: coyote time ("counts down after leaving ground")
+        if (grounded)
         {
-            if (!landEvent.IsNull)
-            {
-                EventInstance landInstance = RuntimeManager.CreateInstance(landEvent);
-                landInstance.set3DAttributes(RuntimeUtils.To3DAttributes(gameObject));
-                landInstance.setParameterByName("VoiceGender", (int)VoiceSelectionMenu.SelectedVoiceGender);
-                landInstance.setParameterByName("VoicePitch", VoiceSelectionMenu.SelectedVoicePitch);
-                landInstance.start();
-                landInstance.release();
-            }
-
+            coyoteTimeCounter = coyoteTime;
+        }
+        else
+        {
+            coyoteTimeCounter -= Time.deltaTime;
         }
 
-        //if grounded and falliing
-        if (grounded && fallVelocity.y < 0)
+        //jump buffer ("stores jump input for a short time")
+        if (jump)
         {
-            fallVelocity.y = 0;
+            jumpBufferCounter = jumpBufferTime;
+        }
+        else
+        {
+            jumpBufferCounter -= Time.deltaTime;
         }
 
-        if (jump && grounded)
+        //jump jump jump jump (w/ spicy new internet code)
+        if (jumpBufferCounter > 0 && coyoteTimeCounter > 0)
         {
-            //apply upwards gravity, neg * neg number
-            fallVelocity.y += Mathf.Sqrt(jumpHeight * -3f * gravity);
+            //calculate initial velocity needed to reach jumpHeight
+            fallVelocity.y = Mathf.Sqrt(jumpHeight * -2f * gravityUp);
+            jumpBufferCounter = 0; //consume buffer
 
             if (!jumpEvent.IsNull)
             {
@@ -248,23 +255,41 @@ public class PlayerController : MonoBehaviour
                 jumpInstance.start();
                 jumpInstance.release();
             }
-
         }
 
-        //applying gravity
-        fallVelocity.y += gravity * Time.deltaTime;
+        //gravity (different for jumping vs falling)
+        if (fallVelocity.y > 0) //rising
+            fallVelocity.y += gravityUp * Time.deltaTime;
+        else //falling
+            fallVelocity.y += gravityDown * Time.deltaTime;
+
+        //set fall velocity on touchdown
+        if (grounded && fallVelocity.y < 0)
+        {
+            fallVelocity.y = -2f; //small stick-to-ground force
+        }
+
         controller.Move(fallVelocity * Time.deltaTime);
     }
 
     public bool CheckGrounded()
     {
-        return Physics.CheckSphere(transform.position + Vector3.down * 0.51f * playerScale, 0.5f * playerScale, groundMask);
+        //return Physics.CheckSphere(transform.position + Vector3.down * 0.51f * playerScale, 0.5f * playerScale, groundMask);
+
+        float radius = controller.radius * 0.9f;
+        float groundedOffset = 0.1f;
+
+        Vector3 point1 = transform.position + Vector3.up * 0.1f;
+        Vector3 point2 = transform.position + Vector3.down * (controller.height / 2f - radius + groundedOffset);
+
+        return Physics.CheckCapsule(point1, point2, radius, groundMask, QueryTriggerInteraction.Ignore);
     }
+
 
     public void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position + Vector3.down * 0.51f * playerScale, 0.5f * playerScale);
+        //Gizmos.DrawWireSphere(transform.position + Vector3.down * 0.51f * playerScale, 0.5f * playerScale);
     }
 
     public void AimingRay()
