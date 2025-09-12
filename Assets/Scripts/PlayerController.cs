@@ -10,6 +10,7 @@ using FMOD.Studio;
 public class PlayerController : MonoBehaviour
 {
     public CharacterController controller;
+    public CameraController camController;
 
     [Header("Stats")]
     public float health = 100f;
@@ -28,8 +29,8 @@ public class PlayerController : MonoBehaviour
     public EventReference hurtEvent;
     public EventReference jumpEvent;
     public EventReference landEvent;
-    //private bool wasGroundedLastFrame = false;
-    public EventReference footstepSound;
+    private bool wasGroundedLastFrame = false;
+    //public EventReference footstepSound;
     private GooGun gooGun;
 
     [Header("Canister Sounds")]
@@ -40,14 +41,13 @@ public class PlayerController : MonoBehaviour
     public float walkSpeed = 3f;
     public float runSpeed = 6f;
     public float turnSpeedSensitivity = 2500f;
-
-    //private float playerScale = 1.1f;
-    private Vector3 currMoveVelocity;
+    public Vector3 currMoveVelocity;
+    public bool isRunning = false;
 
     private Animator anim;
 
     [Header("Jump")]
-    public bool grounded;
+    public bool isGrounded;
     public LayerMask groundMask;
     public Vector3 fallVelocity;
     //public float gravity = -9.81f;
@@ -126,7 +126,7 @@ public class PlayerController : MonoBehaviour
         float right = Input.GetAxis("Horizontal");
         float mouseXInput = Input.GetAxis("Mouse X");
         float mouseYInput = Input.GetAxis("Mouse Y");
-        bool run = Input.GetKey(KeyCode.LeftShift);
+        isRunning = Input.GetKey(KeyCode.LeftShift);
         bool jump = Input.GetButtonDown("Jump");
         float scrollInput = Input.GetAxis("Mouse ScrollWheel");
         //float pitchYaw = Input.GetAxis("PitchYaw");
@@ -152,7 +152,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        HandleMovement(forward, right, run);
+        HandleMovement(forward, right, isRunning);
 
 
         //left to right visuals
@@ -170,13 +170,17 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    public void PlayFootstep()
-    {
-        if (!footstepSound.IsNull)
-        {
-            RuntimeManager.PlayOneShot(footstepSound, transform.position);
-        }
-    }
+    //LEO WHY DID YOU ADD THIS? IT IS NEVER CALLED
+    //FIND THE REAL SCRIPT ON THE PLAYER BODY AHHH
+    //public void PlayFootstep()
+    //{
+    //    Debug.Log("Playing Footsteps from Player Controller!");
+
+    //    if (!footstepSound.IsNull)
+    //    {
+    //        RuntimeManager.PlayOneShot(footstepSound, transform.position);
+    //    }
+    //}
 
     public void HandleMovement(float forward, float right, bool run)
     {
@@ -217,10 +221,11 @@ public class PlayerController : MonoBehaviour
 
     public void ApplyGravity(bool jump)
     {
-        grounded = CheckGrounded();
+        isGrounded = CheckGrounded();
+        wasGroundedLastFrame = isGrounded;
 
         //STOP: coyote time ("counts down after leaving ground")
-        if (grounded)
+        if (isGrounded)
         {
             coyoteTimeCounter = coyoteTime;
         }
@@ -264,7 +269,7 @@ public class PlayerController : MonoBehaviour
             fallVelocity.y += gravityDown * Time.deltaTime;
 
         //set fall velocity on touchdown
-        if (grounded && fallVelocity.y < 0)
+        if (isGrounded && fallVelocity.y < 0)
         {
             fallVelocity.y = -2f; //small stick-to-ground force
         }
