@@ -61,20 +61,22 @@ public class CameraController : MonoBehaviour
 
         HandleFOV();
         HandleTilt();
-        HandleHeadbob();
+        //HandleHeadbob();
         HandleLandingDip();
 
-        // Apply everything to camera transform
+        //apply everything to camera transform
         transform.localPosition = originalLocalPos + new Vector3(0, dipOffset, 0) + GetHeadbobOffset();
         transform.localRotation = Quaternion.Euler(0, 0, currentTilt);
 
-        // Sync both cameras' FOV
-        if (weaponCamera)
-            weaponCamera.fieldOfView = worldCamera.fieldOfView;
+        //No, doing a different weapon offset
+        ////sync cameras' FOV
+        //if (weaponCamera)
+        //    weaponCamera.fieldOfView = worldCamera.fieldOfView;
     }
 
     void HandleFOV()
     {
+        //not changing weapon FOV when running, looks weird
         isRunning = controller.isRunning && controller.currMoveVelocity.magnitude > 0.1f;
         targetFOV = isRunning ? sprintFOV : baseFOV;
 
@@ -88,10 +90,10 @@ public class CameraController : MonoBehaviour
         currentTilt = Mathf.Lerp(currentTilt, targetTilt, Time.deltaTime * tiltSmooth);
     }
 
-    void HandleHeadbob()
-    {
-
-    }
+    //void HandleHeadbob()
+    //{
+    //    //buh i accidentally made all this happen elsewhere
+    //}
 
     Vector3 GetHeadbobOffset()
     {
@@ -114,11 +116,11 @@ public class CameraController : MonoBehaviour
             bobTimer += Time.deltaTime * bobFrequency * speedMultiplier;
             isBobbing = false; //only advance on trigger
         }
-        else if (controller.currMoveVelocity.magnitude > 0.1f && controller.isGrounded)
-        {
-            //"subtle sway between steps" in theory an idle bob
-            bobTimer += Time.deltaTime * bobFrequency * 0.2f;
-        }
+        //else if (controller.currMoveVelocity.magnitude > 0.1f && controller.isGrounded)
+        //{
+        //    //"subtle sway between steps" in theory an idle bob
+        //    bobTimer += Time.deltaTime * bobFrequency * 0.2f;
+        //}
 
         currAmplitude = bobAmplitude;
         if (isRunning) currAmplitude *= runBobAmplitudeMultiplier;
