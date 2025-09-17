@@ -73,3 +73,11 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 fmod_editor.log
 Assets/FMOD/Audio/Prototype/Assets/GDC2024
+Assets/Plugins/FMOD/Cache/Editor/FMODStudioCache.asset
+ProjectSettings/Packages/com.unity.probuilder/Settings.json
+Assets/TextMesh Pro/Fonts/VarelaRound-Regular SDF.asset
+Assets/TextMesh Pro/Fonts/Staatliches-Regular SDF.asset
+Assets/Plugins/FMOD/Cache/Editor/FMODStudioCache.asset
+Assets/TextMesh Pro/Fonts/Staatliches-Regular SDF.asset
+Assets/TextMesh Pro/Fonts/VarelaRound-Regular SDF.asset
+ProjectSettings/Packages/com.unity.probuilder/Settings.json
