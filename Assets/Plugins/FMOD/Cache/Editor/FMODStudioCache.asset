@@ -1,0 +1,1132 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8682054794429137812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UI/UI Hover
+  m_EditorClassIdentifier: 
+  Path: event:/UI/UI Hover
+  Guid:
+    Data1: -16756973
+    Data2: 1084302561
+    Data3: -1305818978
+    Data4: 547918411
+  Banks:
+  - {fileID: 2346798527921269977}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2000
+--- !u!114 &-8655895123716626928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Enemy/Enemy Aggro
+  m_EditorClassIdentifier: 
+  Path: event:/Enemy/Enemy Aggro
+  Guid:
+    Data1: -1145563211
+    Data2: 1321316227
+    Data3: -1290375489
+    Data4: 808567154
+  Banks:
+  - {fileID: -7389054350165075982}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 750781080746740305}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-8141788480176901809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Land/VoicePitch
+  m_EditorClassIdentifier: 
+  Name: VoicePitch
+  StudioPath: 
+  Min: -12
+  Max: 12
+  Default: 0
+  ID:
+    data1: 3688724669
+    data2: 171507012
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &-7389054350165075982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Enemy.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Enemy.bank
+  Name: Enemy
+  StudioPath: bank:/Enemy
+  lastModified: 638821495414395409
+  FileSizes:
+  - Name: Desktop
+    Value: 805888
+  Exists: 1
+--- !u!114 &-5811572465782375896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Tutorial/Trying Again
+  m_EditorClassIdentifier: 
+  Path: event:/Tutorial/Trying Again
+  Guid:
+    Data1: -1944621571
+    Data2: 1332886000
+    Data3: -1478071899
+    Data4: -741812737
+  Banks:
+  - {fileID: -4993558676504566498}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 7914863655989466943}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 20117
+--- !u!114 &-5576997076254102976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Weapon/Yellow Canister
+  m_EditorClassIdentifier: 
+  Path: event:/Weapon/Yellow Canister
+  Guid:
+    Data1: 206006619
+    Data2: 1259110096
+    Data3: -1762960983
+    Data4: 1904680086
+  Banks:
+  - {fileID: 2191054026743318958}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1608
+--- !u!114 &-4993558676504566498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Tutorial.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Tutorial.bank
+  Name: Tutorial
+  StudioPath: bank:/Tutorial
+  lastModified: 638821495414870935
+  FileSizes:
+  - Name: Desktop
+    Value: 2114144
+  Exists: 1
+--- !u!114 &-4452514013599469781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Jump/VoicePitch
+  m_EditorClassIdentifier: 
+  Name: VoicePitch
+  StudioPath: 
+  Min: -12
+  Max: 12
+  Default: 0
+  ID:
+    data1: 3688724669
+    data2: 171507012
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &-4191956681484869404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Enemy/Enemy Ambient
+  m_EditorClassIdentifier: 
+  Path: event:/Enemy/Enemy Ambient
+  Guid:
+    Data1: -22292919
+    Data2: 1166216753
+    Data3: -584232556
+    Data4: 1255392433
+  Banks:
+  - {fileID: -7389054350165075982}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters:
+  - {fileID: -2549829476080674028}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 23484
+--- !u!114 &-4077007928966358578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Weapon/Platform Landing
+  m_EditorClassIdentifier: 
+  Path: event:/Weapon/Platform Landing
+  Guid:
+    Data1: -2028609623
+    Data2: 1207653979
+    Data3: 346957229
+    Data4: -657777880
+  Banks:
+  - {fileID: 2191054026743318958}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 848
+--- !u!114 &-3786740009412862082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Player/You Died Screen
+  m_EditorClassIdentifier: 
+  Path: event:/Player/You Died Screen
+  Guid:
+    Data1: -636186368
+    Data2: 1112088733
+    Data3: 125537426
+    Data4: -1000523877
+  Banks:
+  - {fileID: -2297044812214284067}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 10562
+--- !u!114 &-3191883182453498890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UI/UI Click
+  m_EditorClassIdentifier: 
+  Path: event:/UI/UI Click
+  Guid:
+    Data1: 2111503412
+    Data2: 1129732655
+    Data3: -704499782
+    Data4: -76359999
+  Banks:
+  - {fileID: 2346798527921269977}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2000
+--- !u!114 &-2825766745384979535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Weapon/Switching Modes
+  m_EditorClassIdentifier: 
+  Path: event:/Weapon/Switching Modes
+  Guid:
+    Data1: -1069205305
+    Data2: 1237821451
+    Data3: 289053069
+    Data4: -1678828984
+  Banks:
+  - {fileID: 2191054026743318958}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 250
+--- !u!114 &-2549829476080674028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Enemy Ambient/VoiceGender
+  m_EditorClassIdentifier: 
+  Name: VoiceGender
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 2184116879
+    data2: 1638635148
+  Type: 1
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &-2507876019784678054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Enemy/Kill Enemy
+  m_EditorClassIdentifier: 
+  Path: event:/Enemy/Kill Enemy
+  Guid:
+    Data1: 1079244589
+    Data2: 1167010979
+    Data3: -1983051112
+    Data4: 1389632780
+  Banks:
+  - {fileID: -7389054350165075982}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1364
+--- !u!114 &-2387531949982197928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Weapon/Platform Destroy
+  m_EditorClassIdentifier: 
+  Path: event:/Weapon/Platform Destroy
+  Guid:
+    Data1: -928021138
+    Data2: 1154409106
+    Data3: 40248972
+    Data4: 1163293472
+  Banks:
+  - {fileID: 2191054026743318958}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 848
+--- !u!114 &-2297044812214284067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Player.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Player.bank
+  Name: Player
+  StudioPath: bank:/Player
+  lastModified: 638821552533593505
+  FileSizes:
+  - Name: Desktop
+    Value: 562720
+  Exists: 1
+--- !u!114 &-2233262691031193851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Hurt/VoicePitch
+  m_EditorClassIdentifier: 
+  Name: VoicePitch
+  StudioPath: 
+  Min: -12
+  Max: 12
+  Default: 0
+  ID:
+    data1: 3688724669
+    data2: 171507012
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &-899667270897976470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Weapon/Light Beam Impact
+  m_EditorClassIdentifier: 
+  Path: event:/Weapon/Light Beam Impact
+  Guid:
+    Data1: 2010068037
+    Data2: 1196120599
+    Data3: -537036910
+    Data4: 1789882489
+  Banks:
+  - {fileID: 2191054026743318958}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2000
+--- !u!114 &-38438058244810958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Tutorial/Tutorial Voicelines
+  m_EditorClassIdentifier: 
+  Path: event:/Tutorial/Tutorial Voicelines
+  Guid:
+    Data1: -1589019729
+    Data2: 1270155641
+    Data3: 2010838921
+    Data4: 495719900
+  Banks:
+  - {fileID: -4993558676504566498}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 205401337440421285}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d32cf7c32a3ed8347bac48ef5ed56d82, type: 3}
+  m_Name: FMODStudioCache
+  m_EditorClassIdentifier: 
+  EditorBanks:
+  - {fileID: 1871825567793687027}
+  - {fileID: 8334990999887617652}
+  - {fileID: -7389054350165075982}
+  - {fileID: 8786537418203234695}
+  - {fileID: -2297044812214284067}
+  - {fileID: -4993558676504566498}
+  - {fileID: 2346798527921269977}
+  - {fileID: 2191054026743318958}
+  EditorEvents:
+  - {fileID: 2146519444918257225}
+  - {fileID: -2507876019784678054}
+  - {fileID: -4191956681484869404}
+  - {fileID: -8655895123716626928}
+  - {fileID: 8997713600769853861}
+  - {fileID: -3786740009412862082}
+  - {fileID: 687761785331296250}
+  - {fileID: 3725733062465109052}
+  - {fileID: 6587610174142819452}
+  - {fileID: 6297614407389629025}
+  - {fileID: 8762109321939038948}
+  - {fileID: -38438058244810958}
+  - {fileID: -5811572465782375896}
+  - {fileID: -8682054794429137812}
+  - {fileID: -3191883182453498890}
+  - {fileID: 7377395671250807736}
+  - {fileID: 9034000554508968224}
+  - {fileID: -899667270897976470}
+  - {fileID: -5576997076254102976}
+  - {fileID: -2387531949982197928}
+  - {fileID: 665247047692289732}
+  - {fileID: -4077007928966358578}
+  - {fileID: -2825766745384979535}
+  EditorParameters: []
+  MasterBanks:
+  - {fileID: 8786537418203234695}
+  StringsBanks:
+  - {fileID: 1871825567793687027}
+  cacheVersion: 131847
+  cacheTime: 638821552533593505
+  SerializableEventsDict:
+  - key: event:/Music/LoopingAmbient
+    index: 0
+  - key: event:/Enemy/Kill Enemy
+    index: 1
+  - key: event:/Enemy/Enemy Ambient
+    index: 2
+  - key: event:/Enemy/Enemy Aggro
+    index: 3
+  - key: event:/Enemy/Enemy Freeze
+    index: 4
+  - key: event:/Player/You Died Screen
+    index: 5
+  - key: event:/Player/Jump
+    index: 6
+  - key: event:/Player/Walking
+    index: 7
+  - key: event:/Player/Land
+    index: 8
+  - key: event:/Player/Hurt
+    index: 9
+  - key: event:/Player/Running
+    index: 10
+  - key: event:/Tutorial/Tutorial Voicelines
+    index: 11
+  - key: event:/Tutorial/Trying Again
+    index: 12
+  - key: event:/UI/UI Hover
+    index: 13
+  - key: event:/UI/UI Click
+    index: 14
+  - key: event:/Weapon/Red Canister
+    index: 15
+  - key: event:/Weapon/Light Beam
+    index: 16
+  - key: event:/Weapon/Light Beam Impact
+    index: 17
+  - key: event:/Weapon/Yellow Canister
+    index: 18
+  - key: event:/Weapon/Platform Destroy
+    index: 19
+  - key: event:/Weapon/Gunshot
+    index: 20
+  - key: event:/Weapon/Platform Landing
+    index: 21
+  - key: event:/Weapon/Switching Modes
+    index: 22
+--- !u!114 &205401337440421285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Tutorial Voicelines/LineID
+  m_EditorClassIdentifier: 
+  Name: LineID
+  StudioPath: 
+  Min: 0
+  Max: 19
+  Default: 0
+  ID:
+    data1: 1114836988
+    data2: 2407436901
+  Type: 1
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &665247047692289732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Weapon/Gunshot
+  m_EditorClassIdentifier: 
+  Path: event:/Weapon/Gunshot
+  Guid:
+    Data1: 37903751
+    Data2: 1341880260
+    Data3: -529112956
+    Data4: 588033043
+  Banks:
+  - {fileID: 2191054026743318958}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 487
+--- !u!114 &687761785331296250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Player/Jump
+  m_EditorClassIdentifier: 
+  Path: event:/Player/Jump
+  Guid:
+    Data1: -717789361
+    Data2: 1107363354
+    Data3: -1959067255
+    Data4: -1017255788
+  Banks:
+  - {fileID: -2297044812214284067}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -4452514013599469781}
+  - {fileID: 9018961646037195294}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &750781080746740305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Enemy Aggro/Aggression
+  m_EditorClassIdentifier: 
+  Name: Aggression
+  StudioPath: 
+  Min: 0
+  Max: 40
+  Default: 0
+  ID:
+    data1: 3038918353
+    data2: 233277341
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &1871825567793687027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.strings.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Master.strings.bank
+  Name: Master.strings
+  StudioPath: bank:/Master.strings
+  lastModified: 638821495414447573
+  FileSizes:
+  - Name: Desktop
+    Value: 2376
+  Exists: 1
+--- !u!114 &2146519444918257225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Music/LoopingAmbient
+  m_EditorClassIdentifier: 
+  Path: event:/Music/LoopingAmbient
+  Guid:
+    Data1: 1594083742
+    Data2: 1282880255
+    Data3: 2044109244
+    Data4: 1993487414
+  Banks:
+  - {fileID: 8334990999887617652}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 155846
+--- !u!114 &2191054026743318958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Weapon.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Weapon.bank
+  Name: Weapon
+  StudioPath: bank:/Weapon
+  lastModified: 638821495414945703
+  FileSizes:
+  - Name: Desktop
+    Value: 290720
+  Exists: 1
+--- !u!114 &2346798527921269977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/UI Sounds.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/FMOD/Audio/Prototype/Build/Desktop/UI Sounds.bank
+  Name: UI Sounds
+  StudioPath: bank:/UI Sounds
+  lastModified: 638821495414900354
+  FileSizes:
+  - Name: Desktop
+    Value: 27328
+  Exists: 1
+--- !u!114 &3725733062465109052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Player/Walking
+  m_EditorClassIdentifier: 
+  Path: event:/Player/Walking
+  Guid:
+    Data1: 870925689
+    Data2: 1185099618
+    Data3: 446512013
+    Data4: -1293852257
+  Banks:
+  - {fileID: -2297044812214284067}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 250
+--- !u!114 &3833883075297822355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Hurt/VoiceGender
+  m_EditorClassIdentifier: 
+  Name: VoiceGender
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 2184116879
+    data2: 1638635148
+  Type: 1
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &5759688710477104786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Land/VoiceGender
+  m_EditorClassIdentifier: 
+  Name: VoiceGender
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 2184116879
+    data2: 1638635148
+  Type: 1
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &6297614407389629025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Player/Hurt
+  m_EditorClassIdentifier: 
+  Path: event:/Player/Hurt
+  Guid:
+    Data1: -66298688
+    Data2: 1150973868
+    Data3: -1093529671
+    Data4: -1987351390
+  Banks:
+  - {fileID: -2297044812214284067}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 3833883075297822355}
+  - {fileID: -2233262691031193851}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &6587610174142819452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Player/Land
+  m_EditorClassIdentifier: 
+  Path: event:/Player/Land
+  Guid:
+    Data1: -1827119999
+    Data2: 1109853064
+    Data3: 259224740
+    Data4: -614440717
+  Banks:
+  - {fileID: -2297044812214284067}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 5759688710477104786}
+  - {fileID: -8141788480176901809}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &7377395671250807736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Weapon/Red Canister
+  m_EditorClassIdentifier: 
+  Path: event:/Weapon/Red Canister
+  Guid:
+    Data1: -1723641297
+    Data2: 1197465177
+    Data3: 1416503227
+    Data4: 848774661
+  Banks:
+  - {fileID: 2191054026743318958}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 980
+--- !u!114 &7914863655989466943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Trying Again/LineID
+  m_EditorClassIdentifier: 
+  Name: LineID
+  StudioPath: 
+  Min: 0
+  Max: 19
+  Default: 0
+  ID:
+    data1: 1114836988
+    data2: 2407436901
+  Type: 1
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &8334990999887617652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Background.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Background.bank
+  Name: Background
+  StudioPath: bank:/Background
+  lastModified: 638821552533513409
+  FileSizes:
+  - Name: Desktop
+    Value: 4696896
+  Exists: 1
+--- !u!114 &8762109321939038948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Player/Running
+  m_EditorClassIdentifier: 
+  Path: event:/Player/Running
+  Guid:
+    Data1: 355880412
+    Data2: 1299001062
+    Data3: 2008809895
+    Data4: 1557049363
+  Banks:
+  - {fileID: -2297044812214284067}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2000
+--- !u!114 &8786537418203234695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/FMOD/Audio/Prototype/Build/Desktop/Master.bank
+  Name: Master
+  StudioPath: bank:/Master
+  lastModified: 638821552533533402
+  FileSizes:
+  - Name: Desktop
+    Value: 1706
+  Exists: 1
+--- !u!114 &8997713600769853861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Enemy/Enemy Freeze
+  m_EditorClassIdentifier: 
+  Path: event:/Enemy/Enemy Freeze
+  Guid:
+    Data1: -654460216
+    Data2: 1073958874
+    Data3: -1150861650
+    Data4: 110172512
+  Banks:
+  - {fileID: -7389054350165075982}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 3213
+--- !u!114 &9018961646037195294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Jump/VoiceGender
+  m_EditorClassIdentifier: 
+  Name: VoiceGender
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 2184116879
+    data2: 1638635148
+  Type: 1
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &9034000554508968224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Weapon/Light Beam
+  m_EditorClassIdentifier: 
+  Path: event:/Weapon/Light Beam
+  Guid:
+    Data1: -113402824
+    Data2: 1309484831
+    Data3: -1591825769
+    Data4: -1986253878
+  Banks:
+  - {fileID: 2191054026743318958}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 340
