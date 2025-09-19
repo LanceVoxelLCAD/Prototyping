@@ -64,17 +64,19 @@ public class CameraController : MonoBehaviour
         HandleHeadbob();
         HandleLandingDip();
 
-        // Apply everything to camera transform
+        //apply everything to cam transform
         transform.localPosition = originalLocalPos + new Vector3(0, dipOffset, 0) + GetHeadbobOffset();
         transform.localRotation = Quaternion.Euler(0, 0, currentTilt);
 
-        // Sync both cameras' FOV
-        if (weaponCamera)
-            weaponCamera.fieldOfView = worldCamera.fieldOfView;
+        //nah
+        ////sync cameras' FOV
+        //if (weaponCamera)
+        //    weaponCamera.fieldOfView = worldCamera.fieldOfView;
     }
 
     void HandleFOV()
     {
+        //I dont think I need to check move velo here due to the CanRun method but im leaving it for now
         isRunning = controller.isRunning && controller.currMoveVelocity.magnitude > 0.1f;
         targetFOV = isRunning ? sprintFOV : baseFOV;
 

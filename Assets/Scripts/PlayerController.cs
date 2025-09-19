@@ -40,8 +40,11 @@ public class PlayerController : MonoBehaviour
     [Header("Move")]
     public float walkSpeed = 3f;
     public float runSpeed = 6f;
+    public float backpedalSpeedMultiplier = 0.7f;
     public float turnSpeedSensitivity = 2500f;
     public Vector3 currMoveVelocity;
+    public bool wantsToRun = false;
+    public bool canRun = true;
     public bool isRunning = false;
 
     private Animator anim;
@@ -126,7 +129,7 @@ public class PlayerController : MonoBehaviour
         float right = Input.GetAxis("Horizontal");
         float mouseXInput = Input.GetAxis("Mouse X");
         float mouseYInput = Input.GetAxis("Mouse Y");
-        isRunning = Input.GetKey(KeyCode.LeftShift);
+        wantsToRun = Input.GetKey(KeyCode.LeftShift);
         bool jump = Input.GetButtonDown("Jump");
         float scrollInput = Input.GetAxis("Mouse ScrollWheel");
         //float pitchYaw = Input.GetAxis("PitchYaw");
@@ -152,7 +155,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        HandleMovement(forward, right, isRunning);
+        HandleMovement(forward, right, wantsToRun);
 
 
         //left to right visuals
@@ -182,40 +185,72 @@ public class PlayerController : MonoBehaviour
     //    }
     //}
 
-    public void HandleMovement(float forward, float right, bool run)
+    public void HandleMovement(float forward, float right, bool wantsToRun)
     {
-        //only moving forward.. so this is ONLY speed for the mathf stuff
-
-        //float moveSpeed = walkSpeed;
-        //if (run)
-        //{
-        //    moveSpeed = runSpeed;
-        //}
-
-        //if (moveSpeed == walkSpeed)
-        //{
-        //    anim.SetFloat("Speed", 1);
-        //}
-        //else
-        //{
-        //    anim.SetFloat("Speed", 3);
-        //}
 
         //cleaner internet code
-        float targetMoveSpeed = run ? runSpeed : walkSpeed;
+        //canRun = wantsToRun && isGrounded;
+
+        float targetMoveSpeed;
 
         Vector3 inputDir = new Vector3(right, 0, forward).normalized;
+
+        //no more speed up when running diagonally "Clamp diagonal movement to not exceed magnitude 1"
+        if (inputDir.magnitude > 1f)
+        {
+            inputDir.Normalize();
+        }
+
+        bool backtracking = (forward < 0f && Mathf.Abs(right) < 0.1f);
+        isRunning = CanRun(forward, right, backtracking);
+
+        //no running backwards, but allows strafing, just no straight back
+        if (backtracking)
+        {
+            //canRun = false;
+            targetMoveSpeed = walkSpeed * backpedalSpeedMultiplier;
+        }
+        else
+        {
+            //if (canRun)
+            //{
+            //    canRun = false;
+            //}
+
+            targetMoveSpeed = isRunning ? runSpeed : walkSpeed;
+        }
+
+        //isRunning = canRun;
+
+        //if (!isGrounded )
+
         Vector3 targetVelocity = transform.TransformDirection(inputDir) * targetMoveSpeed;
 
         currMoveVelocity = Vector3.Lerp(currMoveVelocity, targetVelocity, 0.4f); //.2-.3 is "FPS standard" but it feels too slidy
         controller.Move(currMoveVelocity * Time.deltaTime);
-        anim.SetFloat("Speed", targetVelocity.magnitude > 0 ? (run ? 3 : 1) : 0);
+        anim.SetFloat("Speed", targetVelocity.magnitude > 0 ? (isRunning ? 3 : 1) : 0);
 
-        //Vector3 moving = new Vector3(right, 0, forward);
 
-        //moving = transform.TransformDirection(moving);
+    }
 
-        //controller.Move(moving * Time.deltaTime * targetMoveSpeed);
+    public bool CanRun(float forward, float right, bool backtracking)
+    {
+        bool isMoving = Mathf.Abs(forward) > 0.1f || Mathf.Abs(right) > 0.1f;
+
+        if (wantsToRun && isMoving && !backtracking)
+        {
+            if (isGrounded)
+            {
+                return true;
+            }
+            else
+            {
+                //if not grounded but already running....
+                return isRunning;
+            }
+        }
+        
+        return false;
 
     }
 
@@ -249,7 +284,7 @@ public class PlayerController : MonoBehaviour
         {
             //calculate initial velocity needed to reach jumpHeight
             fallVelocity.y = Mathf.Sqrt(jumpHeight * -2f * gravityUp);
-            jumpBufferCounter = 0; //consume buffer
+            jumpBufferCounter = 0; //"consume buffer"
 
             if (!jumpEvent.IsNull)
             {
@@ -279,8 +314,6 @@ public class PlayerController : MonoBehaviour
 
     public bool CheckGrounded()
     {
-        //return Physics.CheckSphere(transform.position + Vector3.down * 0.51f * playerScale, 0.5f * playerScale, groundMask);
-
         float radius = controller.radius * 0.9f;
         float groundedOffset = 0.1f;
 
