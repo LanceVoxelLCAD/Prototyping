@@ -1673,6 +1673,7 @@ MonoBehaviour:
   enemySightAngle: 65
   enemySightMaxDistance: 18
   bumpedIntoDistance: 1.51
+  stopDistFromPlayer: 3
   aggroDecay: 25
   aggroTrigger: 100
   maxAggro: 200
@@ -1702,6 +1703,7 @@ MonoBehaviour:
   maxBeamCharge: 90
   currentBeamCharge: 0
   beamChargeRate: 30
+  sneakBeamChargeBonus: 85
   usualGlowItensity: -0.1
   maxGlowIntensity: 4.5
   glowCurveExponent: 3

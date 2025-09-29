@@ -117,7 +117,8 @@ public class EnemyController : MonoBehaviour
     public float currentBeamCharge = 0f;
     public float beamChargeRate = 20f;
     //private bool EnemyUnaware;
-    //private float normalBeamChargeRateHolder;
+    public float sneakBeamChargeBonus = 80f;
+    private float normalBeamChargeRateHolder; //don't love this, but it is okay
 
     public float usualGlowItensity = -.1f;
     public float maxGlowIntensity = 5f;
@@ -188,7 +189,7 @@ public class EnemyController : MonoBehaviour
         anim = GetComponent<Animator>();
 
         normalGooPerHitHolder = gooPerHit;
-        //normalBeamChargeRateHolder = beamChargeRate;
+        normalBeamChargeRateHolder = beamChargeRate;
 
         //moved as this is repeated, this decides the state based on the number of waypoints
         SetOriginalState();
@@ -439,12 +440,15 @@ public class EnemyController : MonoBehaviour
     {
         //EnemyUnaware = false;
         gooPerHit = normalGooPerHitHolder;
+        beamChargeRate = normalBeamChargeRateHolder;
     }
 
     private void makeBeamGooSneakyStrong()
     {
         //EnemyUnaware = true;
         gooPerHit *= gooSneakDamageBoost;
+        beamChargeRate += sneakBeamChargeBonus; //should only call for the first hit, as the enemy will aggro
+
     }
 
     private IEnumerator IdleWaitAtWaypoint()
