@@ -59,16 +59,20 @@ public class EnemyController : MonoBehaviour
 
     //public GameObject killedDummiesTrigger;
 
-    [Header("Stats")]
+    [Header("Stats and Aggression")]
     public bool isPassive = false;
     //public float health = 30f;
     //public float maxHealth = 30f;
+    public float maxSpeed;
+    public float walkSpeed = 2f;
     public float attackDamage = 5f;
     public float aggression;
     public float lastAggression;
     public float switchAttentionFromLightToPlayerDistance;
     public float enemySightAngle = 60f;
     public float enemySightMaxDistance = 30f;
+    public float bumpedIntoDistance;
+    public float stopDistFromPlayer = 3f;
     //public float aggroSpeed = 15f;
     private float baseAggroSpeed;
     public float aggroDecay = 3f;
@@ -89,26 +93,26 @@ public class EnemyController : MonoBehaviour
     public int redCanisterRarity = 2;
     //public GameObject foodItem;
 
-    public float bumpedIntoDistance;
     public float distanceToPlayer;
     public float distanceToLight;
     public float attackWindupTime = .3f;
 
     [Header("Goo Slowdown")]
+
     public float maxGooAmount = 100f;
     public float gooDecayRate = 5f;
     public float gooPerHit = 35f;
+    public float gooSneakDamageBoost = 2f;
     private float normalGooPerHitHolder;
     public float updateRate = .1f;
 
     public float gooAmount = 0f;
-    public float maxSpeed;
     public bool isFrozen = false;
     private Coroutine gooDecayCoroutineHolder;
     public float deadGlow = -.8f;
     public float chargePercentSetWhenFrozen = 85f;
 
-    [Header("Beam Logic")]
+    [Header("Beam Overcharge Logic")]
     public float maxBeamCharge = 100f;
     public float currentBeamCharge = 0f;
     public float beamChargeRate = 20f;
@@ -126,13 +130,21 @@ public class EnemyController : MonoBehaviour
     public bool isBeingBeamed = false;
     float chargePercent = 0f;
 
+    [Header("Patrol System")]
+    public GameObject[] waypoints;
+    public float waitTimeAtWaypoint = 4f;
+    public int currWaypointIndex = 0;
+    private Coroutine idleCoroutine;
+    public bool isWaitingAtWaypoint = false;
+
     public enum EnemyState
     {
-        Idle,
-        Wander,
-        InvestigateLight,
+        Frozen,
         ChasePlayer,
-        Frozen
+        InvestigateLight,
+        WanderSlashPatroling,
+        PatrolIdle,
+        Idle
     }
 
     public EnemyState currentState = EnemyState.Idle;
@@ -178,7 +190,8 @@ public class EnemyController : MonoBehaviour
         normalGooPerHitHolder = gooPerHit;
         //normalBeamChargeRateHolder = beamChargeRate;
 
-        SetState(EnemyState.Idle);
+        //moved as this is repeated, this decides the state based on the number of waypoints
+        SetOriginalState();
 
         //attackCoroutine = StartCoroutine(AttackWhenClose());
 
@@ -231,8 +244,83 @@ public class EnemyController : MonoBehaviour
        
     }
 
+    private void SetState(EnemyState newState)
+    {
+        //i dont know if this is how this works ahhhhh!!!
+        //this is basically "Start" for a state, I think
+        if (currentState == newState) return;
+
+        //cleanup - the example had multiple here, but I think I only need one....
+        switch (currentState)
+        {
+            case EnemyState.PatrolIdle:
+                if (idleCoroutine != null)
+                {
+                    //Debug.Log("idleCoroutine was stopped");
+                    StopCoroutine(idleCoroutine);
+                    idleCoroutine = null;
+                }
+                break;
+        }
+
+        currentState = newState;
+
+        //setup for new state,handled when switch only.. i think
+        switch (newState)
+        {
+            case EnemyState.Frozen:
+                makeBeamGooNormal();
+                agent.isStopped = true; //moved this here from update
+                anim.speed = 0;
+                break;
+
+            case EnemyState.ChasePlayer:
+                makeBeamGooNormal();
+                agent.isStopped = false;
+                agent.speed = maxSpeed;
+                agent.stoppingDistance = stopDistFromPlayer;
+                hasAggrod = true;
+                goal = player;
+                aggression = aggroTrigger + 1f;
+                break;
+
+            case EnemyState.InvestigateLight:
+                makeBeamGooSneakyStrong();
+                agent.isStopped = false;
+                agent.speed = walkSpeed;
+                agent.stoppingDistance = stopDistFromPlayer;
+                goal = lastSeenLightProducer;
+                aggression = aggroTrigger + 2f;
+                break;
+
+            case EnemyState.WanderSlashPatroling:
+                makeBeamGooSneakyStrong();
+                agent.isStopped = false;
+                agent.speed = walkSpeed;
+                agent.stoppingDistance = 0f;
+                //currWaypointIndex = 0; //no, actually, should go back to the last point - 0 is in the inspector
+                goal = waypoints[currWaypointIndex];
+                //agent.SetDestination(waypoints[currWaypointIndex].transform.position);
+                break;
+
+            case EnemyState.PatrolIdle:
+                makeBeamGooSneakyStrong();
+                agent.isStopped = true;
+                //anim.SetTrigger("SomeIdleAnimation,idk"); OR // anim.CrossFade("SomeIdle", 0.2f);
+                idleCoroutine = StartCoroutine(IdleWaitAtWaypoint());
+                break;
+
+            case EnemyState.Idle:
+                makeBeamGooSneakyStrong();
+                agent.isStopped = true;
+                agent.ResetPath();
+                break;
+        }
+    }
+
     private void HandleState()
     {
+        //and this is basically "Update" for a state, I think
         distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
         distanceToLight = lastSeenLightProducer ? Vector3.Distance(transform.position, lastSeenLightProducer.transform.position) : Mathf.Infinity;
 
@@ -241,14 +329,11 @@ public class EnemyController : MonoBehaviour
         switch (currentState)
         {
             case EnemyState.Frozen:
-                agent.isStopped = true;
-                anim.speed = 0;
                 return;
 
             case EnemyState.ChasePlayer:
                 goal = player;
                 agent.SetDestination(goal.transform.position);
-                agent.isStopped = false;
                 headObject.transform.LookAt(goal.transform);
                 break;
 
@@ -257,21 +342,31 @@ public class EnemyController : MonoBehaviour
                 {
                     goal = lastSeenLightProducer;
                     agent.SetDestination(goal.transform.position);
-                    agent.isStopped = false;
                     headObject.transform.LookAt(goal.transform);
                 }
                 else
                 {
-                    SetState(EnemyState.Idle);
+                    SetOriginalState();
                 }
                 break;
 
-            case EnemyState.Wander:
-                agent.isStopped = false;
+            case EnemyState.WanderSlashPatroling:
+
+                agent.SetDestination(goal.transform.position);
+
+                //this line is internet code, unsure of it
+                if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+                {
+                    //Debug.Log("Wandering is setting the state to patrol idle");
+                    SetState(EnemyState.PatrolIdle);
+                }
                 break;
 
+            case EnemyState.PatrolIdle:
+                //can.. add something.. here... maybe. like an animation or something? random trigger?
+                break;
+            
             case EnemyState.Idle:
-                agent.isStopped = true;
                 break;
 
         }
@@ -298,6 +393,27 @@ public class EnemyController : MonoBehaviour
         //}
     }
 
+    private void SetOriginalState()
+    {
+        if (waypoints.Length == 0)
+        { //I only wanna do this once.. but then it never goes back to idle. hm. unsure of this
+            waypoints = new GameObject[1];
+            waypoints[0] = originalGoal;
+        }
+
+        if (waypoints.Length >= 1)
+        {
+            //SetState(EnemyState.WanderSlashPatroling); //if it is just one, it idles in place
+            //okay maybe this will do better
+            //Debug.Log("SetOriginalState is setting the state to patrol idle");
+            SetState(EnemyState.PatrolIdle);
+        }
+        else
+        {
+            SetState(EnemyState.Idle);
+        }
+    }
+
     private bool ShouldFreeze()
     {
         return isFrozen;
@@ -312,51 +428,11 @@ public class EnemyController : MonoBehaviour
     {
         return goal == lastSeenLightProducer;
     }
-
+     
     private bool ShouldWander()
     {
         //idk this one yet fam
         return false;
-    }
-
-    private void SetState(EnemyState newState)
-    {
-        //i dont know if this is how this works ahhhhh!!!
-        if (currentState == newState) return;
-
-        currentState = newState;
-
-        //setup for new state,handled when switch only.. i think
-        switch (newState)
-        {
-            case EnemyState.Frozen:
-                makeBeamGooNormal();
-                agent.isStopped = true;
-                anim.speed = 0;
-                break;
-
-            case EnemyState.ChasePlayer:
-                makeBeamGooNormal();
-                hasAggrod = true;
-                goal = player;
-                aggression = aggroTrigger + 1f;
-                break;
-
-            case EnemyState.InvestigateLight:
-                makeBeamGooSneakyStrong();
-                goal = lastSeenLightProducer;
-                aggression = aggroTrigger + 2f;
-                break;
-
-            case EnemyState.Wander:
-                makeBeamGooSneakyStrong();
-                break;
-
-            case EnemyState.Idle:
-                makeBeamGooSneakyStrong();
-                agent.ResetPath();
-                break;
-        }
     }
 
     private void makeBeamGooNormal()
@@ -368,7 +444,35 @@ public class EnemyController : MonoBehaviour
     private void makeBeamGooSneakyStrong()
     {
         //EnemyUnaware = true;
-        gooPerHit *= 2;
+        gooPerHit *= gooSneakDamageBoost;
+    }
+
+    private IEnumerator IdleWaitAtWaypoint()
+    {
+        if (isWaitingAtWaypoint)
+        {
+            //well this didn't fix anything
+            //Debug.Log("isWaiting prevented another coroutine");
+            yield return null;
+        }
+        else
+        {
+            isWaitingAtWaypoint = true;
+
+            yield return new WaitForSeconds(waitTimeAtWaypoint);
+
+            //start traveling to next waypoint
+            //stolen internet code....
+            if (currentState == EnemyState.PatrolIdle) //as long as they're not chasing the player..
+            { //apparently incrementing is wrong here for returning the old value before incrementing?
+                currWaypointIndex = (currWaypointIndex + 1) % waypoints.Length;
+                //agent.SetDestination(waypoints[currWaypointIndex].transform.position); //I think I'm saying this twice
+
+                SetState(EnemyState.WanderSlashPatroling);
+            }
+
+            isWaitingAtWaypoint = false;
+        }
     }
 
     private void UpdateGlowDecay()
@@ -388,7 +492,7 @@ public class EnemyController : MonoBehaviour
     private void CheckAggroConditions()
     {
 
-        // Automatically aggro player if very close
+        //automatically aggro player if very close
         if (distanceToPlayer < bumpedIntoDistance)
         {
             if (!isPassive) { SetState(EnemyState.ChasePlayer); }
@@ -400,10 +504,10 @@ public class EnemyController : MonoBehaviour
             Vector3 directionToPlayer = (player.transform.position - transform.position).normalized;
             float angleToPlayer = Vector3.Angle(transform.forward, directionToPlayer);
 
-            if (angleToPlayer < enemySightAngle) // e.g., 60f
+            if (angleToPlayer < enemySightAngle) //maybe 60f
             {
-                //if within 15% of max sight, maybe make this an exposed inspector variable
-                if ( distanceToPlayer < enemySightMaxDistance * .15f) //if right up on the enemy, instant aggro
+                //if within 15% of max sight. maybe make this an exposed inspector variable
+                if (distanceToPlayer < enemySightMaxDistance * .15f) //if right up on the enemy, instant aggro
                 {
                     //Debug.LogError("The 10% sight thing got called.");
                     if (!isPassive) { SetState(EnemyState.ChasePlayer); }
@@ -436,7 +540,7 @@ public class EnemyController : MonoBehaviour
             }
         }
 
-        // Aggro light if very close and not already fixated on player
+        //aggro light if very close and not already fixated on player
         if (!hasAggrod && lastSeenLightProducer != originalGoal && distanceToLight < attackDistance)
         {
             SetState(EnemyState.InvestigateLight);
@@ -473,10 +577,17 @@ public class EnemyController : MonoBehaviour
         }
         else
         {
+            //goal = originalGoal; //ugh if this breaks something go here....
+
+            //moving hasAggro after so this only runs ONCE
+            if (hasAggrod && currentState == EnemyState.ChasePlayer || currentState == EnemyState.InvestigateLight)
+            {
+                //Debug.Log("set state is called from checkaggroconditions");
+                SetOriginalState();
+            };
+
             // Calm down and reset goal
             hasAggrod = false;
-            goal = originalGoal;
-            SetState(EnemyState.Idle);
         }
 
         // Decay aggro over time if out of range or not lit... also might not need this below if statement at all
@@ -634,11 +745,12 @@ public class EnemyController : MonoBehaviour
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, bumpedIntoDistance);
 
-            ////draw instant aggro from sight (when enemy fully aggros)
-            //Gizmos.color = Color.black;
-            //Gizmos.DrawWireSphere(transform.position, enemySightMaxDistance * .15f);
+            ////draw instant aggro from sight (when enemy fully aggros & max sight)
+            Gizmos.color = Color.black;
+            Gizmos.DrawWireSphere(transform.position, enemySightMaxDistance * .15f);
+            Gizmos.DrawWireSphere(transform.position, enemySightMaxDistance);
 
-            //draw max sight/aggression decay range
+            //draw aggression decay range
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(transform.position, attackDistance);
 
@@ -664,11 +776,11 @@ public class EnemyController : MonoBehaviour
                 Gizmos.DrawSphere(goal.transform.position, 0.25f);
             }
 
-            //this part I copied and pasted, unsure about it:
-            // Vision cone settings
+            //this part is internet code, unsure about it:
+            //vision cone settings
             Gizmos.color = Color.cyan;
             int coneSegments = 20;
-            float angle = enemySightAngle; // Half-angle of vision cone, so total FOV is 120° if 60°
+            float angle = enemySightAngle; //half-angle of vision cone, so total FOV is 120° if 60°
             float radius = enemySightMaxDistance;
 
             Vector3 forward = transform.forward;
@@ -680,11 +792,11 @@ public class EnemyController : MonoBehaviour
 
             Vector3 origin = transform.position;
 
-            // Draw left and right bounds
+            //draw left and right bounds
             Gizmos.DrawLine(origin, origin + leftRay);
             Gizmos.DrawLine(origin, origin + rightRay);
 
-            // Draw arc between the bounds
+            //draw arc between the bounds
             Vector3 previousPoint = origin + leftRay;
             for (int i = 1; i <= coneSegments; i++)
             {

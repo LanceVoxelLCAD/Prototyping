@@ -119,7 +119,7 @@ MonoBehaviour:
       Data4: 1904680086
     Path: event:/Weapon/Yellow Canister
   walkSpeed: 3
-  runSpeed: 6
+  runSpeed: 7
   backpedalSpeedMultiplier: 0.7
   turnSpeedSensitivity: 1000
   currMoveVelocity: {x: 0, y: 0, z: 0}
@@ -131,7 +131,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   fallVelocity: {x: 0, y: 0, z: 0}
-  jumpHeight: 1.7
+  jumpHeight: 1.9
   torch: {fileID: 9059974070237676965}
   torchLightCone: {fileID: 6958272636585080502}
   playerEyesCam: {fileID: 8447939401402388698}

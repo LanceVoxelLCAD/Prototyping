@@ -1664,12 +1664,15 @@ MonoBehaviour:
   headObject: {fileID: 382477327201543995}
   deathParticle: {fileID: 4907179594118903495, guid: e60687c2fb42a994abaa8532df74b5e0, type: 3}
   isPassive: 0
+  maxSpeed: 0
+  walkSpeed: 2
   attackDamage: 8
   aggression: 0
   lastAggression: 0
   switchAttentionFromLightToPlayerDistance: 8
-  enemySightAngle: 50
+  enemySightAngle: 65
   enemySightMaxDistance: 18
+  bumpedIntoDistance: 1.51
   aggroDecay: 25
   aggroTrigger: 100
   maxAggro: 200
@@ -1684,16 +1687,15 @@ MonoBehaviour:
   specialCanisterRarity: 8
   yellowCanisterRarity: 4
   redCanisterRarity: 2
-  bumpedIntoDistance: 1.51
   distanceToPlayer: 0
   distanceToLight: 0
   attackWindupTime: 0.35
   maxGooAmount: 100
   gooDecayRate: 15
   gooPerHit: 40
+  gooSneakDamageBoost: 2
   updateRate: 0.1
   gooAmount: 0
-  maxSpeed: 0
   isFrozen: 0
   deadGlow: -0.8
   chargePercentSetWhenFrozen: 85
@@ -1705,6 +1707,10 @@ MonoBehaviour:
   glowCurveExponent: 3
   glowDecayRate: 5
   isBeingBeamed: 0
+  waypoints: []
+  waitTimeAtWaypoint: 4
+  currWaypointIndex: 0
+  isWaitingAtWaypoint: 0
   currentState: 0
 --- !u!1 &3214402008673286296
 GameObject:
