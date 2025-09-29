@@ -1010,11 +1010,11 @@ public class EnemyController : MonoBehaviour
                 RuntimeManager.PlayOneShot(freezeSound, transform.position); // Only plays ONCE now
             }
 
+            //hopefully will stop the infinite frozen loot bug
+            if (!isFrozen) { DropItem(specialCanisterRarity, yellowCanister); };
             isFrozen = true;
             gooDecayCoroutineHolder = null;
-
-            DropItem(specialCanisterRarity, yellowCanister);
-            Die(yellowCanister);
+            Die(yellowCanister); //this could be a state or whatever..
         }
 
         agent.speed = newSpeed;
