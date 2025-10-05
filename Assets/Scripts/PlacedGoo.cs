@@ -5,8 +5,13 @@ using FMODUnity;
 
 public class PlacedGoo : MonoBehaviour
 {
+    private GameObject player;
+    private PlayerController playCont;
+
     public float growTime;
     private Vector3 finalScale;
+
+    public float gooRefundAmt = 5f;
 
     [Header("FMOD Events")]
     public EventReference impactSound;
@@ -15,6 +20,10 @@ public class PlacedGoo : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        //to refund staMana
+        player = GameObject.Find("Player");
+        playCont = player.GetComponent<PlayerController>();
+
         finalScale = transform.localScale;
         transform.localScale = Vector3.zero;
         StartCoroutine(Grow());
@@ -42,5 +51,7 @@ public class PlacedGoo : MonoBehaviour
         {
             RuntimeManager.PlayOneShot(destroySound, transform.position);
         }
+
+        playCont.currStaMana = Mathf.Min(playCont.maxStaMana, playCont.currStaMana + gooRefundAmt);
     }
 }
