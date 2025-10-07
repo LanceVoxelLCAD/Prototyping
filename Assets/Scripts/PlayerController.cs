@@ -105,6 +105,11 @@ public class PlayerController : MonoBehaviour
     //public TMP_Text killcountTextUI;
     public Slider healthSlider;
 
+    private PlayerUI playerUI;
+
+
+
+
     private void Start()
     {
         torchRot = torch.transform.localEulerAngles;
@@ -115,6 +120,7 @@ public class PlayerController : MonoBehaviour
         healthSlider.maxValue = maxHealth;
 
         anim = GetComponentInChildren<Animator>();
+        playerUI = FindAnyObjectByType<PlayerUI>();
 
         if (weapon != null)
         {
@@ -353,25 +359,54 @@ public class PlayerController : MonoBehaviour
 
         //clickable stuff
         //using different ray due to twitchy torch..?
+
+        //moved E check inside....
         Ray clickableRay;
         clickableRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit clickableHit;
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Physics.Raycast(clickableRay, out clickableHit, playerReach, clickableRayMask, QueryTriggerInteraction.Ignore))
         {
-            if (Physics.Raycast(clickableRay, out clickableHit, playerReach, clickableRayMask, QueryTriggerInteraction.Ignore))
+            Pickup pickup = clickableHit.collider.GetComponent<Pickup>();
+
+            if (pickup)
             {
-                Debug.Log("Player hit E on: " + clickableHit.collider.gameObject.name);
+                playerUI.ShowButtonPrompt(true);
 
-                Pickup pickup = clickableHit.collider.GetComponent<Pickup>();
-
-                if(pickup != null)
+                if (Input.GetKeyDown(KeyCode.E))
                 {
-                    CollectPickup(pickup);
+                    Debug.Log("Player hit E on: " + clickableHit.collider.gameObject.name);
+
+                    if (pickup != null)
+                    {
+                        CollectPickup(pickup);
+                    }
                 }
             }
-
+            else
+            {
+                playerUI.ShowButtonPrompt(false);
+            }
         }
+        else
+        {
+            playerUI.ShowButtonPrompt(false);
+        }
+        //if (Input.GetKeyDown(KeyCode.E))
+        //{
+        //    if (Physics.Raycast(clickableRay, out clickableHit, playerReach, clickableRayMask, QueryTriggerInteraction.Ignore))
+        //    {
+        //        Debug.Log("Player hit E on: " + clickableHit.collider.gameObject.name);
+
+        //        Pickup pickup = clickableHit.collider.GetComponent<Pickup>();
+
+        //        if(pickup != null)
+        //        {
+        //            CollectPickup(pickup);
+        //        }
+        //    }
+
+        //}
 
     }
 

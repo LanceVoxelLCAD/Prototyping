@@ -8,31 +8,33 @@ public class Pickup : MonoBehaviour
     public PickupType pickupType;
     //public float amount = 15f;
 
-    public GameObject pickupUIPrompt;
 
-    private Camera mainCamera;
+    //public GameObject pickupUIPrompt;
+    //was for the canister "E" but will now be the text on the canvas
+
+    //private Camera mainCamera;
 
     private void Start()
     {
-        mainCamera = Camera.main;
+        //mainCamera = Camera.main;
     }
 
-    private void LateUpdate()
-    {
-        if (pickupUIPrompt.activeSelf)
-        {
-            if (mainCamera != null)
-            {
-                pickupUIPrompt.transform.LookAt(mainCamera.transform);
-                //pickupUIPrompt.transform.LookAt(mainCamera.transform.rotation * Vector3.forward,
-                //                 mainCamera.transform.rotation * Vector3.up);
-            }
-        }
-    }
+    //private void LateUpdate()
+    //{
+    //    if (pickupUIPrompt.activeSelf)
+    //    {
+    //        if (mainCamera != null)
+    //        {
+    //            pickupUIPrompt.transform.LookAt(mainCamera.transform);
+    //            //pickupUIPrompt.transform.LookAt(mainCamera.transform.rotation * Vector3.forward,
+    //            //                 mainCamera.transform.rotation * Vector3.up);
+    //        }
+    //    }
+    //}
 
-    public void ShowButtonPrompt(bool setActive)
-    {
-        pickupUIPrompt.SetActive(setActive);
-    }
+    //public void ShowButtonPrompt(bool setActive)
+    //{
+    //    pickupUIPrompt.SetActive(setActive);
+    //}
 
 }

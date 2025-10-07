@@ -76,3 +76,5 @@ Assets/TextMesh Pro/Fonts/VarelaRound-Regular SDF.asset
 Assets/TextMesh Pro/Fonts/Staatliches-Regular SDF.asset
 fmod_editor.log
 Assets/Plugins/FMOD/Cache
+/[Aa]ssets/StreamingAssets/**/*.bank
+/[Aa]ssets/StreamingAssets/**/*.bank.meta
