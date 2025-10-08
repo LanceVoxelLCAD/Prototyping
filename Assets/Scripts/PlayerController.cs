@@ -49,6 +49,12 @@ public class PlayerController : MonoBehaviour
 
     private Animator anim;
 
+    [Header("Crouch")]
+    public bool isCrouching = false;
+    public float crouchHeight = 1f;
+    public float standHeight = 2f;
+    public float crouchSpeedMultiplier = 0.8f;
+
     [Header("Jump")]
     public bool isGrounded;
     public LayerMask groundMask;
@@ -138,11 +144,17 @@ public class PlayerController : MonoBehaviour
         wantsToRun = Input.GetKey(KeyCode.LeftShift);
         bool jump = Input.GetButtonDown("Jump");
         float scrollInput = Input.GetAxis("Mouse ScrollWheel");
+        bool wantsToCrouchTransition = Input.GetKeyDown(KeyCode.LeftControl);
         //float pitchYaw = Input.GetAxis("PitchYaw");
 
         ApplyGravity(jump);
         AimingRay();
         ManageHealth();
+
+        if (wantsToCrouchTransition)
+        {
+            ToggleCrouch();
+        }
 
         if (Input.GetKeyDown(KeyCode.H))
         {
@@ -215,6 +227,10 @@ public class PlayerController : MonoBehaviour
         {
             //canRun = false;
             targetMoveSpeed = walkSpeed * backpedalSpeedMultiplier;
+        }
+        else if (isCrouching)
+        {
+            targetMoveSpeed = walkSpeed * crouchSpeedMultiplier;
         }
         else
         {
@@ -329,7 +345,53 @@ public class PlayerController : MonoBehaviour
         return Physics.CheckCapsule(point1, point2, radius, groundMask, QueryTriggerInteraction.Ignore);
     }
 
+    void ToggleCrouch()
+    {
+        Debug.Log("Can stand: " + CanStand());
 
+        if (!isCrouching)
+        {
+            float centerOffset = (standHeight - crouchHeight) / 2f;
+            controller.height = crouchHeight;
+            controller.center -= new Vector3(0, centerOffset, 0);
+
+            isCrouching = true;
+            //Debug.Log("Squat!");
+
+            return;
+        }
+        
+        if (CanStand())
+        {
+            float centerOffset = (standHeight - crouchHeight) / 2f;
+            controller.height = standHeight;
+            controller.center += new Vector3(0, centerOffset, 0);
+
+            isCrouching = false;
+            //Debug.Log("Stood up!");
+        }
+
+    }
+
+    bool CanStand()
+    {
+        //dont touch our own collider
+        //float radius = Mathf.Max(0.0f, controller.radius - 0.02f);
+        //float standDiff = standHeight - crouchHeight;
+
+        //when controller.center.y = height/2, - oh no this is NOT true, the center is at 0!!!!
+        //transform.position is at bottom of capsule (FEET) (this might be a lie!!!)
+        //Vector3 bottom = transform.position + Vector3.up * radius;
+        //Vector3 top = transform.position + Vector3.up * (standHeight - radius);
+
+        Vector3 bottom = transform.position + controller.center - Vector3.up * (controller.height / 2f) + Vector3.up * controller.radius;
+        Vector3 top = bottom + Vector3.up * (standHeight - controller.radius * 2f);
+
+        //true if head space clear
+        bool blocked = Physics.CheckCapsule(bottom, top, controller.radius, groundMask, QueryTriggerInteraction.Ignore);
+        return !blocked;
+    }
+    
     public void OnDrawGizmos()
     {
         Gizmos.color = Color.red;

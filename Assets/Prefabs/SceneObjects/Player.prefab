@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 358570175509377227}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 4.471, y: 4.917, z: 7.82}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -126,6 +126,11 @@ MonoBehaviour:
   wantsToRun: 0
   canRun: 1
   isRunning: 0
+  isCrouching: 0
+  crouchHeight: 1
+  standHeight: 2
+  crouchSpeedMultiplier: 0.5
+  crouchTransitionSpeed: 6
   isGrounded: 0
   groundMask:
     serializedVersion: 2

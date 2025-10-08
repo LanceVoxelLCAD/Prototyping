@@ -18,6 +18,12 @@ public class CameraController : MonoBehaviour
     public float maxTilt = 5f;
     public float tiltSmooth = 6f;
 
+    [Header("Crouch")]
+    public float standCameraHeight = 1.6f;
+    public float crouchCameraHeight = 1.0f;
+    public float smoothSpeed = 8f;
+    private float targetHeight;
+
     [Header("Headbob")]
     public float bobFrequency = 6f;
     public float bobAmplitude = 0.05f;
@@ -53,6 +59,7 @@ public class CameraController : MonoBehaviour
 
         originalLocalPos = transform.localPosition;
         targetFOV = baseFOV;
+        targetHeight = standCameraHeight;
     }
 
     void Update()
@@ -61,8 +68,9 @@ public class CameraController : MonoBehaviour
 
         HandleFOV();
         HandleTilt();
-        HandleHeadbob();
+        //HandleHeadbob();
         HandleLandingDip();
+        HandleCrouch(controller.isCrouching);
 
         //apply everything to cam transform
         transform.localPosition = originalLocalPos + new Vector3(0, dipOffset, 0) + GetHeadbobOffset();
@@ -90,10 +98,18 @@ public class CameraController : MonoBehaviour
         currentTilt = Mathf.Lerp(currentTilt, targetTilt, Time.deltaTime * tiltSmooth);
     }
 
-    void HandleHeadbob()
+    void HandleCrouch(bool isCrouching)
     {
+        targetHeight = isCrouching ? crouchCameraHeight : standCameraHeight;
 
+        Vector3 localPos = transform.localPosition;
+        localPos.y = Mathf.Lerp(localPos.y, targetHeight, Time.deltaTime * smoothSpeed);
+        transform.localPosition = localPos;
     }
+    //void HandleHeadbob()
+    //{
+
+    //}
 
     Vector3 GetHeadbobOffset()
     {
@@ -147,6 +163,7 @@ public class CameraController : MonoBehaviour
             // Just landed
             StopAllCoroutines();
             StartCoroutine(DoLandingDip());
+            Debug.Log("Landing Dip played... was it supposed to?");
         }
 
         wasGroundedLastFrame = isGrounded;
