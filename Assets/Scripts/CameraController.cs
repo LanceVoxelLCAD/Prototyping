@@ -19,8 +19,8 @@ public class CameraController : MonoBehaviour
     public float tiltSmooth = 6f;
 
     [Header("Crouch")]
-    public float standCameraHeight = 1.6f;
-    public float crouchCameraHeight = 1.0f;
+    public float standCameraHeight = 0f;
+    public float crouchCameraHeight = -.2f;
     public float smoothSpeed = 8f;
     private float targetHeight;
 
@@ -72,7 +72,7 @@ public class CameraController : MonoBehaviour
         HandleLandingDip();
         HandleCrouch(controller.isCrouching);
 
-        //apply everything to cam transform
+        ////apply everything to cam transform
         transform.localPosition = originalLocalPos + new Vector3(0, dipOffset, 0) + GetHeadbobOffset();
         transform.localRotation = Quaternion.Euler(0, 0, currentTilt);
 
@@ -163,7 +163,7 @@ public class CameraController : MonoBehaviour
             // Just landed
             StopAllCoroutines();
             StartCoroutine(DoLandingDip());
-            Debug.Log("Landing Dip played... was it supposed to?");
+            Debug.Log("Landing Dip played... was it supposed to? If you were crouching, probably not!!!!");
         }
 
         wasGroundedLastFrame = isGrounded;

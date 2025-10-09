@@ -4,7 +4,7 @@ using UnityEngine;
 public class Pickup : MonoBehaviour
 {
     //this is just.. a label. for now
-    public enum PickupType { RedCanister, YellowCanister, BlueCanister, GreenCanister, FakeGun }
+    public enum PickupType { HealthRefill, AmmoRefill, CombatReward, ExplorationReward, FakeGun }
     public PickupType pickupType;
     //public float amount = 15f;
 

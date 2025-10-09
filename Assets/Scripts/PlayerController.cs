@@ -87,19 +87,19 @@ public class PlayerController : MonoBehaviour
     public float staManaRegenDelay = 1f;
     //public Animator weaponAnimator;
 
-    [Header("Canisters")]
-    public int redCanisterCount;
-    public int yellowCanisterCount;
-    public int greenCanisterCount;
-    public int blueCanisterCount;
-    public float redCanisterValue;
-    public float yellowCanisterValue;
-    public float greenCanisterValue;
-    public float blueCanisterValue;
-    public TMP_Text yellowCanisterUICount;
-    public TMP_Text redCanisterUICount;
-    public GameObject canPopupContainer;
-    public TMP_Text canPopupTxt;
+    [Header("Pickups")]
+    public int healthRefillCount;
+    public int ammoRefillHeldCount;
+    public int explorationRewardCount;
+    public int combatRewardCount;
+    public float healthDropValue;
+    public float ammoDropValue;
+    public float explorationRewardValue;
+    public float combatRewardValue;
+    public TMP_Text ammoDropUICount;
+    public TMP_Text healthDropUICount;
+    public GameObject pickupPopupContainer;
+    public TMP_Text pickupPopupTxt;
 
     [Header("Other")]
     public GameObject overheadLight;
@@ -158,18 +158,18 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.H))
         {
-            if (redCanisterCount > 0 && health < maxHealth)
+            if (healthRefillCount > 0 && health < maxHealth)
             {
-                UseRedCanister();
+                UseHeldHealthDrop();
             }
         }
 
 
         if (Input.GetKeyDown(KeyCode.R)) 
         {
-            if (yellowCanisterCount > 0 && currStaMana < maxStaMana)
+            if (ammoRefillHeldCount > 0 && currStaMana < maxStaMana)
             {
-                UseYellowCanister();
+                UseHeldAmmoDrop();
             }
         }
 
@@ -395,6 +395,14 @@ public class PlayerController : MonoBehaviour
     public void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
+
+        //grounded check gizmos
+        Gizmos.DrawWireSphere(transform.position + Vector3.up * 0.1f, controller.radius * 0.9f);
+        Gizmos.DrawWireSphere(transform.position + Vector3.down * (controller.height / 2f - (controller.radius * 0.9f) + .01f), controller.radius * 0.9f);
+        Gizmos.DrawLine(transform.position + Vector3.up * 0.1f, transform.position + Vector3.down * (controller.height / 2f - (controller.radius * 0.9f) + .01f));
+        
+        
+        
         //Gizmos.DrawWireSphere(transform.position + Vector3.down * 0.51f * playerScale, 0.5f * playerScale);
     }
 
@@ -476,22 +484,22 @@ public class PlayerController : MonoBehaviour
     {
         switch (pickup.pickupType)
         {
-            case Pickup.PickupType.RedCanister:
-                redCanisterCount++;
+            case Pickup.PickupType.HealthRefill:
+                healthRefillCount++;
                 break;
 
-            case Pickup.PickupType.YellowCanister:
-                yellowCanisterCount++;
+            case Pickup.PickupType.AmmoRefill:
+                ammoRefillHeldCount++;
                 break;
 
-            case Pickup.PickupType.GreenCanister:
-                greenCanisterCount++;
-                UseGreenCanister();
+            case Pickup.PickupType.ExplorationReward:
+                explorationRewardCount++;
+                ApplyExplorationReward();
                 break;
 
-            case Pickup.PickupType.BlueCanister:
-                blueCanisterCount++;
-                UseBlueCanister();
+            case Pickup.PickupType.CombatReward:
+                combatRewardCount++;
+                ApplyCombatReward();
                 break;
 
             case Pickup.PickupType.FakeGun:
@@ -499,7 +507,7 @@ public class PlayerController : MonoBehaviour
                 break;
 
             default:
-                Debug.Log("Messed up your switch statement for the canisters probably");
+                Debug.Log("Messed up your switch statement for the pickups probably");
                 break;
         }
 
@@ -510,51 +518,51 @@ public class PlayerController : MonoBehaviour
 
     public void UpdatePickupUI()
     {
-        redCanisterUICount.text = redCanisterCount.ToString();
-        yellowCanisterUICount.text = yellowCanisterCount.ToString();
+        healthDropUICount.text = healthRefillCount.ToString();
+        ammoDropUICount.text = ammoRefillHeldCount.ToString();
     }
 
-    public void UseRedCanister()
+    public void UseHeldHealthDrop()
     {
         if (!redCanisterSound.IsNull)
         {
             RuntimeManager.PlayOneShot(redCanisterSound, transform.position);
         }
 
-        health = Mathf.Min(maxHealth, health + redCanisterValue);
-        redCanisterCount--;
+        health = Mathf.Min(maxHealth, health + healthDropValue);
+        healthRefillCount--;
         UpdatePickupUI();
         StartCoroutine(HealUIEffect());
 
     }
 
-    public void UseYellowCanister()
+    public void UseHeldAmmoDrop()
     {
         if (!yellowCanisterSound.IsNull)
         {
             RuntimeManager.PlayOneShot(yellowCanisterSound, transform.position);
         }
 
-        currStaMana = Mathf.Min(maxStaMana, currStaMana + yellowCanisterValue);
-        yellowCanisterCount--;
+        currStaMana = Mathf.Min(maxStaMana, currStaMana + ammoDropValue);
+        ammoRefillHeldCount--;
         UpdatePickupUI();
     }
 
     // (A green canister will make your TORCH’s resin-due refill faster,
     //while blue ones will increase your TORCH’s maximum resin-due reservoir.)
 
-    public void UseGreenCanister()
+    public void ApplyExplorationReward()
     {
-        staManaRegenRate += greenCanisterValue;
-        canPopupContainer.SetActive(true);
-        canPopupTxt.text = "Resin Regen Increased";
+        staManaRegenRate += explorationRewardValue;
+        pickupPopupContainer.SetActive(true);
+        pickupPopupTxt.text = "Resin Regen Increased";
     }
 
-    public void UseBlueCanister()
+    public void ApplyCombatReward()
     {
-        maxStaMana += blueCanisterValue;
-        canPopupContainer.SetActive(true);
-        canPopupTxt.text = "Max Regen Increased";
+        maxStaMana += combatRewardValue;
+        pickupPopupContainer.SetActive(true);
+        pickupPopupTxt.text = "Max Regen Increased";
         //currStaMana += Mathf.Min(maxStaMana, currStaMana + blueCanisterValue); //give them that little boost?
     }
 
