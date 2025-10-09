@@ -351,9 +351,13 @@ public class PlayerController : MonoBehaviour
 
         if (!isCrouching)
         {
-            float centerOffset = (standHeight - crouchHeight) / 2f;
+
+            //float centerOffset = (standHeight - crouchHeight) / 2f;
+            //controller.center -= new Vector3(0, centerOffset, 0);
             controller.height = crouchHeight;
-            controller.center -= new Vector3(0, centerOffset, 0);
+            //controller.center -= new Vector3(0, crouchHeight, 0);
+
+            //playerEyesCam.transform.position -= new Vector3(0, .3f, 0);
 
             isCrouching = true;
             //Debug.Log("Squat!");
@@ -363,9 +367,12 @@ public class PlayerController : MonoBehaviour
         
         if (CanStand())
         {
-            float centerOffset = (standHeight - crouchHeight) / 2f;
+            //float centerOffset = (standHeight - crouchHeight) / 2f;
+            //controller.center += new Vector3(0, centerOffset, 0);
             controller.height = standHeight;
-            controller.center += new Vector3(0, centerOffset, 0);
+            //controller.center += new Vector3(0, crouchHeight, 0);
+
+            //playerEyesCam.transform.position += new Vector3(0, .3f, 0);
 
             isCrouching = false;
             //Debug.Log("Stood up!");

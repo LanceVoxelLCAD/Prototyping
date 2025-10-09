@@ -70,10 +70,12 @@ public class CameraController : MonoBehaviour
         HandleTilt();
         //HandleHeadbob();
         HandleLandingDip();
-        HandleCrouch(controller.isCrouching);
+        //HandleCrouch(controller.isCrouching);
 
         ////apply everything to cam transform
         transform.localPosition = originalLocalPos + new Vector3(0, dipOffset, 0) + GetHeadbobOffset();
+        //transform.localPosition = originalLocalPos + new Vector3(0, dipOffset, 0) + GetCrouchOffset(controller.isCrouching) + GetHeadbobOffset();
+
         transform.localRotation = Quaternion.Euler(0, 0, currentTilt);
 
         //nah
@@ -98,17 +100,28 @@ public class CameraController : MonoBehaviour
         currentTilt = Mathf.Lerp(currentTilt, targetTilt, Time.deltaTime * tiltSmooth);
     }
 
-    void HandleCrouch(bool isCrouching)
-    {
-        targetHeight = isCrouching ? crouchCameraHeight : standCameraHeight;
+    //void HandleCrouch(bool isCrouching)
+    //{
+    //    targetHeight = isCrouching ? crouchCameraHeight : standCameraHeight;
 
-        Vector3 localPos = transform.localPosition;
-        localPos.y = Mathf.Lerp(localPos.y, targetHeight, Time.deltaTime * smoothSpeed);
-        transform.localPosition = localPos;
-    }
+    //    Vector3 localPos = transform.localPosition;
+    //    localPos.y = Mathf.Lerp(localPos.y, targetHeight, Time.deltaTime * smoothSpeed);
+    //    transform.localPosition = localPos;
+    //}
     //void HandleHeadbob()
     //{
 
+    //}
+    //Vector3 GetCrouchOffset(bool isCrouching)
+    //{
+    //    targetHeight = isCrouching ? crouchCameraHeight : standCameraHeight;
+
+    //    Vector3 localPos = transform.localPosition;
+    //    localPos.y = Mathf.Lerp(localPos.y, targetHeight, Time.deltaTime * smoothSpeed);
+    //    //transform.localPosition = localPos;
+
+    //    //this is not functional, just a test without the right code...
+    //    return new Vector3(0, localPos.y, 0);
     //}
 
     Vector3 GetHeadbobOffset()

@@ -89,8 +89,8 @@ public class EnemyController : MonoBehaviour
     public bool isAttacking = false;
     //public int blueCanisterRarity = 7;
     public int specialCanisterRarity = 8;
-    public int yellowCanisterRarity = 6;
-    public int redCanisterRarity = 2;
+    public int ammoDropRarity = 6;
+    public int healthDropRarity = 2;
     //public GameObject foodItem;
 
     public float distanceToPlayer;
@@ -1032,11 +1032,11 @@ public class EnemyController : MonoBehaviour
 
         //this could be way better.
 
-        if (randomDrop < redCanisterRarity) //if less than 2
+        if (randomDrop < healthDropRarity) //if less than 2
         {
             Instantiate(redCanister, dropPos, transform.rotation);
         } 
-        else if (randomDrop < yellowCanisterRarity) //if 2 or more, AND less than 4
+        else if (randomDrop < ammoDropRarity) //if 2 or more, AND less than 4
         {
             Instantiate(yellowCanister, dropPos, transform.rotation);
         }

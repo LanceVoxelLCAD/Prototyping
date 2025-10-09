@@ -659,8 +659,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: x
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f920555c7f14851498b38d2038408df9, type: 2}
-  m_sharedMaterial: {fileID: -8554292830171123403, guid: f920555c7f14851498b38d2038408df9, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -684,7 +684,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 28
+  m_fontSize: 31.3
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1561,8 +1561,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: '???:'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a730a2f0a8436d34cb58a45c6588d717, type: 2}
-  m_sharedMaterial: {fileID: 4381985942456150772, guid: a730a2f0a8436d34cb58a45c6588d717, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1898,8 +1898,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: x
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f920555c7f14851498b38d2038408df9, type: 2}
-  m_sharedMaterial: {fileID: -8554292830171123403, guid: f920555c7f14851498b38d2038408df9, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1923,7 +1923,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 28
+  m_fontSize: 31.3
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2130,7 +2130,7 @@ GameObject:
   - component: {fileID: 3951674698426093727}
   - component: {fileID: 8009539751035475610}
   m_Layer: 5
-  m_Name: YellowCanCounter
+  m_Name: AmmoRefillCounter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2185,8 +2185,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 00
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f920555c7f14851498b38d2038408df9, type: 2}
-  m_sharedMaterial: {fileID: -8554292830171123403, guid: f920555c7f14851498b38d2038408df9, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2210,7 +2210,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 55.2
+  m_fontSize: 54.3
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2612,7 +2612,7 @@ GameObject:
   - component: {fileID: 9143570100696388234}
   - component: {fileID: 8561091269361072012}
   m_Layer: 5
-  m_Name: RedCanCounter
+  m_Name: HealthRefillCounter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2667,8 +2667,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 00
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f920555c7f14851498b38d2038408df9, type: 2}
-  m_sharedMaterial: {fileID: -8554292830171123403, guid: f920555c7f14851498b38d2038408df9, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2692,7 +2692,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 55.2
+  m_fontSize: 54.3
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3337,8 +3337,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Texty
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a730a2f0a8436d34cb58a45c6588d717, type: 2}
-  m_sharedMaterial: {fileID: 4381985942456150772, guid: a730a2f0a8436d34cb58a45c6588d717, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
