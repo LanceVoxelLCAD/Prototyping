@@ -152,18 +152,18 @@ MonoBehaviour:
   playerReach: 5
   staManaRegenRate: 1
   staManaRegenDelay: 1
-  redCanisterCount: 0
-  yellowCanisterCount: 0
-  greenCanisterCount: 0
-  blueCanisterCount: 0
-  redCanisterValue: 25
-  yellowCanisterValue: 25
-  greenCanisterValue: 1
-  blueCanisterValue: 5
-  yellowCanisterUICount: {fileID: 0}
-  redCanisterUICount: {fileID: 0}
-  canPopupContainer: {fileID: 0}
-  canPopupTxt: {fileID: 0}
+  healthRefillCount: 0
+  ammoRefillHeldCount: 0
+  explorationRewardCount: 0
+  combatRewardCount: 0
+  healthDropValue: 0
+  ammoDropValue: 0
+  explorationRewardValue: 0
+  combatRewardValue: 0
+  ammoDropUICount: {fileID: 0}
+  healthDropUICount: {fileID: 0}
+  pickupPopupContainer: {fileID: 0}
+  pickupPopupTxt: {fileID: 0}
   overheadLight: {fileID: 0}
   clickableRayMask:
     serializedVersion: 2
@@ -1824,6 +1824,9 @@ MonoBehaviour:
   isRunning: 0
   maxTilt: 3
   tiltSmooth: 4
+  standCameraHeight: 0
+  crouchCameraHeight: -0.2
+  smoothSpeed: 8
   bobFrequency: 6
   bobAmplitude: 0.07
   bobSmoothing: 6

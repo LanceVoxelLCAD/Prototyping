@@ -353,7 +353,7 @@ public class PlayerController : MonoBehaviour
 
     void ToggleCrouch()
     {
-        Debug.Log("Can stand: " + CanStand());
+        //Debug.Log("Can stand: " + CanStand());
 
         if (!isCrouching)
         {
@@ -364,7 +364,8 @@ public class PlayerController : MonoBehaviour
             //controller.height = Mathf.Lerp(, Time.deltaTime * crouchTransitionSpeed);
             //controller.center -= new Vector3(0, crouchHeight, 0);
 
-            playerEyesCam.transform.position -= new Vector3(0, .3f, 0);
+            //moving to cam controller, testing:
+            //playerEyesCam.transform.position -= new Vector3(0, .3f, 0);
 
             isCrouching = true;
             //Debug.Log("Squat!");
@@ -379,7 +380,9 @@ public class PlayerController : MonoBehaviour
             controller.height = standHeight;
             //controller.center += new Vector3(0, crouchHeight, 0);
 
-            playerEyesCam.transform.position += new Vector3(0, .3f, 0);
+            //moving to cam controller, testing:
+
+            //playerEyesCam.transform.position += new Vector3(0, .3f, 0);
 
             isCrouching = false;
             //Debug.Log("Stood up!");

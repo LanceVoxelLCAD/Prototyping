@@ -64,19 +64,31 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
-        //internet code, partially
+        //no longer internet code as it has been rewritten, again
 
         HandleFOV();
         HandleTilt();
-        //HandleHeadbob();
         HandleLandingDip();
-        //HandleCrouch(controller.isCrouching);
 
-        ////apply everything to cam transform
-        transform.localPosition = originalLocalPos + new Vector3(0, dipOffset, 0) + GetHeadbobOffset();
-        //transform.localPosition = originalLocalPos + new Vector3(0, dipOffset, 0) + GetCrouchOffset(controller.isCrouching) + GetHeadbobOffset();
+        Vector3 targetPos = originalLocalPos;
 
+        //crouch
+        float crouchTarget = controller.isCrouching ? crouchCameraHeight : standCameraHeight;
+        targetHeight = Mathf.Lerp(targetHeight, crouchTarget, Time.deltaTime * smoothSpeed);
+        targetPos.y += targetHeight;
+
+        //landdip
+        targetPos.y += dipOffset;
+
+        //headbob
+        targetPos += GetHeadbobOffset();
+
+        //apply everything to cam transform
+        //transform.localPosition = originalLocalPos + new Vector3(0, dipOffset, 0) + GetHeadbobOffset();
+        transform.localPosition = targetPos;
         transform.localRotation = Quaternion.Euler(0, 0, currentTilt);
+
+
 
         //nah
         ////sync cameras' FOV
