@@ -74,7 +74,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 7911379170256381802}
-  camController: {fileID: 6118736129397668504}
+  camController: {fileID: 0}
   health: 100
   maxHealth: 100
   regenRate: 0.2
@@ -820,6 +820,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3586319937295833074}
+  - component: {fileID: 4691347929619561808}
   m_Layer: 7
   m_Name: CameraRig
   m_TagString: Untagged
@@ -843,6 +844,48 @@ Transform:
   - {fileID: 5702290529127938697}
   m_Father: {fileID: 5117278900662631044}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4691347929619561808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6572408247257946221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de0d96bac1c725e43900fadfe6bbeaea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  worldCamera: {fileID: 1297063315379051295}
+  weaponCamera: {fileID: 5740888771326100791}
+  controller: {fileID: 0}
+  cameraRig: {fileID: 0}
+  baseFOV: 60
+  sprintFOVOffset: 10
+  crouchFOVOffset: -4
+  fovSmooth: 6
+  weaponCameraOffset: -3
+  isRunning: 0
+  maxTilt: 3
+  tiltSmooth: 4
+  isCrouching: 0
+  standCameraHeight: 0
+  crouchCameraHeight: -0.5
+  crouchSmoothSpeed: 8
+  crouchDipAnimAmount: 0.05
+  crouchDipAnimSpeed: 8
+  crouchPitchAnimAmount: 2
+  crouchDipAnimOffset: 0.5
+  crouchPitchAnimOffset: 5
+  bobFrequency: 1
+  bobAmplitude: 0.04
+  bobSmooth: 2
+  runBobAmplitudeMultiplier: 3
+  crouchBobAmplitudeMultiplier: 0.5
+  idleBobAmplitudeMultiplier: 0.3
+  currAmplitude: 0
+  landDipAmount: 0.2
+  landDipSpeed: 6
 --- !u!1 &6958272636585080502
 GameObject:
   m_ObjectHideFlags: 0
@@ -1667,7 +1710,6 @@ GameObject:
   - component: {fileID: 1874747769303712341}
   - component: {fileID: 5471085358400127380}
   - component: {fileID: 4897069787316378763}
-  - component: {fileID: 6118736129397668504}
   m_Layer: 7
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1834,47 +1876,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nonRigidbodyVelocity: 0
   attenuationObject: {fileID: 0}
---- !u!114 &6118736129397668504
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7334299814030390389}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de0d96bac1c725e43900fadfe6bbeaea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  worldCamera: {fileID: 1297063315379051295}
-  weaponCamera: {fileID: 5740888771326100791}
-  controller: {fileID: 0}
-  cameraRig: {fileID: 0}
-  baseFOV: 60
-  sprintFOVOffset: 10
-  crouchFOVOffset: -4
-  fovSmooth: 6
-  weaponCameraOffset: -3
-  isRunning: 0
-  maxTilt: 3
-  tiltSmooth: 4
-  isCrouching: 0
-  standCameraHeight: 0
-  crouchCameraHeight: -0.5
-  smoothSpeed: 8
-  crouchDipAnimAmount: 0.05
-  crouchDipAnimSpeed: 8
-  crouchPitchAnimAmount: 2
-  crouchDipAnimOffset: 0.5
-  crouchPitchAnimOffset: 5
-  bobFrequency: 2
-  bobAmplitude: 0.04
-  bobSmooth: 10
-  runBobAmplitudeMultiplier: 1.4
-  crouchBobAmplitudeMultiplier: 0.5
-  currAmplitude: 0
-  dipAmount: 0.15
-  dipSpeed: 5
 --- !u!1 &8447939401402388698
 GameObject:
   m_ObjectHideFlags: 0
@@ -2432,7 +2433,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4331880808157121164, guid: 86e0c52982439144ab4c0beecc65e56d, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4673839771854154162, guid: 86e0c52982439144ab4c0beecc65e56d, type: 3}
       propertyPath: m_Layer
@@ -2688,7 +2689,7 @@ PrefabInstance:
     - target: {fileID: 4848538418032480796, guid: d4d0a94f2d62ec544b588fabf1e4fb39, type: 3}
       propertyPath: camController
       value: 
-      objectReference: {fileID: 6118736129397668504}
+      objectReference: {fileID: 4691347929619561808}
     - target: {fileID: 8417038152571105201, guid: d4d0a94f2d62ec544b588fabf1e4fb39, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

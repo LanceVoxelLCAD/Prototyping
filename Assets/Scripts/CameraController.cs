@@ -273,7 +273,7 @@ public class CameraController : MonoBehaviour
 
         //targetAmpMult *= speedRatio;
         //caped to prevent explosions
-        targetAmpMult = Mathf.Clamp(targetAmpMult, 0f, .2f);
+        targetAmpMult = Mathf.Clamp(targetAmpMult, 0f, 1f);
 
         currAmplitudeMultiplier = Mathf.Lerp(currAmplitudeMultiplier, targetAmpMult, Time.deltaTime * 6f);
 

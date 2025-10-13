@@ -1672,6 +1672,8 @@ MonoBehaviour:
   switchAttentionFromLightToPlayerDistance: 8
   enemySightAngle: 65
   enemySightMaxDistance: 18
+  enemySightCurr: 0
+  enemySightCrouchBlindness: 10
   bumpedIntoDistance: 1.51
   stopDistFromPlayer: 3
   aggroDecay: 25
@@ -1686,8 +1688,8 @@ MonoBehaviour:
   canAttack: 0
   isAttacking: 0
   specialCanisterRarity: 8
-  yellowCanisterRarity: 4
-  redCanisterRarity: 2
+  ammoDropRarity: 6
+  healthDropRarity: 2
   distanceToPlayer: 0
   distanceToLight: 0
   attackWindupTime: 0.35

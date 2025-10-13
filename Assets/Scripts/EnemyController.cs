@@ -17,6 +17,7 @@ public class EnemyController : MonoBehaviour
     public GameObject goal;
     private GameObject originalGoal;
     public GameObject player;
+    private PlayerController playerController;
 
     [Header("Events")]
     public UnityEvent onDeath;
@@ -70,7 +71,9 @@ public class EnemyController : MonoBehaviour
     public float lastAggression;
     public float switchAttentionFromLightToPlayerDistance;
     public float enemySightAngle = 60f;
-    public float enemySightMaxDistance = 30f;
+    public float enemySightMaxDistance = 18f;
+    public float enemySightCurr;
+    public float enemySightCrouchBlindness = 10f;
     public float bumpedIntoDistance;
     public float stopDistFromPlayer = 3f;
     //public float aggroSpeed = 15f;
@@ -178,6 +181,7 @@ public class EnemyController : MonoBehaviour
         goal = gameObject; //stop looking for anything //allows for wandering
         originalGoal = goal;
         player = GameObject.Find("Player");
+        playerController = player.GetComponent<PlayerController>();
         agent = GetComponent<NavMeshAgent>();
         //aggression = Random.Range(minAggro, aggroTrigger-1);
         //enemyRenderer = GetComponent<Renderer>();
@@ -495,6 +499,7 @@ public class EnemyController : MonoBehaviour
 
     private void CheckAggroConditions()
     {
+        enemySightCurr = playerController.isCrouching ? enemySightCrouchBlindness : enemySightMaxDistance;
 
         //automatically aggro player if very close
         if (distanceToPlayer < bumpedIntoDistance)
@@ -502,7 +507,7 @@ public class EnemyController : MonoBehaviour
             if (!isPassive) { SetState(EnemyState.ChasePlayer); }
             return;
         }
-        else if (distanceToPlayer < enemySightMaxDistance)
+        else if (distanceToPlayer < enemySightCurr)
         {
             // If player is within the vision cone, but not within bumping distance
             Vector3 directionToPlayer = (player.transform.position - transform.position).normalized;
@@ -511,7 +516,7 @@ public class EnemyController : MonoBehaviour
             if (angleToPlayer < enemySightAngle) //maybe 60f
             {
                 //if within 15% of max sight. maybe make this an exposed inspector variable
-                if (distanceToPlayer < enemySightMaxDistance * .15f) //if right up on the enemy, instant aggro
+                if (distanceToPlayer < enemySightCurr * .15f) //if right up on the enemy, instant aggro
                 {
                     //Debug.LogError("The 10% sight thing got called.");
                     if (!isPassive) { SetState(EnemyState.ChasePlayer); }
@@ -525,7 +530,7 @@ public class EnemyController : MonoBehaviour
                 baseAggroSpeed = aggroTrigger / 5f; // e.x. 100 / 5 = 20
 
                 // Step 2: Compute how close the player is (0 = far, 1 = close)
-                float proximity = Mathf.InverseLerp(enemySightMaxDistance, bumpedIntoDistance, distanceToPlayer);
+                float proximity = Mathf.InverseLerp(enemySightCurr, bumpedIntoDistance, distanceToPlayer);
 
                 // Step 3: Scale the aggro speed - fast when close, slow when far
                 float adjustedAggroSpeed = baseAggroSpeed * Mathf.Lerp(1f, 25f, proximity);
@@ -595,12 +600,12 @@ public class EnemyController : MonoBehaviour
         }
 
         // Decay aggro over time if out of range or not lit... also might not need this below if statement at all
-        if (!isLit && (distanceToPlayer > enemySightMaxDistance || (!hasAggrod && distanceToLight > enemySightMaxDistance)))
+        if (!isLit && (distanceToPlayer > enemySightCurr || (!hasAggrod && distanceToLight > enemySightCurr)))
         {
             aggression = Mathf.Max(aggression - aggroDecay * Time.deltaTime, minAggro);
         }
         // If lit but player is far, return to light
-        else if (isLit && hasAggrod && distanceToPlayer > enemySightMaxDistance / 4f)
+        else if (isLit && hasAggrod && distanceToPlayer > enemySightCurr / 4f)
         {
             goal = lastSeenLightProducer;
             hasAggrod = false;
@@ -751,8 +756,8 @@ public class EnemyController : MonoBehaviour
 
             ////draw instant aggro from sight (when enemy fully aggros & max sight)
             Gizmos.color = Color.black;
-            Gizmos.DrawWireSphere(transform.position, enemySightMaxDistance * .15f);
-            Gizmos.DrawWireSphere(transform.position, enemySightMaxDistance);
+            Gizmos.DrawWireSphere(transform.position, enemySightCurr * .15f);
+            Gizmos.DrawWireSphere(transform.position, enemySightCurr);
 
             //draw aggression decay range
             Gizmos.color = Color.yellow;
@@ -785,7 +790,7 @@ public class EnemyController : MonoBehaviour
             Gizmos.color = Color.cyan;
             int coneSegments = 20;
             float angle = enemySightAngle; //half-angle of vision cone, so total FOV is 120° if 60°
-            float radius = enemySightMaxDistance;
+            float radius = enemySightCurr;
 
             Vector3 forward = transform.forward;
             Quaternion leftRayRotation = Quaternion.AngleAxis(-angle, Vector3.up);
