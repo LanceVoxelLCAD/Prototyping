@@ -1867,9 +1867,9 @@ MonoBehaviour:
   crouchPitchAnimAmount: 2
   crouchDipAnimOffset: 0.5
   crouchPitchAnimOffset: 5
-  bobFrequency: 2.5
+  bobFrequency: 2
   bobAmplitude: 0.04
-  bobSmoothing: 10
+  bobSmooth: 10
   runBobAmplitudeMultiplier: 1.4
   crouchBobAmplitudeMultiplier: 0.5
   currAmplitude: 0

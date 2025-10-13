@@ -170,13 +170,14 @@ public class PlayerController : MonoBehaviour
         HandleMovement(forward, right, wantsToRun);
 
 
-        //left to right visuals
+        //left to right visuals (yaw)
         transform.Rotate(Vector3.up, mouseXInput * turnSpeedSensitivity * Time.deltaTime);
 
         //up and down visuals
-        eyesRot.x += verticalLookSpeed * mouseYInput * -1 * Time.deltaTime;
-        eyesRot.x = Mathf.Clamp(eyesRot.x, -80, 80);
-        playerEyesCam.transform.localEulerAngles = eyesRot;
+        //moved to cam controller
+        //eyesRot.x += verticalLookSpeed * mouseYInput * -1 * Time.deltaTime;
+        //eyesRot.x = Mathf.Clamp(eyesRot.x, -80, 80);
+        //playerEyesCam.transform.localEulerAngles = eyesRot;
 
         //if (Input.GetKeyDown(KeyCode.Q))
         //{
