@@ -15,9 +15,6 @@ public class PlayerController : MonoBehaviour
     [Header("Stats")]
     public float health = 100f;
     public float maxHealth = 100f;
-    //public float food = 80f;
-    //public float maxFood = 100f;
-    //public float hungerRate = 1f;
     public float regenRate = 1f;
     public bool passiveHeal = true;
     public float attackDamage = 10f;
@@ -30,7 +27,6 @@ public class PlayerController : MonoBehaviour
     public EventReference jumpEvent;
     public EventReference landEvent;
     private bool wasGroundedLastFrame = false;
-    //public EventReference footstepSound;
     private GooGun gooGun;
 
     [Header("Canister Sounds")]
@@ -104,12 +100,9 @@ public class PlayerController : MonoBehaviour
 
     [Header("Other")]
     public GameObject overheadLight;
-    //public TMP_Text healthTextUI;
-    //public TMP_Text foodTextUI;
     public LayerMask clickableRayMask;
     public Image damagedUIEffect;
     public Image healedUIEffect;
-    //public TMP_Text killcountTextUI;
     public Slider healthSlider;
 
     private PlayerUI playerUI;
@@ -185,30 +178,17 @@ public class PlayerController : MonoBehaviour
         eyesRot.x = Mathf.Clamp(eyesRot.x, -80, 80);
         playerEyesCam.transform.localEulerAngles = eyesRot;
 
-        //if (Input.GetKeyDown(KeyCode.E))
+        //if (Input.GetKeyDown(KeyCode.Q))
         //{
         //    torchLightCone.SetActive(!torchLightCone.gameObject.activeSelf);
         //}
 
     }
 
-    //LEO WHY DID YOU ADD THIS? IT IS NEVER CALLED
-    //FIND THE REAL SCRIPT ON THE PLAYER BODY AHHH
-    //public void PlayFootstep()
-    //{
-    //    Debug.Log("Playing Footsteps from Player Controller!");
-
-    //    if (!footstepSound.IsNull)
-    //    {
-    //        RuntimeManager.PlayOneShot(footstepSound, transform.position);
-    //    }
-    //}
-
     public void HandleMovement(float forward, float right, bool wantsToRun)
     {
 
         //cleaner internet code
-        //canRun = wantsToRun && isGrounded;
 
         float targetMoveSpeed;
 
@@ -235,25 +215,30 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            //if (canRun)
-            //{
-            //    canRun = false;
-            //}
-
             targetMoveSpeed = isRunning ? runSpeed : walkSpeed;
         }
-
-        //isRunning = canRun;
-
-        //if (!isGrounded )
 
         Vector3 targetVelocity = transform.TransformDirection(inputDir) * targetMoveSpeed;
 
         currMoveVelocity = Vector3.Lerp(currMoveVelocity, targetVelocity, 0.4f); //.2-.3 is "FPS standard" but it feels too slidy
         controller.Move(currMoveVelocity * Time.deltaTime);
-        anim.SetFloat("Speed", targetVelocity.magnitude > 0 ? (isRunning ? 3 : 1) : 0);
 
-
+        //doesnt actually change anything, this is just the trigger for the animator to know to change the animation
+        float animVelo;
+        if (isRunning)
+        {
+            animVelo = 3f;
+        }
+        else if (isCrouching)
+        {
+            animVelo = .5f;
+        }
+        else
+        {
+            animVelo = 1f;
+        }
+        //anim.SetFloat("Speed", targetVelocity.magnitude > 0 ? (isRunning ? 3 : 1) : 0);
+        anim.SetFloat("Speed", targetVelocity.magnitude > 0 ? animVelo : 0);
     }
 
     public bool CanRun(float forward, float right, bool backtracking)
@@ -366,7 +351,7 @@ public class PlayerController : MonoBehaviour
 
             //moving to cam controller, testing:
             //playerEyesCam.transform.position -= new Vector3(0, .3f, 0);
-
+            anim.speed = crouchSpeedMultiplier;
             isCrouching = true;
             //Debug.Log("Squat!");
 
@@ -383,7 +368,7 @@ public class PlayerController : MonoBehaviour
             //moving to cam controller, testing:
 
             //playerEyesCam.transform.position += new Vector3(0, .3f, 0);
-
+            anim.speed = 1f;
             isCrouching = false;
             //Debug.Log("Stood up!");
         }
@@ -440,13 +425,6 @@ public class PlayerController : MonoBehaviour
             hitPoint = ray.GetPoint(100);
         }
 
-        //torch looks at mouse, aka center of screen
-        //torch.transform.LookAt(hitPoint);
-        //playerEyesCam.transform.LookAt(hitPoint);
-
-        //clickable stuff
-        //using different ray due to twitchy torch..?
-
         //moved E check inside....
         Ray clickableRay;
         clickableRay = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -479,22 +457,6 @@ public class PlayerController : MonoBehaviour
         {
             playerUI.ShowButtonPrompt(false);
         }
-        //if (Input.GetKeyDown(KeyCode.E))
-        //{
-        //    if (Physics.Raycast(clickableRay, out clickableHit, playerReach, clickableRayMask, QueryTriggerInteraction.Ignore))
-        //    {
-        //        Debug.Log("Player hit E on: " + clickableHit.collider.gameObject.name);
-
-        //        Pickup pickup = clickableHit.collider.GetComponent<Pickup>();
-
-        //        if(pickup != null)
-        //        {
-        //            CollectPickup(pickup);
-        //        }
-        //    }
-
-        //}
-
     }
 
     public void CollectPickup(Pickup pickup)
@@ -582,11 +544,6 @@ public class PlayerController : MonoBehaviour
         pickupPopupTxt.text = "Max Regen Increased";
         //currStaMana += Mathf.Min(maxStaMana, currStaMana + blueCanisterValue); //give them that little boost?
     }
-
-    //public void ResetAttack()
-    //{
-    //    canAttack = true;
-    //}
 
     public void ManageHealth()
     {
@@ -684,19 +641,6 @@ public class PlayerController : MonoBehaviour
 
         StartCoroutine(HealUIEffect());
     }
-
-    //replace this with the stamana thing maybe
-    //public void Eat(float satiation)
-    //{
-    //    food += satiation;
-
-    //    if (food >= maxFood)
-    //    {
-    //        food = maxFood;
-    //    }
-
-    //    //play eating sound, in theory
-    //}
 
     private IEnumerator DamageUIEffect()
     {

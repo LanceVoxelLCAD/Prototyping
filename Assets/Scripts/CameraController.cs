@@ -6,10 +6,12 @@ public class CameraController : MonoBehaviour
     public Camera worldCamera;       // Main camera
     public Camera weaponCamera;      // Overlay camera for gun
     public PlayerController controller;
+    public Transform cameraRig;
 
     [Header("FOV")]
     public float baseFOV = 60f;
-    public float sprintFOV = 75f;
+    public float sprintFOVOffset = +8f;
+    public float crouchFOVOffset = -3f;
     public float fovSmooth = 8f;
     public float weaponCameraOffset = 8f;
     public bool isRunning = false;
@@ -19,10 +21,18 @@ public class CameraController : MonoBehaviour
     public float tiltSmooth = 6f;
 
     [Header("Crouch")]
+    public bool isCrouching;
     public float standCameraHeight = 0f;
     public float crouchCameraHeight = -.2f;
     public float smoothSpeed = 8f;
     private float targetHeight;
+
+    [Header("Crouch Dip Animation")]
+    public float crouchDipAnimAmount = 0.05f;
+    public float crouchDipAnimSpeed = 8f;
+    public float crouchPitchAnimAmount = 2f;
+    public float crouchDipAnimOffset = 0.5f;
+    public float crouchPitchAnimOffset = 5f;
 
     [Header("Headbob")]
     public float bobFrequency = 6f;
@@ -30,6 +40,7 @@ public class CameraController : MonoBehaviour
     public float bobSmoothing = 6f;
     //public float bobRunMultiplier = 2f;
     public float runBobAmplitudeMultiplier = 1.5f; //1.5-2 ish
+    public float crouchBobAmplitudeMultiplier = .5f;
     public float currAmplitude;
     private float bobTimer;
     private float currBobOffset;
@@ -42,7 +53,7 @@ public class CameraController : MonoBehaviour
     private Vector3 originalLocalPos;
     private float targetFOV;
     private float currentTilt;
-    private float dipOffset;
+    private float landDipOffset;
     private bool wasGroundedLastFrame; //i replaced this var in the player controller...
 
     void Start()
@@ -50,6 +61,7 @@ public class CameraController : MonoBehaviour
         if (!worldCamera) worldCamera = GetComponent<Camera>();
         if (!weaponCamera) weaponCamera = GetComponentInChildren<Camera>();
         if (!controller) controller = GetComponentInParent<PlayerController>();
+        if (cameraRig == null) cameraRig = transform.parent;
 
         if (weaponCamera)
         {
@@ -57,50 +69,47 @@ public class CameraController : MonoBehaviour
             weaponCamera.fieldOfView = worldCamera.fieldOfView + weaponCameraOffset;
         }
 
-        originalLocalPos = transform.localPosition;
+        originalLocalPos = cameraRig.localPosition;
         targetFOV = baseFOV;
         targetHeight = standCameraHeight;
     }
 
-    void Update()
+    void LateUpdate()
     {
         //no longer internet code as it has been rewritten, again
 
         HandleFOV();
         HandleTilt();
+        HandleCrouch();
+        HandleCrouchDip();
         HandleLandingDip();
 
         Vector3 targetPos = originalLocalPos;
 
         //crouch
-        float crouchTarget = controller.isCrouching ? crouchCameraHeight : standCameraHeight;
-        targetHeight = Mathf.Lerp(targetHeight, crouchTarget, Time.deltaTime * smoothSpeed);
         targetPos.y += targetHeight;
 
-        //landdip
-        targetPos.y += dipOffset;
+        //crouchDip
+        targetPos.y += crouchDipAnimOffset;
+
+        //landDip
+        targetPos.y += landDipOffset;
 
         //headbob
         targetPos += GetHeadbobOffset();
 
         //apply everything to cam transform
-        //transform.localPosition = originalLocalPos + new Vector3(0, dipOffset, 0) + GetHeadbobOffset();
-        transform.localPosition = targetPos;
-        transform.localRotation = Quaternion.Euler(0, 0, currentTilt);
+        cameraRig.localPosition = targetPos;
+        cameraRig.localRotation = Quaternion.Euler(0, 0, currentTilt);
 
-
-
-        //nah
-        ////sync cameras' FOV
-        //if (weaponCamera)
-        //    weaponCamera.fieldOfView = worldCamera.fieldOfView;
     }
 
     void HandleFOV()
     {
         //I dont think I need to check move velo here due to the CanRun method but im leaving it for now
         isRunning = controller.isRunning && controller.currMoveVelocity.magnitude > 0.1f;
-        targetFOV = isRunning ? sprintFOV : baseFOV;
+        targetFOV = isRunning ? (baseFOV + sprintFOVOffset) : baseFOV;
+        targetFOV = isCrouching ? (baseFOV + crouchFOVOffset) : baseFOV;
 
         worldCamera.fieldOfView = Mathf.Lerp(worldCamera.fieldOfView, targetFOV, Time.deltaTime * fovSmooth);
     }
@@ -112,47 +121,31 @@ public class CameraController : MonoBehaviour
         currentTilt = Mathf.Lerp(currentTilt, targetTilt, Time.deltaTime * tiltSmooth);
     }
 
-    //void HandleCrouch(bool isCrouching)
-    //{
-    //    targetHeight = isCrouching ? crouchCameraHeight : standCameraHeight;
+    void HandleCrouch()
+    {
+        isCrouching = controller.isCrouching;
 
-    //    Vector3 localPos = transform.localPosition;
-    //    localPos.y = Mathf.Lerp(localPos.y, targetHeight, Time.deltaTime * smoothSpeed);
-    //    transform.localPosition = localPos;
-    //}
-    //void HandleHeadbob()
-    //{
+        //crouch
+        float crouchTarget = isCrouching ? crouchCameraHeight : standCameraHeight;
+        targetHeight = Mathf.Lerp(targetHeight, crouchTarget, Time.deltaTime * smoothSpeed);
+    }
 
-    //}
-    //Vector3 GetCrouchOffset(bool isCrouching)
-    //{
-    //    targetHeight = isCrouching ? crouchCameraHeight : standCameraHeight;
+    void HandleCrouchDip()
+    {
+        float targetDip = controller.isCrouching ? -crouchDipAnimAmount : 0f;
+        float targetPitch = controller.isCrouching ? crouchPitchAnimAmount : 0f;
 
-    //    Vector3 localPos = transform.localPosition;
-    //    localPos.y = Mathf.Lerp(localPos.y, targetHeight, Time.deltaTime * smoothSpeed);
-    //    //transform.localPosition = localPos;
-
-    //    //this is not functional, just a test without the right code...
-    //    return new Vector3(0, localPos.y, 0);
-    //}
+        crouchDipAnimOffset = Mathf.Lerp(crouchDipAnimOffset, targetDip, Time.deltaTime * crouchDipAnimSpeed);
+        crouchPitchAnimOffset = Mathf.Lerp(crouchPitchAnimOffset, targetPitch, Time.deltaTime * crouchDipAnimSpeed);
+    }
 
     Vector3 GetHeadbobOffset()
     {
-        //if (bobTimer > 0)
-        //{
-        //    float bobOffsetY = Mathf.Sin(bobTimer) * bobAmplitude;
-        //    float bobOffsetX = Mathf.Cos(bobTimer * 0.5f) * bobAmplitude * 0.5f;
-        //    return new Vector3(bobOffsetX, bobOffsetY, 0);
-        //}
-        //return Vector3.zero;
-
-        //float speedMultiplier = isRunning ? bobRunMultiplier : 1f; //now triggered when the foot hits the ground
-
         if (isBobbing)
         {
             //internet code interjection
             float horizontalSpeed = new Vector3(controller.currMoveVelocity.x, 0, controller.currMoveVelocity.z).magnitude;
-            float speedMultiplier = horizontalSpeed / controller.walkSpeed; // ratio of current speed to walk speed
+            float speedMultiplier = horizontalSpeed / controller.walkSpeed; //ratio of current speed to walk speed
 
             bobTimer += Time.deltaTime * bobFrequency * speedMultiplier;
             isBobbing = false; //only advance on trigger
@@ -160,11 +153,14 @@ public class CameraController : MonoBehaviour
         else if (controller.currMoveVelocity.magnitude > 0.1f && controller.isGrounded)
         {
             //"subtle sway between steps" in theory an idle bob
+            //I thought i knew what I was doing, but removing this breaks the shit,
+            //so i guess it is the only functional line here
             bobTimer += Time.deltaTime * bobFrequency * 0.2f;
         }
 
         currAmplitude = bobAmplitude;
         if (isRunning) currAmplitude *= runBobAmplitudeMultiplier;
+        if (isCrouching) currAmplitude *= crouchBobAmplitudeMultiplier;
 
         float yOffset = Mathf.Sin(bobTimer * Mathf.PI * 2f) * currAmplitude;
         currBobOffset = Mathf.Lerp(currBobOffset, yOffset, Time.deltaTime * 10f);
@@ -174,7 +170,6 @@ public class CameraController : MonoBehaviour
     public void TriggerFootstep()
     {
         //Debug.Log("Triggered Footsteps from Cam Controller!"); //this is finally getting called
-
         isBobbing = true;
         bobTimer = 0f;
     }
@@ -185,7 +180,7 @@ public class CameraController : MonoBehaviour
 
         if (isGrounded && !wasGroundedLastFrame)
         {
-            // Just landed
+            //just landed
             StopAllCoroutines();
             StartCoroutine(DoLandingDip());
             Debug.Log("Landing Dip played... was it supposed to? If you were crouching, probably not!!!!");
@@ -199,10 +194,10 @@ public class CameraController : MonoBehaviour
         float t = 0f;
         while (t < 1f)
         {
-            dipOffset = -Mathf.Sin(t * Mathf.PI) * dipAmount;
+            landDipOffset = -Mathf.Sin(t * Mathf.PI) * dipAmount;
             t += Time.deltaTime * dipSpeed;
             yield return null;
         }
-        dipOffset = 0f;
+        landDipOffset = 0f;
     }
 }
