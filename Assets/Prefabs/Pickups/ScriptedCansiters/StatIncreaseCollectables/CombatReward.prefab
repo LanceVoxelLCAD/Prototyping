@@ -97,6 +97,10 @@ PrefabInstance:
       value: event:/Weapon/Pickups
       objectReference: {fileID: 0}
     - target: {fileID: 9018831250703258385, guid: c58aa5fd91353c544a8b199c330ca48d, type: 3}
+      propertyPath: sfxCombatReward.Path
+      value: event:/Weapon/sfxCombatPoint
+      objectReference: {fileID: 0}
+    - target: {fileID: 9018831250703258385, guid: c58aa5fd91353c544a8b199c330ca48d, type: 3}
       propertyPath: sfxOnPickup.Guid.Data1
       value: 1516398757
       objectReference: {fileID: 0}
@@ -111,6 +115,22 @@ PrefabInstance:
     - target: {fileID: 9018831250703258385, guid: c58aa5fd91353c544a8b199c330ca48d, type: 3}
       propertyPath: sfxOnPickup.Guid.Data4
       value: -1112646581
+      objectReference: {fileID: 0}
+    - target: {fileID: 9018831250703258385, guid: c58aa5fd91353c544a8b199c330ca48d, type: 3}
+      propertyPath: sfxCombatReward.Guid.Data1
+      value: 486152248
+      objectReference: {fileID: 0}
+    - target: {fileID: 9018831250703258385, guid: c58aa5fd91353c544a8b199c330ca48d, type: 3}
+      propertyPath: sfxCombatReward.Guid.Data2
+      value: 1300814462
+      objectReference: {fileID: 0}
+    - target: {fileID: 9018831250703258385, guid: c58aa5fd91353c544a8b199c330ca48d, type: 3}
+      propertyPath: sfxCombatReward.Guid.Data3
+      value: -2110511429
+      objectReference: {fileID: 0}
+    - target: {fileID: 9018831250703258385, guid: c58aa5fd91353c544a8b199c330ca48d, type: 3}
+      propertyPath: sfxCombatReward.Guid.Data4
+      value: 1188066498
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

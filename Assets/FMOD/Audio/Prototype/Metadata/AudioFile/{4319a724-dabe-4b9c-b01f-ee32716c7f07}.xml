@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="AudioFile" id="{4319a724-dabe-4b9c-b01f-ee32716c7f07}">
+		<property name="assetPath">
+			<value>GDC2024/Sonniss.com-GDC2024-GameAudioBundle1of9/BluezoneCorp - Steampunk Weapon And Textures/Bluezone_BC0296_steampunk_weapon_mechanism_texture_007.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>96</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>0.28999999999999998</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{458b073d-971b-4492-acf2-af40bab90cad}</destination>
+		</relationship>
+	</object>
+</objects>

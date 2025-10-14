@@ -31,8 +31,10 @@ public class PlayerController : MonoBehaviour
     public EventReference fakeGunEquipEvent;
 
     [Header("Canister Sounds")]
-    public EventReference redCanisterSound;
-    public EventReference yellowCanisterSound;
+    public EventReference HealthRefillSound;
+    public EventReference AmmoRefillSound;
+    public EventReference CombatRewardSound;
+    public EventReference ExplorationRewardSound;
 
     [Header("Move")]
     public float walkSpeed = 3f;
@@ -476,11 +478,21 @@ public class PlayerController : MonoBehaviour
             case Pickup.PickupType.ExplorationReward:
                 explorationRewardCount++;
                 ApplyExplorationReward();
+
+                if (!ExplorationRewardSound.IsNull)
+                {
+                    FMODUnity.RuntimeManager.PlayOneShot(ExplorationRewardSound, pickup.transform.position);
+                }
                 break;
 
             case Pickup.PickupType.CombatReward:
                 combatRewardCount++;
                 ApplyCombatReward();
+
+                if (!CombatRewardSound.IsNull)
+                {
+                    FMODUnity.RuntimeManager.PlayOneShot(CombatRewardSound, pickup.transform.position);
+                }
                 break;
 
             case Pickup.PickupType.FakeGun:
@@ -515,9 +527,9 @@ public class PlayerController : MonoBehaviour
 
     public void UseHeldHealthDrop()
     {
-        if (!redCanisterSound.IsNull)
+        if (!HealthRefillSound.IsNull)
         {
-            RuntimeManager.PlayOneShot(redCanisterSound, transform.position);
+            RuntimeManager.PlayOneShot(HealthRefillSound, transform.position);
         }
 
         health = Mathf.Min(maxHealth, health + healthDropValue);
@@ -529,9 +541,9 @@ public class PlayerController : MonoBehaviour
 
     public void UseHeldAmmoDrop()
     {
-        if (!yellowCanisterSound.IsNull)
+        if (!AmmoRefillSound.IsNull)
         {
-            RuntimeManager.PlayOneShot(yellowCanisterSound, transform.position);
+            RuntimeManager.PlayOneShot(AmmoRefillSound, transform.position);
         }
 
         currStaMana = Mathf.Min(maxStaMana, currStaMana + ammoDropValue);
