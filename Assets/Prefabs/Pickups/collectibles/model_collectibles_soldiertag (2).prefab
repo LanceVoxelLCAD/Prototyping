@@ -122,3 +122,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickupType: 2
+  sfxOnPickup:
+    Guid:
+      Data1: 1516398757
+      Data2: 1230588616
+      Data3: -1316154954
+      Data4: -1112646581
+    Path: event:/Weapon/Pickups

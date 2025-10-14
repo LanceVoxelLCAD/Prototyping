@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
     public EventReference landEvent;
     private bool wasGroundedLastFrame = false;
     private GooGun gooGun;
+    public EventReference fakeGunEquipEvent;
 
     [Header("Canister Sounds")]
     public EventReference redCanisterSound;
@@ -484,11 +485,21 @@ public class PlayerController : MonoBehaviour
 
             case Pickup.PickupType.FakeGun:
                 weapon.SetActive(true);
+
+                if (!fakeGunEquipEvent.IsNull)
+                {
+                    FMODUnity.RuntimeManager.PlayOneShot(fakeGunEquipEvent, transform.position);
+                }
                 break;
 
             default:
                 Debug.Log("Messed up your switch statement for the pickups probably");
                 break;
+        }
+
+        if (pickup != null && !pickup.sfxOnPickup.IsNull)
+        {
+            FMODUnity.RuntimeManager.PlayOneShot(pickup.sfxOnPickup, pickup.transform.position);
         }
 
         UpdatePickupUI();

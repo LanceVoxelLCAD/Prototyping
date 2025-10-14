@@ -86,11 +86,31 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 42d8f588faded5044a6ab0498fbf6cc1, type: 2}
     - target: {fileID: 8641011630400869048, guid: c58aa5fd91353c544a8b199c330ca48d, type: 3}
       propertyPath: m_Name
-      value: YellowCan
+      value: AmmoDrop
       objectReference: {fileID: 0}
     - target: {fileID: 9018831250703258385, guid: c58aa5fd91353c544a8b199c330ca48d, type: 3}
       propertyPath: pickupType
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9018831250703258385, guid: c58aa5fd91353c544a8b199c330ca48d, type: 3}
+      propertyPath: sfxOnPickup.Path
+      value: event:/Weapon/Pickups
+      objectReference: {fileID: 0}
+    - target: {fileID: 9018831250703258385, guid: c58aa5fd91353c544a8b199c330ca48d, type: 3}
+      propertyPath: sfxOnPickup.Guid.Data1
+      value: 1516398757
+      objectReference: {fileID: 0}
+    - target: {fileID: 9018831250703258385, guid: c58aa5fd91353c544a8b199c330ca48d, type: 3}
+      propertyPath: sfxOnPickup.Guid.Data2
+      value: 1230588616
+      objectReference: {fileID: 0}
+    - target: {fileID: 9018831250703258385, guid: c58aa5fd91353c544a8b199c330ca48d, type: 3}
+      propertyPath: sfxOnPickup.Guid.Data3
+      value: -1316154954
+      objectReference: {fileID: 0}
+    - target: {fileID: 9018831250703258385, guid: c58aa5fd91353c544a8b199c330ca48d, type: 3}
+      propertyPath: sfxOnPickup.Guid.Data4
+      value: -1112646581
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using FMODUnity;
 
 public class Pickup : MonoBehaviour
 {
@@ -13,6 +14,9 @@ public class Pickup : MonoBehaviour
     //was for the canister "E" but will now be the text on the canvas
 
     //private Camera mainCamera;
+
+    [Header("Audio")]
+    public EventReference sfxOnPickup;
 
     private void Start()
     {
