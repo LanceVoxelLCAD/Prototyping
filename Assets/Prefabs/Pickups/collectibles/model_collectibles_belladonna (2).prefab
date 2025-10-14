@@ -123,7 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8615c1644ed5d8429760b9eb7c46e7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupType: 2
+  pickupType: 0
   sfxOnPickup:
     Guid:
       Data1: 1516398757

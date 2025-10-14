@@ -104,41 +104,20 @@ MonoBehaviour:
       Data3: 259224740
       Data4: -614440717
     Path: event:/Player/Land
-  fakeGunEquipEvent:
-    Guid:
-      Data1: 1702571554
-      Data2: 1108482308
-      Data3: -1869719891
-      Data4: 31609962
-    Path: event:/Weapon/GrabbedGun
-  HealthRefillSound:
+  redCanisterSound:
     Guid:
       Data1: -1723641297
       Data2: 1197465177
       Data3: 1416503227
       Data4: 848774661
     Path: event:/Weapon/Red Canister
-  AmmoRefillSound:
+  yellowCanisterSound:
     Guid:
       Data1: 206006619
       Data2: 1259110096
       Data3: -1762960983
       Data4: 1904680086
     Path: event:/Weapon/Yellow Canister
-  CombatRewardSound:
-    Guid:
-      Data1: 486152248
-      Data2: 1300814462
-      Data3: -2110511429
-      Data4: 1188066498
-    Path: event:/Weapon/sfxCombatPoint
-  ExplorationRewardSound:
-    Guid:
-      Data1: -1566203764
-      Data2: 1199042603
-      Data3: -1826969930
-      Data4: 97812405
-    Path: event:/Weapon/sfxExplorationPoint
   walkSpeed: 3
   runSpeed: 7.5
   backpedalSpeedMultiplier: 0.7
