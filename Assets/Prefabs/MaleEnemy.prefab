@@ -1630,11 +1630,14 @@ MonoBehaviour:
       m_Calls: []
   goal: {fileID: 0}
   player: {fileID: 0}
-  agent: {fileID: 0}
-  mask:
+  playerRaycastMask:
     serializedVersion: 2
-    m_Bits: 256
-  eyeline: {fileID: 2053932796884020444}
+    m_Bits: 129
+  agent: {fileID: 0}
+  lightproducerRaycastMask:
+    serializedVersion: 2
+    m_Bits: 0
+  lightProducerEyeline: {fileID: 2053932796884020444}
   aggroNumDEBUG: {fileID: 4556414986218460736}
   aggroTimeDEBUG: {fileID: 8058852464941681875}
   estimatedTimeToAggro: 0
@@ -1655,7 +1658,8 @@ MonoBehaviour:
   aggression: 0
   lastAggression: 0
   switchAttentionFromLightToPlayerDistance: 8
-  enemySightAngle: 65
+  enemySightHorizontalAngle: 60
+  enemySightVerticalAngle: 60
   enemySightMaxDistance: 18
   enemySightCurr: 0
   enemySightCrouchBlindness: 10
@@ -2525,7 +2529,7 @@ Transform:
   m_GameObject: {fileID: 5111015525600603302}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.867, z: 0}
+  m_LocalPosition: {x: 0, y: 1.184, z: 0.184}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

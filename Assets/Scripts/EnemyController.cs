@@ -36,10 +36,11 @@ public class EnemyController : MonoBehaviour
     private GameObject originalGoal;
     public GameObject player;
     private PlayerController playerController;
+    public LayerMask playerRaycastMask;
 
     public NavMeshAgent agent;
-    public LayerMask mask;
-    public Transform eyeline;
+    public LayerMask lightproducerRaycastMask;
+    public Transform lightProducerEyeline;
 
     //public TMP_Text healthNumDEBUG;
     public TMP_Text aggroNumDEBUG;
@@ -78,7 +79,10 @@ public class EnemyController : MonoBehaviour
     public float aggression;
     public float lastAggression;
     public float switchAttentionFromLightToPlayerDistance;
-    public float enemySightAngle = 60f;
+    public float enemySightHorizontalAngle = 60f;
+    //public float enemySightVerticalAngle = 60f;
+    public float enemySightVerticalAngleUp = 25f; //30f, maybe. make smaller, no one looks up
+    public float enemySightVerticalAngleDown = 60f; //45, maybe.. make bigger. looking at feet, etc
     public float enemySightMaxDistance = 18f;
     public float enemySightCurr;
     public float enemySightCrouchBlindness = 10f;
@@ -235,32 +239,9 @@ public class EnemyController : MonoBehaviour
         if (isFrozen) return;
 
         UpdateGlowDecay();
-        //UpdateGoalAndAggro();
         TryAttackWhenClose();
 
         HandleState();
-
-        //convert to seconds
-        //if (!isFrozen)
-        //{
-
-
-
-        //AGGRO LOGIC
-
-
-        //if (isLit)
-        //{
-        //    enemyRenderer.material.color = Color.yellow;
-        //}
-        //else
-        //{
-        //    enemyRenderer.material.color = startMaterialColor;
-        //}
-
-
-
-        //}
        
     }
 
@@ -524,8 +505,6 @@ public class EnemyController : MonoBehaviour
         isBeingBeamed = false;
     }
 
-
-
     private void CheckAggroConditions()
     {
         enemySightCurr = playerController.isCrouching ? enemySightCrouchBlindness : enemySightMaxDistance;
@@ -538,44 +517,83 @@ public class EnemyController : MonoBehaviour
         }
         else if (distanceToPlayer < enemySightCurr)
         {
-            // If player is within the vision cone, but not within bumping distance
+            //if player is within the vision cone, but not within bumping distance
             Vector3 directionToPlayer = (player.transform.position - transform.position).normalized;
-            float angleToPlayer = Vector3.Angle(transform.forward, directionToPlayer);
 
-            if (angleToPlayer < enemySightAngle) //maybe 60f
+            //Line of Sight
+            //there's already an eyeline gameobject and im not using it here
+            //Vector3 eyePosition = transform.position + Vector3.up * 1.6f; //probably replace this with a var
+            Vector3 eyePosition = lightProducerEyeline.transform.position;
+            Vector3 targetPosition = playerController.transform.position + playerController.controller.center;
+
+            float angleToPlayerHorizontal = Vector3.Angle(transform.forward, directionToPlayer);
+            //float angleToPlayerVertical = Mathf.Abs(player.transform.position.y - transform.position.y); //different style... same, i think
+            //float angleToPlayerVertical = Vector3.Angle(Vector3.ProjectOnPlane(transform.forward, Vector3.right), directionToPlayer);
+            Vector3 flatForward = Vector3.ProjectOnPlane(eyePosition, Vector3.right);
+            float angleToPlayerVertical = Vector3.SignedAngle(flatForward, directionToPlayer, transform.right);
+            //signed gives pos and neg so we can check up and down with it
+
+
+            //worried about exiting the function too early actually
+            //if (Physics.Raycast(eyePosition, (targetPosition - eyePosition).normalized, out RaycastHit hit, enemySightCurr))
+            //{
+            //    if (!hit.collider.CompareTag("Player"))
+            //    {
+            //        //something is blocking the view
+            //        return; //abort sight-based aggro
+            //    }
+            //}
+            //else
+            //{
+            //    //nothing hit
+            //    return;
+            //}
+
+            if (Physics.Raycast(eyePosition, (targetPosition - eyePosition).normalized, out RaycastHit hit, enemySightCurr, playerRaycastMask, QueryTriggerInteraction.Ignore))
             {
-                //if within 15% of max sight. maybe make this an exposed inspector variable
-                if (distanceToPlayer < enemySightCurr * .15f) //if right up on the enemy, instant aggro
+                //Debug.Log("Looking at: " + hit.collider.gameObject.name);
+                if (hit.collider.CompareTag("Player"))
                 {
-                    //Debug.LogError("The 10% sight thing got called.");
-                    if (!isPassive) { SetState(EnemyState.ChasePlayer); }
-                    return;
-                }
+                    if (angleToPlayerHorizontal < enemySightHorizontalAngle &&
+                        angleToPlayerVertical < enemySightVerticalAngleUp &&
+                        angleToPlayerVertical > -enemySightVerticalAngleDown)
+                    {
+                        //if within 15% of max sight. maybe make this an exposed inspector variable
+                        if (distanceToPlayer < enemySightCurr * .15f) //if right up on the enemy, instant aggro
+                        {
+                            //Debug.LogError("The 10% sight thing got called.");
+                            if (!isPassive) { SetState(EnemyState.ChasePlayer); }
+                            return;
+                        }
 
-                // player is within the vision cone
-                // some stolen code modified for my purposes:
+                        // player is within the vision cone
+                        // some stolen code modified for my purposes:
 
-                // Step 1: Base aggro speed to reach full aggro in 5 seconds at max distance
-                baseAggroSpeed = aggroTrigger / 5f; // e.x. 100 / 5 = 20
+                        //base aggro speed to reach full aggro in 5 seconds at max distance
+                        baseAggroSpeed = aggroTrigger / 5f; // e.x. 100 / 5 = 20
 
-                // Step 2: Compute how close the player is (0 = far, 1 = close)
-                float proximity = Mathf.InverseLerp(enemySightCurr, bumpedIntoDistance, distanceToPlayer);
+                        //find how close the player is (0 = far, 1 = close)
+                        float proximity = Mathf.InverseLerp(enemySightCurr, bumpedIntoDistance, distanceToPlayer);
 
-                // Step 3: Scale the aggro speed - fast when close, slow when far
-                float adjustedAggroSpeed = baseAggroSpeed * Mathf.Lerp(1f, 25f, proximity);
+                        //scale aggro speed (fast when close, slow when far)
+                        float adjustedAggroSpeed = baseAggroSpeed * Mathf.Lerp(1f, 25f, proximity);
 
-                aggression += adjustedAggroSpeed * Time.deltaTime;
-                aggression = Mathf.Min(aggression, maxAggro);
+                        aggression += adjustedAggroSpeed * Time.deltaTime;
+                        aggression = Mathf.Min(aggression, maxAggro);
 
-                //DEBUG
-                estimatedTimeToAggro = (aggroTrigger - aggression) / adjustedAggroSpeed;
+                        //DEBUG
+                        estimatedTimeToAggro = (aggroTrigger - aggression) / adjustedAggroSpeed;
 
-                if (aggression >= aggroTrigger)
-                {
-                    if (!isPassive) { SetState(EnemyState.ChasePlayer); }
-                    return;
+                        if (aggression >= aggroTrigger)
+                        {
+                            if (!isPassive) { SetState(EnemyState.ChasePlayer); }
+                            return;
+                        }
+                    }
                 }
             }
+
+           
         }
 
         //aggro light if very close and not already fixated on player
@@ -601,24 +619,9 @@ public class EnemyController : MonoBehaviour
                     SetState(EnemyState.InvestigateLight);
                 }
             }
-            //else // already aggrod
-            //{
-            //    if (distanceToPlayer > stoppingDistance && distanceToPlayer < enemySightMaxDistance)
-            //    {
-            //        //continue chasing.. this might not be needed
-            //        //code for when they're chasing the player, but they're still in visual range
-            //        //goal = player;
-            //        //Debug.LogError("Hey, you actually needed this! Turn it back on.");
-            //    }
-            //}
-
-            // Keep looking at current goal
-            //headObject.transform.LookAt(goal.transform);
         }
         else
         {
-            //goal = originalGoal; //ugh if this breaks something go here....
-
             //moving hasAggro after so this only runs ONCE
             if (hasAggrod && currentState == EnemyState.ChasePlayer || currentState == EnemyState.InvestigateLight)
             {
@@ -643,99 +646,6 @@ public class EnemyController : MonoBehaviour
             SetState(EnemyState.InvestigateLight);
             //Debug.Log("Investigating light at pos 3");
         }
-
-
-
-
-
-        /*
-        distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
-        agent.SetDestination(goal.transform.position);
-
-
-        if (aggression > aggroTrigger)
-        {
-            if (!hasAggrod && distanceToLight > switchAttentionFromLightToPlayerDistance)
-            {
-                goal = lastSeenLightProducer;
-
-                if (Vector3.Distance(transform.position, player.transform.position) < stoppingDistance)
-                { 
-                    goal = player;
-                    hasAggrod = true;
-                }
-            }
-            else if (!hasAggrod && distanceToPlayer < switchAttentionFromLightToPlayerDistance)
-            {
-                goal = player;
-                hasAggrod = true;
-            }
-            //should switch in the little window, but stop if it comes too close
-            //* added the hasAggrod since last functional, but trying out the above logic instead
-            else if (hasAggrod && distanceToPlayer > stoppingDistance && distanceToPlayer < enemySightMaxDistance)
-            {
-                //i dont think this actually does anything here.. other than keep the max enemy sight line?
-                goal = player;
-            }
-            //*
-            else if (distanceToLight <= stoppingDistance || distanceToPlayer <= stoppingDistance)
-            {
-                headObject.transform.LookAt(goal.transform); //this should only apply to the head, but this is fine for now
-                                                             //agent.ResetPath(); //stop walking bro //this is unneeded, agents have a built in stopping distance?!!
-            }
-            headObject.transform.LookAt(goal.transform); //do it again.
-        }
-        //previously: else if (aggression < aggroTrigger - bufferBeforeCalmingBegins)
-        else
-        {
-            hasAggrod = false;
-            goal = originalGoal;
-        }
-
-
-        //make aggressive if very close? might remove this later.
-        if (distanceToPlayer < stoppingDistance)
-        {
-            if (aggression < aggroTrigger + 1f)
-            {
-                aggression = aggroTrigger + 1f;
-            }
-            goal = player;
-            hasAggrod = true;
-        }
-
-        //if right up on a light, pay attention
-        //should aggression rise faster if closer instead, perhaps? this is a hardcoded behavior
-        //also doesnt trigger if theyve never seen a light now
-        if (!hasAggrod && lastSeenLightProducer != originalGoal && distanceToLight < stoppingDistance)
-        {
-            if (aggression < aggroTrigger + 2f) //different number for debugging
-            {
-                aggression = aggroTrigger + 2f;
-            }
-            goal = lastSeenLightProducer;
-        }
-
-        //decrease aggression when far away from player... or the light they saw.. and is not lit
-        if (!isLit && (distanceToPlayer > enemySightMaxDistance) || (!hasAggrod && distanceToLight > enemySightMaxDistance))
-        {
-            //removed from above & below line requirement to not be aggro'd
-            if (aggression > minAggro) //could do the has aggro'd, or could save the random aggression generated as a minimum..
-            {
-                aggression -= aggroDecay * Time.deltaTime;
-            }
-            else if (aggression <= minAggro)
-            {
-                aggression = minAggro;
-            }
-        }
-        //if still lit, but no longer by the player
-        else if (isLit && (hasAggrod && distanceToPlayer > enemySightMaxDistance / 4))
-        {
-            goal = lastSeenLightProducer;
-            hasAggrod = false;
-        }
-        */
     }
 
     //internet code interjection:
@@ -765,21 +675,6 @@ public class EnemyController : MonoBehaviour
             SetState(EnemyState.ChasePlayer);
         }
     }
-
-    //private void AggroToPlayer(float forceAggro = -1f)
-    //{
-    //    hasAggrod = true;
-    //    goal = player;
-    //    if (forceAggro > 0f)
-    //        aggression = Mathf.Max(aggression, forceAggro);
-    //}
-
-    //private void AggroToLight(float forceAggro = -1f) 
-    //{
-    //    goal = lastSeenLightProducer;
-    //    if (forceAggro > 0f)
-    //        aggression = Mathf.Max(aggression, forceAggro);
-    //}
 
     private void TryAttackWhenClose()
     {
@@ -849,34 +744,54 @@ public class EnemyController : MonoBehaviour
 
             //this part is internet code, unsure about it:
             //vision cone settings
-            Gizmos.color = Color.cyan;
-            int coneSegments = 20;
-            float angle = enemySightAngle; //half-angle of vision cone, so total FOV is 120° if 60°
-            float radius = enemySightCurr;
+            //Gizmos.color = Color.cyan;
+            //int coneSegments = 20;
+            float angleHorizontal = enemySightHorizontalAngle; //half-angle of vision cone, so total FOV is 120° if 60°
+            float radiusHorizontal = enemySightCurr;
 
             Vector3 forward = transform.forward;
-            Quaternion leftRayRotation = Quaternion.AngleAxis(-angle, Vector3.up);
-            Quaternion rightRayRotation = Quaternion.AngleAxis(angle, Vector3.up);
+            //Quaternion leftRayRotation = Quaternion.AngleAxis(-angleHorizontal, Vector3.up);
+            //Quaternion rightRayRotation = Quaternion.AngleAxis(angleHorizontal, Vector3.up);
 
-            Vector3 leftRay = leftRayRotation * forward * radius;
-            Vector3 rightRay = rightRayRotation * forward * radius;
+            //Vector3 leftRay = leftRayRotation * forward * radiusHorizontal;
+            //Vector3 rightRay = rightRayRotation * forward * radiusHorizontal;
 
-            Vector3 origin = transform.position;
+            Vector3 origin = lightProducerEyeline.transform.position;
 
             //draw left and right bounds
-            Gizmos.DrawLine(origin, origin + leftRay);
-            Gizmos.DrawLine(origin, origin + rightRay);
+            //Gizmos.DrawLine(origin, origin + leftRay);
+            //Gizmos.DrawLine(origin, origin + rightRay);
 
-            //draw arc between the bounds
-            Vector3 previousPoint = origin + leftRay;
-            for (int i = 1; i <= coneSegments; i++)
+            ////draw arc between the bounds
+            //Vector3 previousPoint = origin + leftRay;
+            //for (int i = 1; i <= coneSegments; i++)
+            //{
+            //    float t = (float)i / coneSegments;
+            //    float currentAngle = Mathf.Lerp(-angleHorizontal, angleHorizontal, t);
+            //    Quaternion segmentRotation = Quaternion.AngleAxis(currentAngle, Vector3.up);
+            //    Vector3 currentPoint = origin + (segmentRotation * forward * radiusHorizontal);
+            //    Gizmos.DrawLine(previousPoint, currentPoint);
+            //    previousPoint = currentPoint;
+            //}
+
+            //visualize vertical sight limit
+            Gizmos.color = new Color(0f, 1f, 1f, 0.2f);
+            int horizontalSegments = 20;
+            int verticalSegments = 10;
+
+            for (int i = 0; i <= horizontalSegments; i++)
             {
-                float t = (float)i / coneSegments;
-                float currentAngle = Mathf.Lerp(-angle, angle, t);
-                Quaternion segmentRotation = Quaternion.AngleAxis(currentAngle, Vector3.up);
-                Vector3 currentPoint = origin + (segmentRotation * forward * radius);
-                Gizmos.DrawLine(previousPoint, currentPoint);
-                previousPoint = currentPoint;
+                float horizontalAngle = Mathf.Lerp(-enemySightHorizontalAngle, enemySightHorizontalAngle, (float)i / horizontalSegments);
+                Quaternion horizontalRot = Quaternion.AngleAxis(horizontalAngle, Vector3.up);
+
+                for (int j = 0; j <= verticalSegments; j++)
+                {
+                    float verticalAngle = Mathf.Lerp(-enemySightVerticalAngleDown, enemySightVerticalAngleUp, (float)j / verticalSegments);
+                    Quaternion verticalRot = Quaternion.AngleAxis(verticalAngle, Vector3.right);
+
+                    Vector3 point = origin + verticalRot * horizontalRot * transform.forward * enemySightCurr;
+                    Gizmos.DrawLine(origin, point);
+                }
             }
         }
     }
@@ -902,15 +817,15 @@ public class EnemyController : MonoBehaviour
 
             if (!lightProducer) return;
 
-            // Check line of sight to the light producer
-            if (Physics.Linecast(eyeline.position, lightProducer.position, out RaycastHit hit, mask))
+            //check line of sight to the light producer
+            if (Physics.Linecast(lightProducerEyeline.position, lightProducer.position, out RaycastHit hit, lightproducerRaycastMask))
             {
                 if (hit.transform.CompareTag("LightProducer"))
                 {
-                    // Increase aggression based on light exposure
+                    //increase aggression based on light exposure
                     aggression = Mathf.Min(aggression + baseAggroSpeed * Time.deltaTime, maxAggro);
 
-                    // Update last seen light source and distance
+                    //update last seen light source and distance
                     lastSeenLightProducer = hit.transform.gameObject;
                     distanceToLight = Vector3.Distance(transform.position, lastSeenLightProducer.transform.position);
                 }
@@ -1093,28 +1008,6 @@ public class EnemyController : MonoBehaviour
         agent.speed = newSpeed;
     }
 
-    //public void DropItemRandom(int rarity, GameObject canister) //this could be combined with the die script...
-    //{
-    //    Vector3 dropPos = transform.position + Vector3.up * .5f;
-
-    //    int randomDrop = Random.Range(0, rarity + 1);
-
-    //    //this could be way better.
-
-    //    if (randomDrop < healthDropRarity) //if less than 2
-    //    {
-    //        Instantiate(healthDrop, dropPos, transform.rotation);
-    //    } 
-    //    else if (randomDrop < ammoDropRarity) //if 2 or more, AND less than 4
-    //    {
-    //        Instantiate(ammoDrop, dropPos, transform.rotation);
-    //    }
-    //    else if (randomDrop == rarity) //for the yellow, this probably just prints a yellow. goo kills therefore print resources....
-    //    {
-    //        Instantiate(canister, dropPos, transform.rotation);
-    //    }
-    //}
-
     public void DropSelectedItem()
     {
         Vector3 dropPos = transform.position + Vector3.up * .5f;
@@ -1249,19 +1142,4 @@ public class EnemyController : MonoBehaviour
         //healthSlider.value = health;
     }
 
-    //private void OnTriggerExit(Collider other) //this doesn't fire when the flashlight is turned off
-    //{
-    //    if (other.gameObject.tag == "LightCones") 
-    //    {
-    //        isLit = false;
-    //    }
-    //}
-
-    //private void OnTriggerExit(Collider other) //this DOES NOT WORK FOR TURNING OFF THE LIGHT INSIDE
-    //{
-    //    if (other.gameObject.tag == "Light")
-    //    {
-    //        isLit = false;
-    //    }
-    //}
 }
