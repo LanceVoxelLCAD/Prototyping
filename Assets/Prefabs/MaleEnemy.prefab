@@ -1619,32 +1619,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1915c5d4977af7c4e87c26ff0fd9c9ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  goal: {fileID: 0}
-  player: {fileID: 0}
+  currentState: 0
+  lootDropType: 0
+  waypoints: []
+  waitTimeAtWaypoint: 4
+  currWaypointIndex: 0
+  isWaitingAtWaypoint: 0
   onDeath:
     m_PersistentCalls:
       m_Calls: []
-  ambientLoopEvent:
-    Guid:
-      Data1: -22292919
-      Data2: 1166216753
-      Data3: -584232556
-      Data4: 1255392433
-    Path: event:/Enemy/Enemy Ambient
-  deathSound:
-    Guid:
-      Data1: 1079244589
-      Data2: 1167010979
-      Data3: -1983051112
-      Data4: 1389632780
-    Path: event:/Enemy/Kill Enemy
-  freezeSound:
-    Guid:
-      Data1: -654460216
-      Data2: 1073958874
-      Data3: -1150861650
-      Data4: 110172512
-    Path: event:/Enemy/Enemy Freeze
+  goal: {fileID: 0}
+  player: {fileID: 0}
   agent: {fileID: 0}
   mask:
     serializedVersion: 2
@@ -1657,9 +1642,9 @@ MonoBehaviour:
   startMaterialColor: {r: 0, g: 0, b: 0, a: 0}
   enemyRenderer: {fileID: 0}
   enemyAttackAnimator: {fileID: 0}
-  redCanister: {fileID: 1182285976102392685, guid: 11a150d5ff3009242a40c912f376bf2d, type: 3}
-  blueCanister: {fileID: 6265941510972648978, guid: 39dae636d6809d64db6fe64e9a4a39e7, type: 3}
-  yellowCanister: {fileID: 3965478413647577249, guid: 8dff0ae3120111b4394b0b2eb31645a4, type: 3}
+  healthDrop: {fileID: 1182285976102392685, guid: 11a150d5ff3009242a40c912f376bf2d, type: 3}
+  combatReward: {fileID: 6265941510972648978, guid: 39dae636d6809d64db6fe64e9a4a39e7, type: 3}
+  ammoDrop: {fileID: 3965478413647577249, guid: 8dff0ae3120111b4394b0b2eb31645a4, type: 3}
   lastSeenLightProducer: {fileID: 0}
   headObject: {fileID: 382477327201543995}
   deathParticle: {fileID: 4907179594118903495, guid: e60687c2fb42a994abaa8532df74b5e0, type: 3}
@@ -1674,6 +1659,7 @@ MonoBehaviour:
   enemySightMaxDistance: 18
   enemySightCurr: 0
   enemySightCrouchBlindness: 10
+  alertOtherEnemiesRadius: 9
   bumpedIntoDistance: 1.51
   stopDistFromPlayer: 3
   aggroDecay: 25
@@ -1687,9 +1673,6 @@ MonoBehaviour:
   hasStartedAttackCoroutine: 0
   canAttack: 0
   isAttacking: 0
-  specialCanisterRarity: 8
-  ammoDropRarity: 6
-  healthDropRarity: 2
   distanceToPlayer: 0
   distanceToLight: 0
   attackWindupTime: 0.35
@@ -1711,11 +1694,27 @@ MonoBehaviour:
   glowCurveExponent: 3
   glowDecayRate: 5
   isBeingBeamed: 0
-  waypoints: []
-  waitTimeAtWaypoint: 4
-  currWaypointIndex: 0
-  isWaitingAtWaypoint: 0
-  currentState: 0
+  ambientLoopEvent:
+    Guid:
+      Data1: -22292919
+      Data2: 1166216753
+      Data3: -584232556
+      Data4: 1255392433
+    Path: event:/Enemy/Enemy Ambient
+  deathSound:
+    Guid:
+      Data1: 1079244589
+      Data2: 1167010979
+      Data3: -1983051112
+      Data4: 1389632780
+    Path: event:/Enemy/Kill Enemy
+  freezeSound:
+    Guid:
+      Data1: -654460216
+      Data2: 1073958874
+      Data3: -1150861650
+      Data4: 110172512
+    Path: event:/Enemy/Enemy Freeze
 --- !u!1 &3214402008673286296
 GameObject:
   m_ObjectHideFlags: 0

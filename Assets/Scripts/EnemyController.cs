@@ -13,21 +13,29 @@ using UnityEngine.Events;
 
 public class EnemyController : MonoBehaviour
 {
+    [Tooltip("Shows the current enemy behavior state.")]
+    public EnemyState currentState = EnemyState.Idle;
+
+    [Header("Loot Drop Type")]
+    [Tooltip("Determines what type of item this enemy drops when killed.")]
+    public LootDropType lootDropType = LootDropType.None;
+
+    [Header("Patrol System")]
+    [Tooltip("Waypoints determine where the enemies will patrol.")]
+    public GameObject[] waypoints;
+    public float waitTimeAtWaypoint = 4f;
+    public int currWaypointIndex = 0;
+    private Coroutine idleCoroutine;
+    public bool isWaitingAtWaypoint = false;
+
+    [Header("Events")]
+    public UnityEvent onDeath;
+
     [Header("Hookups")]
     public GameObject goal;
     private GameObject originalGoal;
     public GameObject player;
     private PlayerController playerController;
-
-    [Header("Events")]
-    public UnityEvent onDeath;
-
-    [Header("Audio")]
-    public EventReference ambientLoopEvent;
-    public EventReference deathSound;
-    private EventInstance ambientInstance;
-    public EventReference freezeSound;
-
 
     public NavMeshAgent agent;
     public LayerMask mask;
@@ -43,9 +51,9 @@ public class EnemyController : MonoBehaviour
     public Renderer enemyRenderer;
 
     public Animator enemyAttackAnimator;
-    public GameObject redCanister;
-    public GameObject blueCanister;
-    public GameObject yellowCanister;
+    public GameObject healthDrop;
+    public GameObject combatReward;
+    public GameObject ammoDrop;
 
     public GameObject lastSeenLightProducer;
     public GameObject headObject;
@@ -74,6 +82,7 @@ public class EnemyController : MonoBehaviour
     public float enemySightMaxDistance = 18f;
     public float enemySightCurr;
     public float enemySightCrouchBlindness = 10f;
+    public float alertOtherEnemiesRadius = 10f;
     public float bumpedIntoDistance;
     public float stopDistFromPlayer = 3f;
     //public float aggroSpeed = 15f;
@@ -91,9 +100,9 @@ public class EnemyController : MonoBehaviour
     public bool canAttack = false;
     public bool isAttacking = false;
     //public int blueCanisterRarity = 7;
-    public int specialCanisterRarity = 8;
-    public int ammoDropRarity = 6;
-    public int healthDropRarity = 2;
+    //public int specialCanisterRarity = 8;
+    //public int ammoDropRarity = 6;
+    //public int healthDropRarity = 2;
     //public GameObject foodItem;
 
     public float distanceToPlayer;
@@ -134,12 +143,11 @@ public class EnemyController : MonoBehaviour
     public bool isBeingBeamed = false;
     float chargePercent = 0f;
 
-    [Header("Patrol System")]
-    public GameObject[] waypoints;
-    public float waitTimeAtWaypoint = 4f;
-    public int currWaypointIndex = 0;
-    private Coroutine idleCoroutine;
-    public bool isWaitingAtWaypoint = false;
+    [Header("Audio")]
+    public EventReference ambientLoopEvent;
+    public EventReference deathSound;
+    private EventInstance ambientInstance;
+    public EventReference freezeSound;
 
     public enum EnemyState
     {
@@ -151,7 +159,14 @@ public class EnemyController : MonoBehaviour
         Idle
     }
 
-    public EnemyState currentState = EnemyState.Idle;
+    public enum LootDropType
+    {
+        None,
+        HealthDrop,
+        AmmoDrop,
+        RandomHealthOrAmmo,
+        CombatReward
+    }
 
     private void Awake()
     {
@@ -256,16 +271,27 @@ public class EnemyController : MonoBehaviour
         if (currentState == newState) return;
 
         //cleanup - the example had multiple here, but I think I only need one....
-        switch (currentState)
+        //switch (currentState)
+        //{
+        //    case EnemyState.PatrolIdle:
+        //        if (idleCoroutine != null)
+        //        {
+        //            Debug.Log("idleCoroutine was stopped at newState");
+        //            StopCoroutine(idleCoroutine);
+        //            idleCoroutine = null;
+        //            isWaitingAtWaypoint = false;
+        //        }
+        //        break;
+        //}
+
+        //new cleanup
+        if (idleCoroutine != null)
         {
-            case EnemyState.PatrolIdle:
-                if (idleCoroutine != null)
-                {
-                    //Debug.Log("idleCoroutine was stopped");
-                    StopCoroutine(idleCoroutine);
-                    idleCoroutine = null;
-                }
-                break;
+            Debug.Log("idleCoroutine was stopped due to state change to " + newState);
+            StopCoroutine(idleCoroutine);
+            idleCoroutine = null;
+            isWaitingAtWaypoint = false;
+            agent.isStopped = false;
         }
 
         currentState = newState;
@@ -287,6 +313,7 @@ public class EnemyController : MonoBehaviour
                 hasAggrod = true;
                 goal = player;
                 aggression = aggroTrigger + 1f;
+                AlertNearbyEnemies();
                 break;
 
             case EnemyState.InvestigateLight:
@@ -497,6 +524,8 @@ public class EnemyController : MonoBehaviour
         isBeingBeamed = false;
     }
 
+
+
     private void CheckAggroConditions()
     {
         enemySightCurr = playerController.isCrouching ? enemySightCrouchBlindness : enemySightMaxDistance;
@@ -552,6 +581,7 @@ public class EnemyController : MonoBehaviour
         //aggro light if very close and not already fixated on player
         if (!hasAggrod && lastSeenLightProducer != originalGoal && distanceToLight < attackDistance)
         {
+            //Debug.Log("Investigating light at pos 1");
             SetState(EnemyState.InvestigateLight);
             return;
         }
@@ -567,6 +597,7 @@ public class EnemyController : MonoBehaviour
                 }
                 else if (lastSeenLightProducer != originalGoal && distanceToLight < switchAttentionFromLightToPlayerDistance)
                 {
+                    //Debug.Log("Investigating light at pos 2");
                     SetState(EnemyState.InvestigateLight);
                 }
             }
@@ -605,11 +636,12 @@ public class EnemyController : MonoBehaviour
             aggression = Mathf.Max(aggression - aggroDecay * Time.deltaTime, minAggro);
         }
         // If lit but player is far, return to light
-        else if (isLit && hasAggrod && distanceToPlayer > enemySightCurr / 4f)
+        else if (isLit && hasAggrod && distanceToPlayer > enemySightCurr)
         {
             goal = lastSeenLightProducer;
             hasAggrod = false;
             SetState(EnemyState.InvestigateLight);
+            //Debug.Log("Investigating light at pos 3");
         }
 
 
@@ -706,6 +738,34 @@ public class EnemyController : MonoBehaviour
         */
     }
 
+    //internet code interjection:
+    private void AlertNearbyEnemies()
+    {
+        Collider[] nearby = Physics.OverlapSphere(transform.position, alertOtherEnemiesRadius);
+
+        foreach (Collider c in nearby)
+        {
+            EnemyController ally = c.GetComponent<EnemyController>();
+            if (ally != null && ally != this)
+            {
+                //Debug.Log("Sending Alert from " + this.gameObject.name + " to " + ally.gameObject.name);
+                ally.ReceiveAlert();
+            }
+        }
+    }
+
+    public void ReceiveAlert()
+    {
+        //alerts if not currently chasing
+        if (currentState != EnemyState.ChasePlayer)
+        {
+            //goal = player;
+            //aggression = aggroTrigger + 0.5f; //special aggro number for debuggin
+            //so I don't lose my mcmarbles
+            SetState(EnemyState.ChasePlayer);
+        }
+    }
+
     //private void AggroToPlayer(float forceAggro = -1f)
     //{
     //    hasAggrod = true;
@@ -720,7 +780,6 @@ public class EnemyController : MonoBehaviour
     //    if (forceAggro > 0f)
     //        aggression = Mathf.Max(aggression, forceAggro);
     //}
-
 
     private void TryAttackWhenClose()
     {
@@ -762,6 +821,9 @@ public class EnemyController : MonoBehaviour
             //draw aggression decay range
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(transform.position, attackDistance);
+
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(transform.position, alertOtherEnemiesRadius);
 
             //draw light producer line if one was recently seen
             if (lastSeenLightProducer != null)
@@ -967,8 +1029,9 @@ public class EnemyController : MonoBehaviour
 
         if (currentBeamCharge >= maxBeamCharge)
         {
-            if(!isFrozen) { DropItem(specialCanisterRarity, blueCanister); }
-            Die(blueCanister);
+            //if(!isFrozen) { DropItemRandom(specialCanisterRarity, combatDrop); }
+            if(!isFrozen) { DropSelectedItem(); };
+            Die(combatReward);
         }
 
         if (!isPassive) { SetState(EnemyState.ChasePlayer); }
@@ -1020,34 +1083,70 @@ public class EnemyController : MonoBehaviour
             }
 
             //hopefully will stop the infinite frozen loot bug
-            if (!isFrozen) { DropItem(specialCanisterRarity, yellowCanister); };
+            //if (!isFrozen) { DropItemRandom(specialCanisterRarity, ammoDrop); };
+            if (!isFrozen) { DropSelectedItem(); };
             isFrozen = true;
             gooDecayCoroutineHolder = null;
-            Die(yellowCanister); //this could be a state or whatever..
+            Die(ammoDrop); //this could be a state or whatever..
         }
 
         agent.speed = newSpeed;
     }
 
-    public void DropItem(int rarity, GameObject canister) //this could be combined with the die script...
+    //public void DropItemRandom(int rarity, GameObject canister) //this could be combined with the die script...
+    //{
+    //    Vector3 dropPos = transform.position + Vector3.up * .5f;
+
+    //    int randomDrop = Random.Range(0, rarity + 1);
+
+    //    //this could be way better.
+
+    //    if (randomDrop < healthDropRarity) //if less than 2
+    //    {
+    //        Instantiate(healthDrop, dropPos, transform.rotation);
+    //    } 
+    //    else if (randomDrop < ammoDropRarity) //if 2 or more, AND less than 4
+    //    {
+    //        Instantiate(ammoDrop, dropPos, transform.rotation);
+    //    }
+    //    else if (randomDrop == rarity) //for the yellow, this probably just prints a yellow. goo kills therefore print resources....
+    //    {
+    //        Instantiate(canister, dropPos, transform.rotation);
+    //    }
+    //}
+
+    public void DropSelectedItem()
     {
         Vector3 dropPos = transform.position + Vector3.up * .5f;
 
-        int randomDrop = Random.Range(0, rarity + 1);
+        switch (lootDropType)
+        {
+            case LootDropType.None:
+                return;
 
-        //this could be way better.
+            case LootDropType.HealthDrop:
+                Instantiate(healthDrop, dropPos, transform.rotation);
+                return;
 
-        if (randomDrop < healthDropRarity) //if less than 2
-        {
-            Instantiate(redCanister, dropPos, transform.rotation);
-        } 
-        else if (randomDrop < ammoDropRarity) //if 2 or more, AND less than 4
-        {
-            Instantiate(yellowCanister, dropPos, transform.rotation);
-        }
-        else if (randomDrop == rarity) //for the yellow, this probably just prints a yellow. goo kills therefore print resources....
-        {
-            Instantiate(canister, dropPos, transform.rotation);
+            case LootDropType.AmmoDrop:
+                Instantiate(ammoDrop, dropPos, transform.rotation);
+                return;
+
+            case LootDropType.RandomHealthOrAmmo:
+                int randomDrop = Random.Range(0, 2); //not inclusive in the upper bounds!!! barely remembered this
+                if (randomDrop == 0)
+                {
+                    Instantiate(healthDrop, dropPos, transform.rotation);
+                }
+                else
+                {
+                    Instantiate(ammoDrop, dropPos, transform.rotation);
+                }
+                return;
+
+            case LootDropType.CombatReward:
+                Instantiate(combatReward, dropPos, transform.rotation);
+                return;
         }
     }
 
@@ -1087,7 +1186,7 @@ public class EnemyController : MonoBehaviour
         StopAllCoroutines();
         //if it was holding a resource, it would just.. deparent it? or actually spawn it?
 
-        if (canister == blueCanister)
+        if (canister == combatReward)
         {
             Vector3 dropPos = transform.position + Vector3.up * 1f;
             Instantiate(deathParticle, dropPos, transform.rotation);
@@ -1095,7 +1194,7 @@ public class EnemyController : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if (canister == yellowCanister)
+        if (canister == ammoDrop)
         {
             foreach (Renderer rend in renderers)
             {

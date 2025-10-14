@@ -194,7 +194,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5100760608700557115, guid: 29ee88b8780f3594fbd72679d1a7d8a8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10.510145
+      value: -16.77
       objectReference: {fileID: 0}
     - target: {fileID: 5100760608700557115, guid: 29ee88b8780f3594fbd72679d1a7d8a8, type: 3}
       propertyPath: m_LocalPosition.y
@@ -202,7 +202,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5100760608700557115, guid: 29ee88b8780f3594fbd72679d1a7d8a8, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.5884666
+      value: 10.17
       objectReference: {fileID: 0}
     - target: {fileID: 5100760608700557115, guid: 29ee88b8780f3594fbd72679d1a7d8a8, type: 3}
       propertyPath: m_LocalRotation.w
@@ -236,6 +236,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 916662903}
+    - target: {fileID: 6197146541141773768, guid: 29ee88b8780f3594fbd72679d1a7d8a8, type: 3}
+      propertyPath: lootDropType
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1159,6 +1163,30 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 51.31
       objectReference: {fileID: 0}
+    - target: {fileID: 1191696775484318872, guid: 0da0366c9660b5b438da2dbf340070dc, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1191696775484318872, guid: 0da0366c9660b5b438da2dbf340070dc, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1191696775484318872, guid: 0da0366c9660b5b438da2dbf340070dc, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1191696775484318872, guid: 0da0366c9660b5b438da2dbf340070dc, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1191696775484318872, guid: 0da0366c9660b5b438da2dbf340070dc, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1191696775484318872, guid: 0da0366c9660b5b438da2dbf340070dc, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1216885280961521946, guid: 0da0366c9660b5b438da2dbf340070dc, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -1187,12 +1215,24 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 4120924950677837028, guid: 0da0366c9660b5b438da2dbf340070dc, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4120924950677837028, guid: 0da0366c9660b5b438da2dbf340070dc, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4648662702795960599, guid: 0da0366c9660b5b438da2dbf340070dc, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4648662702795960599, guid: 0da0366c9660b5b438da2dbf340070dc, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4768151993584573044, guid: 0da0366c9660b5b438da2dbf340070dc, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7274635298405132214, guid: 0da0366c9660b5b438da2dbf340070dc, type: 3}
@@ -2109,6 +2149,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1162354692}
     - target: {fileID: 4952957238402054617, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
+      propertyPath: pickupPopupTxt
+      value: 
+      objectReference: {fileID: 1279216247}
+    - target: {fileID: 4952957238402054617, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
+      propertyPath: ammoDropUICount
+      value: 
+      objectReference: {fileID: 251209445}
+    - target: {fileID: 4952957238402054617, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
       propertyPath: damagedUIEffect
       value: 
       objectReference: {fileID: 1259682801}
@@ -2117,9 +2165,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 251209447}
     - target: {fileID: 4952957238402054617, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
+      propertyPath: healthDropUICount
+      value: 
+      objectReference: {fileID: 251209444}
+    - target: {fileID: 4952957238402054617, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
       propertyPath: redCanisterUICount
       value: 
       objectReference: {fileID: 251209444}
+    - target: {fileID: 4952957238402054617, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
+      propertyPath: pickupPopupContainer
+      value: 
+      objectReference: {fileID: 251209447}
     - target: {fileID: 4952957238402054617, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
       propertyPath: yellowCanisterUICount
       value: 
@@ -2170,7 +2226,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6417457864236173443, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.471
+      value: -3.87
       objectReference: {fileID: 0}
     - target: {fileID: 6417457864236173443, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2178,7 +2234,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6417457864236173443, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 7.82
+      value: 16.77
       objectReference: {fileID: 0}
     - target: {fileID: 6417457864236173443, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2288,6 +2344,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1142147506}
+    - target: {fileID: 8839987463277134784, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8931772369917964285, guid: bfb7e55ab1d633746b18144b58298c9c, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -2534,6 +2594,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 916662903}
+    - target: {fileID: 6197146541141773768, guid: 29ee88b8780f3594fbd72679d1a7d8a8, type: 3}
+      propertyPath: lootDropType
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 6197146541141773768, guid: 29ee88b8780f3594fbd72679d1a7d8a8, type: 3}
       propertyPath: waypoints.Array.size
       value: 3
@@ -3505,6 +3569,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1279216247 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8979633308251787126, guid: 0da0366c9660b5b438da2dbf340070dc, type: 3}
+  m_PrefabInstance: {fileID: 251209443}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &1292378335
