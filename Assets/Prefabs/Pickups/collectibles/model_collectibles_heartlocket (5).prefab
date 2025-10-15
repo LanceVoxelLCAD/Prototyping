@@ -126,8 +126,8 @@ MonoBehaviour:
   pickupType: 3
   sfxOnPickup:
     Guid:
-      Data1: 1516398757
-      Data2: 1230588616
-      Data3: -1316154954
-      Data4: -1112646581
-    Path: event:/Weapon/Pickups
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 

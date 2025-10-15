@@ -29,10 +29,10 @@ public class PlayerController : MonoBehaviour
     private bool wasGroundedLastFrame = false;
     private GooGun gooGun;
     public EventReference fakeGunEquipEvent;
-
-    [Header("Canister Sounds")]
-    public EventReference redCanisterSound;
-    public EventReference yellowCanisterSound;
+    public EventReference sfxExplorationReward;
+    public EventReference sfxCombatReward;
+    public EventReference sfxHealthRefill;
+    public EventReference sfxAmmoRefill;
 
     [Header("Move")]
     public float walkSpeed = 3f;
@@ -476,11 +476,19 @@ public class PlayerController : MonoBehaviour
             case Pickup.PickupType.ExplorationReward:
                 explorationRewardCount++;
                 ApplyExplorationReward();
+                if (!sfxExplorationReward.IsNull)
+                {
+                    FMODUnity.RuntimeManager.PlayOneShot(sfxExplorationReward, transform.position);
+                }
                 break;
 
             case Pickup.PickupType.CombatReward:
                 combatRewardCount++;
                 ApplyCombatReward();
+                if (!sfxCombatReward.IsNull)
+                {
+                    FMODUnity.RuntimeManager.PlayOneShot(sfxCombatReward, transform.position);
+                }
                 break;
 
             case Pickup.PickupType.FakeGun:
@@ -515,9 +523,9 @@ public class PlayerController : MonoBehaviour
 
     public void UseHeldHealthDrop()
     {
-        if (!redCanisterSound.IsNull)
+        if (!sfxHealthRefill.IsNull)
         {
-            RuntimeManager.PlayOneShot(redCanisterSound, transform.position);
+            RuntimeManager.PlayOneShot(sfxHealthRefill, transform.position);
         }
 
         health = Mathf.Min(maxHealth, health + healthDropValue);
@@ -529,9 +537,9 @@ public class PlayerController : MonoBehaviour
 
     public void UseHeldAmmoDrop()
     {
-        if (!yellowCanisterSound.IsNull)
+        if (!sfxAmmoRefill.IsNull)
         {
-            RuntimeManager.PlayOneShot(yellowCanisterSound, transform.position);
+            RuntimeManager.PlayOneShot(sfxAmmoRefill, transform.position);
         }
 
         currStaMana = Mathf.Min(maxStaMana, currStaMana + ammoDropValue);
