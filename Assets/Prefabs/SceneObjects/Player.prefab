@@ -163,10 +163,10 @@ MonoBehaviour:
   ammoRefillHeldCount: 0
   explorationRewardCount: 0
   combatRewardCount: 0
-  healthDropValue: 0
-  ammoDropValue: 0
-  explorationRewardValue: 0
-  combatRewardValue: 0
+  healthDropValue: 30
+  ammoDropValue: 60
+  explorationRewardValue: 0.5
+  combatRewardValue: 20
   ammoDropUICount: {fileID: 0}
   healthDropUICount: {fileID: 0}
   pickupPopupContainer: {fileID: 0}
