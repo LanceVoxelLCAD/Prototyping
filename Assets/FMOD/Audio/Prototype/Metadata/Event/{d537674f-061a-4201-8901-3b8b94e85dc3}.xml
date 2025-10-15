@@ -130,7 +130,6 @@
 		</relationship>
 	</object>
 	<object class="MultiSound" id="{03ea379c-87c2-46b1-9f8c-23222158526a}">
-		<property name="name" />
 		<relationship name="sounds">
 			<destination>{d4738631-3464-4bec-8f0f-ee7d2064fff9}</destination>
 			<destination>{753c963b-ef6c-45e6-9db3-dd080267e3c3}</destination>
@@ -144,6 +143,9 @@
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{64df0697-8dce-45dd-9195-84a84e9dae97}">
+		<property name="volume">
+			<value>-11</value>
+		</property>
 		<property name="name">
 			<value>Male Jump</value>
 		</property>
@@ -178,6 +180,9 @@
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{c6b682ac-dcd7-4dcf-a48e-f82e4d338b38}">
+		<property name="volume">
+			<value>-10.5</value>
+		</property>
 		<property name="name">
 			<value>Female Jump</value>
 		</property>

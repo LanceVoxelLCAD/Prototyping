@@ -95,11 +95,15 @@
 		<property name="length">
 			<value>0.57342403628117911</value>
 		</property>
+		<property name="volume">
+			<value>-11.5</value>
+		</property>
 		<property name="playlistMode">
 			<value>1</value>
 		</property>
 		<relationship name="modulators">
 			<destination>{b341fe77-7f14-4801-8db7-59811fc0adde}</destination>
+			<destination>{4de4a3c9-0ea4-4dbe-8763-49c3fdd0f11d}</destination>
 		</relationship>
 		<relationship name="sounds">
 			<destination>{dc368496-ec91-4ae1-bcac-a38dfe373f88}</destination>
@@ -110,7 +114,7 @@
 	</object>
 	<object class="EventMixerGroup" id="{b6153194-1021-48ce-902f-2e564f42d208}">
 		<property name="volume">
-			<value>-11.5</value>
+			<value>-17.5</value>
 		</property>
 		<property name="name">
 			<value>Walk</value>
@@ -139,6 +143,14 @@
 		</property>
 		<property name="amount">
 			<value>22.5</value>
+		</property>
+	</object>
+	<object class="RandomizerModulator" id="{4de4a3c9-0ea4-4dbe-8763-49c3fdd0f11d}">
+		<property name="nameOfPropertyBeingModulated">
+			<value>volume</value>
+		</property>
+		<property name="amount">
+			<value>7</value>
 		</property>
 	</object>
 	<object class="SingleSound" id="{dc368496-ec91-4ae1-bcac-a38dfe373f88}">
