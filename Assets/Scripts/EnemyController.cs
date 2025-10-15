@@ -152,6 +152,7 @@ public class EnemyController : MonoBehaviour
     public EventReference deathSound;
     private EventInstance ambientInstance;
     public EventReference freezeSound;
+    public EventReference sfxAggro;
 
     public enum EnemyState
     {
@@ -295,6 +296,10 @@ public class EnemyController : MonoBehaviour
                 goal = player;
                 aggression = aggroTrigger + 1f;
                 AlertNearbyEnemies();
+
+                if (!sfxAggro.IsNull)
+                    FMODUnity.RuntimeManager.PlayOneShot(sfxAggro, transform.position);
+
                 break;
 
             case EnemyState.InvestigateLight:

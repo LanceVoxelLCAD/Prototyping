@@ -115,5 +115,28 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8641011630400869048, guid: c58aa5fd91353c544a8b199c330ca48d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -3443411504463128501}
   m_SourcePrefab: {fileID: 100100000, guid: c58aa5fd91353c544a8b199c330ca48d, type: 3}
+--- !u!1 &3965478413647577249 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8641011630400869048, guid: c58aa5fd91353c544a8b199c330ca48d, type: 3}
+  m_PrefabInstance: {fileID: 4675651004147012121}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-3443411504463128501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3965478413647577249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17bcee5052f5786489ac3cc0394d200f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  glowColor: {r: 1, g: 0.83921576, b: 0.10980393, a: 1}
+  maxIntensity: 5
+  targetRenderer: {fileID: 0}

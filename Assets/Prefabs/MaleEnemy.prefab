@@ -1720,6 +1720,13 @@ MonoBehaviour:
       Data3: -1150861650
       Data4: 110172512
     Path: event:/Enemy/Enemy Freeze
+  sfxAggro:
+    Guid:
+      Data1: -1145563211
+      Data2: 1321316227
+      Data3: -1290375489
+      Data4: 808567154
+    Path: event:/Enemy/Enemy Aggro
 --- !u!1 &3214402008673286296
 GameObject:
   m_ObjectHideFlags: 0

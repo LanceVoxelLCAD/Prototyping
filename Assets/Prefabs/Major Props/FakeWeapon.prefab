@@ -10699,6 +10699,7 @@ GameObject:
   - component: {fileID: 6301179060052233103}
   - component: {fileID: 6072895124386156649}
   - component: {fileID: 7083522293499298123}
+  - component: {fileID: -5475171885634295097}
   m_Layer: 11
   m_Name: FakeWeapon
   m_TagString: Untagged
@@ -10747,6 +10748,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickupType: 4
+  sfxOnPickup:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!65 &7083522293499298123
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10768,6 +10776,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.70451885, y: 0.42216682, z: 1}
   m_Center: {x: 0.1477406, y: 0.055228233, z: -2.7246105e-10}
+--- !u!114 &-5475171885634295097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8948542929561963203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17bcee5052f5786489ac3cc0394d200f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  glowColor: {r: 0, g: 1, b: 1, a: 1}
+  maxIntensity: 5
+  targetRenderer: {fileID: 0}
 --- !u!1001 &6531184560663189038
 PrefabInstance:
   m_ObjectHideFlags: 0
