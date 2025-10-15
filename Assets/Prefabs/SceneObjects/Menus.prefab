@@ -133,10 +133,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicEvent:
     Guid:
-      Data1: 1594083742
-      Data2: 1282880255
-      Data3: 2044109244
-      Data4: 1993487414
+      Data1: 1583557255
+      Data2: 1163590872
+      Data3: -18892151
+      Data4: 1222822567
     Path: event:/Music/LoopingAmbient
 --- !u!1 &470523053545645134
 GameObject:

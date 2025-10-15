@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.03.00">
 	<object class="Event" id="{5f03c99e-32ff-4c77-bca1-d6793634d276}">
 		<property name="name">
-			<value>LoopingAmbient</value>
+			<value>MenuLoop</value>
 		</property>
 		<property name="outputFormat">
 			<value>1</value>

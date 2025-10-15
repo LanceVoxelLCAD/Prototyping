@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.03.00">
 	<object class="Event" id="{0c47695b-7ed0-4b0c-a959-eb96961c8771}">
 		<property name="name">
-			<value>Yellow Canister</value>
+			<value>sfxAmmoRefill</value>
 		</property>
 		<property name="outputFormat">
 			<value>1</value>
