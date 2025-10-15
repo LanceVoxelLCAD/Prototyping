@@ -961,7 +961,7 @@ public class EnemyController : MonoBehaviour
                 previousBottom = bottomPoint;
             }
 
-            // Draw center axis
+            //draw center axis
             Gizmos.color = Color.cyan;
             Gizmos.DrawLine(origin, origin + forward * distance);
         }
