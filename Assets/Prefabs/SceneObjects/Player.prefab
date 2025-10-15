@@ -104,6 +104,13 @@ MonoBehaviour:
       Data3: 259224740
       Data4: -614440717
     Path: event:/Player/Land
+  fakeGunEquipEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   redCanisterSound:
     Guid:
       Data1: -1723641297
@@ -134,7 +141,7 @@ MonoBehaviour:
   isGrounded: 0
   groundMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 8193
   fallVelocity: {x: 0, y: 0, z: 0}
   jumpHeight: 1.9
   torch: {fileID: 9059974070237676965}

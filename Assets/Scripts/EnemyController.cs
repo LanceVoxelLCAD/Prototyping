@@ -702,7 +702,10 @@ public class EnemyController : MonoBehaviour
     {
         {
             //draw line for how close enemy thinks player is
-            Debug.DrawLine(transform.position, player.transform.position, Color.Lerp(Color.blue, Color.red, distanceFactor));
+            if (player)
+            {
+                Debug.DrawLine(transform.position, player.transform.position, Color.Lerp(Color.blue, Color.red, distanceFactor));
+            }
 
             //draw bumping distance (when enemy fully aggros)
             Gizmos.color = Color.red;
