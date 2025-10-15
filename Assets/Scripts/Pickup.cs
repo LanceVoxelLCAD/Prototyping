@@ -5,7 +5,7 @@ using FMODUnity;
 public class Pickup : MonoBehaviour
 {
     //this is just.. a label. for now
-    public enum PickupType { HealthRefill, AmmoRefill, CombatReward, ExplorationReward, FakeGun }
+    public enum PickupType { HealthRefill, AmmoRefill, CombatReward, ExplorationReward, FakeGun, Lantern }
     public PickupType pickupType;
     //public float amount = 15f;
 

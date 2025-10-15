@@ -85,6 +85,14 @@ public class PlayerController : MonoBehaviour
     public float staManaRegenDelay = 1f;
     //public Animator weaponAnimator;
 
+    [Header("Lantern")]
+    public bool wantsToLantern = false;
+    public bool hasLantern = false;
+    public float lanternCooldown = 8f;
+    private float lastLanternTime;
+    public GameObject placeholderLantern;
+    public DoorMover bigDoor;
+
     [Header("Pickups")]
     public int healthRefillCount;
     public int ammoRefillHeldCount;
@@ -128,6 +136,8 @@ public class PlayerController : MonoBehaviour
             // if GooGun is on the weapon object:
             gooGun = weapon.GetComponent<GooGun>();
         }
+
+        lastLanternTime = Time.time - lanternCooldown;
     }
 
     void Update()
@@ -140,6 +150,8 @@ public class PlayerController : MonoBehaviour
         bool jump = Input.GetButtonDown("Jump");
         float scrollInput = Input.GetAxis("Mouse ScrollWheel");
         bool wantsToCrouchTransition = Input.GetKeyDown(KeyCode.LeftControl);
+        wantsToLantern = Input.GetKey(KeyCode.Q);
+
         //float pitchYaw = Input.GetAxis("PitchYaw");
 
         ApplyGravity(jump);
@@ -166,6 +178,11 @@ public class PlayerController : MonoBehaviour
             {
                 UseHeldAmmoDrop();
             }
+        }
+
+        if (wantsToLantern)
+        {
+            TryLantern();
         }
 
         HandleMovement(forward, right, wantsToRun);
@@ -500,6 +517,16 @@ public class PlayerController : MonoBehaviour
                 }
                 break;
 
+            case Pickup.PickupType.Lantern:
+                hasLantern = true;
+                bigDoor.Move();
+
+                //if (!fakeGunEquipEvent.IsNull)
+                //{
+                //    FMODUnity.RuntimeManager.PlayOneShot(fakeGunEquipEvent, transform.position);
+                //}
+                break;
+
             default:
                 Debug.Log("Messed up your switch statement for the pickups probably");
                 break;
@@ -519,6 +546,16 @@ public class PlayerController : MonoBehaviour
     {
         healthDropUICount.text = healthRefillCount.ToString();
         ammoDropUICount.text = ammoRefillHeldCount.ToString();
+    }
+
+    public void TryLantern()
+    {
+        if(hasLantern && Time.time >= lastLanternTime + lanternCooldown)
+        {
+            placeholderLantern.SetActive(true);
+
+            lastLanternTime = Time.time;
+        }
     }
 
     public void UseHeldHealthDrop()
