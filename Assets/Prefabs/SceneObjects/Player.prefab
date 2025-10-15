@@ -152,7 +152,7 @@ MonoBehaviour:
   eyesRot: {x: 0, y: 0, z: 0}
   torchRayMask:
     serializedVersion: 2
-    m_Bits: 33
+    m_Bits: 8225
   weapon: {fileID: 8839987463277134784}
   maxStaMana: 80
   currStaMana: 0
@@ -1780,7 +1780,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 7031
+    m_Bits: 15223
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

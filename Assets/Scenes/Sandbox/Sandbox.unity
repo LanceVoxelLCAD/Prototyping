@@ -4085,7 +4085,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5100760608700557115, guid: 29ee88b8780f3594fbd72679d1a7d8a8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.4567355
+      value: 10.98
       objectReference: {fileID: 0}
     - target: {fileID: 5100760608700557115, guid: 29ee88b8780f3594fbd72679d1a7d8a8, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4093,7 +4093,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5100760608700557115, guid: 29ee88b8780f3594fbd72679d1a7d8a8, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 16.433146
+      value: 12.89
       objectReference: {fileID: 0}
     - target: {fileID: 5100760608700557115, guid: 29ee88b8780f3594fbd72679d1a7d8a8, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4127,6 +4127,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 916662903}
+    - target: {fileID: 6197146541141773768, guid: 29ee88b8780f3594fbd72679d1a7d8a8, type: 3}
+      propertyPath: enemySightVerticalAngleUp
+      value: 15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5653,7 +5657,7 @@ Transform:
   m_GameObject: {fileID: 2058498430}
   serializedVersion: 2
   m_LocalRotation: {x: 1.110223e-17, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.2896895, y: 1.9923143, z: 16.989784}
+  m_LocalPosition: {x: -4.14, y: -2.22, z: 16.989784}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
