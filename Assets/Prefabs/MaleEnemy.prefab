@@ -1659,7 +1659,8 @@ MonoBehaviour:
   lastAggression: 0
   switchAttentionFromLightToPlayerDistance: 8
   enemySightHorizontalAngle: 60
-  enemySightVerticalAngle: 60
+  enemySightVerticalAngleUp: 15
+  enemySightVerticalAngleDown: 35
   enemySightMaxDistance: 18
   enemySightCurr: 0
   enemySightCrouchBlindness: 10
