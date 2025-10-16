@@ -173,6 +173,11 @@ MonoBehaviour:
   playerReach: 5
   staManaRegenRate: 1
   staManaRegenDelay: 1
+  wantsToLantern: 0
+  hasLantern: 0
+  lanternCooldown: 8
+  placeholderLantern: {fileID: 0}
+  bigDoor: {fileID: 0}
   healthRefillCount: 0
   ammoRefillHeldCount: 0
   explorationRewardCount: 0
@@ -2110,7 +2115,7 @@ PrefabInstance:
       objectReference: {fileID: 2181818579063994713}
     - target: {fileID: 212744252907883625, guid: 86e0c52982439144ab4c0beecc65e56d, type: 3}
       propertyPath: beamMask.m_Bits
-      value: 2081
+      value: 10273
       objectReference: {fileID: 0}
     - target: {fileID: 212744252907883625, guid: 86e0c52982439144ab4c0beecc65e56d, type: 3}
       propertyPath: blueLitMaterial
